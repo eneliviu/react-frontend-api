@@ -1,0 +1,22 @@
+** Creating posts
+As a logged in user, I can create a post to share it  with everyone else on the platform.
+As a user I  can view the details of a single post so that I can learn more about it.
+As a user I can view all the most recent posts,  so that I am up to date with the newest content.
+As  a user, I can search for posts with keywords, so that I can find the posts and user  profiles I am most interested in.
+As a user I can  keep scrolling through the images on the site that are loaded for me automatically so  that I don't have to click on "next page" button.
+As a post owner I can edit my post so that I can make corrections or  update my post after it was created.
+As a logged in user I can add comments to a post so that I can share my thoughts about the post
+As a user, I would like to read comments left by users under posts so  that I can be in touch with the community
+As an owner of a comment I can edit my comment so that I can fix or update my existing comment
+As a user, I can view basic profile information like profile picture and the name so  that I can easily check a user's profile page.
+As a user I can view other users profiles so that I can see their profile stats and learn more about them.
+As a logged in user I can follow and unfollow other users, so that I can see and remove posts by specific users in my post feed
+
+
+
+**PROMTS
+I will provide three files from a React frontend app that allows users to authenticate 
+in order to post images and comments. The files names are SIgnInFormj.s (for sign in), 
+CUrrentUserContext.js (for settings context) and PostCreateForm.js (to post images and comments). 
+The issues is the following: the user can login, can post an image with title and text, but after posting the image the user is sent to
+the /signin end point and is required to authenticate again, instead of remaining on the /
