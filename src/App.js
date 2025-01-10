@@ -6,16 +6,18 @@ import { Route, Routes } from "react-router-dom";
 import "./api/axiosDefaults";
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
-import PostCreateForm from "./pages/posts/PostCreateForm";
-import PostEditForm from "./pages/posts/PostEditForm";
-import PostPage from "./pages/posts/PostPage";
-import PostsPage from "./pages/posts/PostsPage";
+// import PostCreateForm from "./pages/posts/PostCreateForm";
+// import PostEditForm from "./pages/posts/PostEditForm";
+// import PostPage from "./pages/posts/PostPage";
+
 import { useCurrentUser } from "./contexts/CurrentUserContext";
-import ProfilePage from "./pages/profiles/ProfilePage";
-import ProfileEditForm from "./pages/profiles/ProfileEditForm";
-import UsernameForm from "./pages/profiles/UsernameForm";
-import UserPasswordForm from "./pages/profiles/UserPasswordForm";
-import NotFound from "./components/NotFound";
+
+// import PostsPage from "./pages/posts/PostsPage";
+// import ProfilePage from "./pages/profiles/ProfilePage";
+// import ProfileEditForm from "./pages/profiles/ProfileEditForm";
+// import UsernameForm from "./pages/profiles/UsernameForm";
+// import UserPasswordForm from "./pages/profiles/UserPasswordForm";
+// import NotFound from "./components/NotFound";
 
 import MapLeaflet from "./components/MapLeaflet";
 // import Button from "react-bootstrap/Button";
@@ -44,7 +46,7 @@ function App() {
                             <PostsPage message="No results found. Adjust the search keyword." />
                         }
                     /> */}
-                    <Route
+                    {/* <Route
                         path="/feed"
                         element={
                             <PostsPage
@@ -63,14 +65,14 @@ function App() {
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                             />
                         }
-                    />
+                    /> */}
                     <Route path="/signin" element={<SignInForm />} />
                     <Route path="/signup" element={<SignUpForm />} />
-                    <Route path="/posts/create" element={<PostCreateForm />} />
-                    <Route exact path="/posts/:id" element={<PostPage />} />
-                    <Route path="/posts/:id/edit" element={<PostEditForm />} />
-                    <Route path="/profiles/:id" element={<ProfilePage />} />
-                    <Route
+                    {/* <Route path="/trips/create" element={<PostCreateForm />} /> */}
+                    {/* <Route exact path="/trips/:id" element={<PostPage />} />
+                    <Route path="/trips/:id/edit" element={<PostEditForm />} /> */}
+                    {/* <Route path="/profiles/:id" element={<ProfilePage />} /> */}
+                    {/* <Route
                         path="/profiles/:id/edit/username"
                         element={<UsernameForm />}
                     />
@@ -81,8 +83,8 @@ function App() {
                     <Route
                         path="/profiles/:id/edit"
                         element={<ProfileEditForm />}
-                    />
-                    <Route path="*" element={<NotFound />} />
+                    /> */}
+                    {/* <Route path="*" element={<NotFound />} /> */}
                 </Routes>
             </Container>
             {/* <div style={{ paddingTop: "80px" }}>

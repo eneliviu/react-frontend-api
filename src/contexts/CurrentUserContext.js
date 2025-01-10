@@ -1,27 +1,3 @@
-// This is a refactored version of the CurrentUserContext.js file.
-// It uses the new React Context API to create two separate contexts:
-// - one for the current user data
-// - one for the function to set the current user data.
-// This separation allows for better separation of concerns and more flexibility
-//  in how the data is used throughout the application.
-
-// ### Key Points:
-// **Token Utility Functions**:
-// - `getToken` and `setToken` are used for managing tokens in localStorage,
-//      which centralizes token management logic.
-// **Token Refresh and Fetch User Data**:
-// - Clean and succinct error handling, explaining when redirections occur
-//      and when tokens are refreshed.
-// **Interceptors**:
-// - Axios interceptors remain to handle attaching authorization headers and
-//      attempting token refresh when receiving 401 errors while making outgoing requests.
-// **Commentary and Logging**:
-// - Improve maintenance by ensuring logging is meaningful and actions are
-//      immediately understandable or documented.
-
-// ### Changes Made:
-// Remove redundancies with axiosDefaults.js
-
 import React, {
     createContext,
     useContext,
