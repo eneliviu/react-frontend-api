@@ -20,6 +20,7 @@ import { useCurrentUser } from "./contexts/CurrentUserContext";
 // import NotFound from "./components/NotFound";
 
 import MapLeaflet from "./components/MapLeaflet";
+import MapLeafletTripId from "./components/MapLeafletTripId";
 // import Button from "react-bootstrap/Button";
 // import Footer from "./components/Footer";
 
@@ -34,12 +35,10 @@ function App() {
             <NavBar />
             <Container className={styles.Main}>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <MapLeaflet message="No results found. Adjust the search keyword." />
-                        }
-                    />
+                    <Route path="/" element={<MapLeaflet />} />
+                    <Route path="/trips/" element={<MapLeaflet />} />
+                    <Route path="/trips/:id" element={<MapLeafletTripId />} />
+
                     {/* <Route
                         path="/"
                         element={

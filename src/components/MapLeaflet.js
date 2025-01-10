@@ -69,7 +69,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 // import PopularProfiles from "../pages/profiles/PopularProfiles";
-import axios from "axios";
+import { axiosReq } from "../api/axiosDefaults";
 
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -93,7 +93,8 @@ const MapLeaflet = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axios.get("/trips");
+                const { data } = await axiosReq("/trips");
+                console.log(data, "data");
                 const markerData = data.results.map((result) => ({
                     position: [result.lat, result.lon],
                     popup: `Trip at (${result.lat}, ${result.lon})`, // Customize this as needed
@@ -114,7 +115,7 @@ const MapLeaflet = () => {
 
         useEffect(() => {
             if (markers.length > 0) {
-                const bounds = markers.map((marker) => marker.coordinates);
+                const bounds = markers.map((marker) => marker.position);
                 map.fitBounds(bounds);
             }
         }, [markers, map]);
@@ -122,7 +123,6 @@ const MapLeaflet = () => {
         return null;
     };
 
-    console.log("markers:", markers[0].position);
     return (
         <Container className="d-flex flex-column w-100 p-0">
             <Row className="h-100">
@@ -145,6 +145,7 @@ const MapLeaflet = () => {
                                 </Marker>
                             ))}
                         </MarkerClusterGroup>
+                        <ZoomToMarkers markers={markers} />
                     </MapContainer>
                 </Col>
                 {/* <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
