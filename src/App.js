@@ -29,6 +29,8 @@ import MapLeafletTripId from "./components/MapLeafletTripId";
 import TripFilterForm from "./components/TripFilterForm";
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
+import SearchTripPage from "./components/SearchTripPage";
+
 // import Button from "react-bootstrap/Button";
 // import Footer from "./components/Footer";
 
@@ -45,7 +47,7 @@ function App() {
     });
 
     const handleFilter = () => {
-        console.log("Applying Filters:", filterCriteria);
+        console.log("Applying filters:", filterCriteria);
     };
 
     return (
@@ -58,17 +60,15 @@ function App() {
                         path="/"
                         element={
                             <Row className="justify-content-center my-3">
-                                <Col
-                                    xs={12}
-                                    lg={8}
-                                    
-                                >
-                                    <MapLeaflet query={query} />
+                                <Col xs={12} lg={8}>
+                                    <MapLeaflet
+                                        countryQuery={filterCriteria.country}
+                                        placeQuery={filterCriteria.place}
+                                    />
                                 </Col>
                                 <Col
                                     xs={12}
                                     lg={4}
-
                                 >
                                     <TripFilterForm
                                         filterCriteria={filterCriteria}
@@ -79,13 +79,25 @@ function App() {
                             </Row>
                         }
                     />
+                    {/* <Route path="/" element={<SearchTripPage />} /> */}
+
                     <Route
                         path="/trips/"
-                        element={<MapLeaflet query={query} />}
+                        element={
+                            <MapLeaflet
+                                countryQuery={filterCriteria.country}
+                                placeQuery={filterCriteria.place}
+                            />
+                        }
                     />
                     <Route
                         path="/trips/:id"
-                        element={<MapLeafletTripId query={query} />}
+                        element={
+                            <MapLeafletTripId
+                                countryQuery={filterCriteria.country}
+                                placeQuery={filterCriteria.place}
+                            />
+                        }
                     />
 
                     <Route

@@ -8,7 +8,9 @@
 }
 
 .Main {
-  padding-bottom: 68px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 

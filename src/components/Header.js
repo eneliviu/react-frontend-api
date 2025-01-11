@@ -4,7 +4,7 @@ import styles from "../styles/Header.module.css"; // Add a CSS module for stylin
 function Header() {
     return (
         <header className={styles.header}>
-            <h2>Welcome to the Travel Search App</h2>
+            <h1>Welcome to the Travel Search App</h1>
             <p>Find your next adventure by exploring trips and images.</p>
         </header>
     );

@@ -1,11 +1,14 @@
-.form {
+.Form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    /* max-width: 400px; */
+    height: auto;
 }
 
-.form div {
+.Form div {
     margin-bottom: 15px;
     width: 100%;
     display: flex;
@@ -24,7 +27,7 @@ input {
     border-radius: 4px;
 }
 
-.buttonContainer {
+.ButtonContainer {
     display: flex;
     justify-content: center;
     width: 100%;
