@@ -26,36 +26,55 @@ import ImageListPage from "./pages/posts/ImageListPage";
 
 import MapLeaflet from "./components/MapLeaflet";
 import MapLeafletTripId from "./components/MapLeafletTripId";
+import TripFilterForm from "./components/TripFilterForm";
 import SearchBar from "./components/SearchBar";
+import Header from "./components/Header";
 // import Button from "react-bootstrap/Button";
 // import Footer from "./components/Footer";
 
 function App() {
     const currentUser = useCurrentUser();
+    console.log("currentUser: ", currentUser);
+
     //const profile_id = currentUser?.profile?.id || "";
     const [query, setQuery] = useState(""); // Search query state
 
-    console.log("currentUser: ", currentUser);
+    const [filterCriteria, setFilterCriteria] = useState({
+        country: "",
+        place: "",
+    });
+
+    const handleFilter = () => {
+        console.log("Applying Filters:", filterCriteria);
+    };
 
     return (
         <div className={styles.App}>
             <NavBar />
+            <Header />
             <Container className={styles.Main}>
-                <Row className="justify-content-center my-3">
-                    <Col xs={12} md={8}>
-                        <SearchBar query={query} setQuery={setQuery} />{" "}
-                    </Col>
-                </Row>
                 <Routes>
                     <Route
                         path="/"
                         element={
-                            <Row>
-                                <Col xs={12} lg={8}>
+                            <Row className="justify-content-center my-3">
+                                <Col
+                                    xs={12}
+                                    lg={8}
+                                    
+                                >
                                     <MapLeaflet query={query} />
                                 </Col>
-                                <Col xs={12} lg={4}>
-                                    <ImageListPage query={query} />
+                                <Col
+                                    xs={12}
+                                    lg={4}
+
+                                >
+                                    <TripFilterForm
+                                        filterCriteria={filterCriteria}
+                                        setFilterCriteria={setFilterCriteria}
+                                        onSubmit={handleFilter}
+                                    />
                                 </Col>
                             </Row>
                         }
@@ -121,7 +140,6 @@ function App() {
             <div style={{ paddingTop: "80px" }}>
                 <MapLeaflet />
             </div> */}
-
             {/* <Footer /> */}
         </div>
     );

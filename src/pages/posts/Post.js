@@ -19,11 +19,11 @@ import { MoreDropdown } from "../../components/MoreDropdown";
 const Post = (props) => {
     const {
         id,
-        owner,
-        //profile_image,
+        //owner,
+        owner_name,
         //comments_count,
-        //likes_count,
-        //like_id,
+        likes_count,
+        like_id,
         image_title,
         description,
         image,
@@ -32,18 +32,20 @@ const Post = (props) => {
         setPosts,
     } = props;
 
+    console.log("props", props);
     const currentUser = useCurrentUser();
-    const is_owner = currentUser?.username === owner;
+    const is_owner = currentUser?.username === owner_name;
+    //const is_owner = currentUser?.id === owner;
     const navigate = useNavigate();
 
     const handleEdit = () => {
-        navigate(`/posts/${id}/edit`);
+        navigate(`/images/${id}/edit`);
     };
 
     const handleDelete = async () => {
         try {
-            await axiosReq.delete(`/posts/${id}/`);
-            navigate("*")  // Redirect to the 404 page;
+            await axiosReq.delete(`/images/${id}/`);
+            navigate("*"); // Redirect to the 404 page;
         } catch (err) {
             console.log(err);
         }
@@ -70,38 +72,38 @@ const Post = (props) => {
         }
     };
 
-    // const handleUnlike = async () => {
-    //     try {
-    //         await axiosReq.delete(`/likes/${like_id}/`);
-    //         setPosts((prevPosts) => ({
-    //             ...prevPosts,
-    //             results: prevPosts.results.map((post) => {
-    //                 return post.id === id
-    //                     ? {
-    //                           ...post,
-    //                           likes_count: post.likes_count - 1,
-    //                           like_id: null,
-    //                       }
-    //                     : post;
-    //             }),
-    //         }));
-    //     } catch (err) {
-    //         console.error("Failed to unlike post:", err);
-    //     }
-    // };
+    const handleUnlike = async () => {
+        try {
+            await axiosReq.delete(`/likes/${like_id}/`);
+            setPosts((prevPosts) => ({
+                ...prevPosts,
+                results: prevPosts.results.map((post) => {
+                    return post.id === id
+                        ? {
+                              ...post,
+                              likes_count: post.likes_count - 1,
+                              like_id: null,
+                          }
+                        : post;
+                }),
+            }));
+        } catch (err) {
+            console.error("Failed to unlike post:", err);
+        }
+    };
     console.log("is_owner: ", is_owner);
     console.log("postPage: ", postPage);
     return (
         <Card className={styles.Post}>
             <Card.Body>
                 <div className="d-flex align-items-center justify-content-between">
-                    {/* <Link
-                        to={`/profiles/${profile_id}`}
+                    <Link
+                        to={`/profiles/${id}`}
                         className="d-flex align-items-center"
                     >
-                        <Avatar src={profile_image} height={55} />
-                        <span className="ml-2">{owner}</span>
-                    </Link> */}
+                        <Avatar src={image} height={55} />
+                        <span className="ml-2">{owner_name}</span>
+                    </Link>
 
                     <div className="d-flex align-items-center">
                         <span>{updated_at}</span>
@@ -124,7 +126,7 @@ const Post = (props) => {
                     </Card.Title>
                 )}
                 {description && <Card.Text>{description}</Card.Text>}
-                {/* <div className={styles.PostBar}>
+                <div className={styles.PostBar}>
                     {is_owner ? (
                         <OverlayTrigger
                             placement="top"
@@ -153,11 +155,11 @@ const Post = (props) => {
                         </OverlayTrigger>
                     )}
                     {likes_count}
-                    <Link to={`/posts/${id}`}>
+                    {/* <Link to={`/posts/${id}`}>
                         <i className="far fa-comments" />
                     </Link>
-                    {comments_count}
-                </div> */}
+                    {comments_count} */}
+                </div>
             </Card.Body>
         </Card>
     );

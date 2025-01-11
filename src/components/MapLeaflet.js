@@ -68,10 +68,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-// import PopularProfiles from "../pages/profiles/PopularProfiles";
 import { axiosReq } from "../api/axiosDefaults";
 
-import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
@@ -88,19 +86,21 @@ L.Icon.Default.mergeOptions({
 const MapLeaflet = ({ query }) => {
     const [markers, setMarkers] = useState([]);
     const mapRef = useRef(null);
-    //const position = [51.505, -0.09]; // Default center position for the map
+    const defaultPosition = [51.505, -0.09]; // Default center position for the map
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const { data } = await axiosReq("/trips");
-                console.log(data, "data");
                 const markerData = data.results.map((result) => ({
+                    id: result.id,
                     position: [result.lat, result.lon],
-                    popup: `Trip at (${result.lat}, ${result.lon})`, // Customize this as needed
+                    popup: `Trip at (${result.lat}, ${result.lon})`,
+                    country: result.country || "",
+                    place: result.place || "",
+                    status: result.trip_status || "",
+                    category: result.trip_category || "",
                 }));
-                console.log("markerData data:", markerData);
-
                 setMarkers(markerData);
             } catch (err) {
                 console.error("Failed to fetch data:", err);
@@ -109,6 +109,12 @@ const MapLeaflet = ({ query }) => {
 
         fetchData();
     }, []); // Empty dependency array so the fetch occurs on mount
+
+    const filteredMarkers = markers.filter((marker) =>
+        [marker.country, marker.place, marker.status, marker.category].some(
+            (property) => property.toLowerCase().includes(query.toLowerCase())
+        )
+    );
 
     const ZoomToMarkers = ({ markers }) => {
         const map = useMap();
@@ -124,33 +130,33 @@ const MapLeaflet = ({ query }) => {
     };
 
     return (
-        <Container className="d-flex flex-column w-100 p-0">
-            <Row className="h-100">
-                <Col className="py-2 p-0 p-lg-2" >
+        <Container className="d-flex flex-column p-0">
+            <Row className="h-100 ">
+                <Col className="py-2 p-0 p-lg-2">
                     <MapContainer
-                        //ref={mapRef}
-                        //center={position}
-                        center={[51.505, -0.09]}
+                        ref={mapRef}
+                        center={defaultPosition}
                         zoom={13}
-                        style={{ height: "75vh", width: "50%", position: "fixed" }}
+                        style={{
+                            height: "70vh",
+                            width: "100%",
+                            position: "relative",
+                        }}
                     >
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
                         <MarkerClusterGroup>
-                            {markers.map((marker, index) => (
+                            {filteredMarkers.map((marker, index) => (
                                 <Marker key={index} position={marker.position}>
                                     <Popup>{marker.popup}</Popup>
                                 </Marker>
                             ))}
                         </MarkerClusterGroup>
-                        <ZoomToMarkers markers={markers} />
+                        <ZoomToMarkers markers={filteredMarkers} />
                     </MapContainer>
                 </Col>
-                {/* <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-                    <PopularProfiles />
-                </Col> */}
             </Row>
         </Container>
     );
