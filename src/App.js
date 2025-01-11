@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
-import { Container } from "react-bootstrap";
+
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "./api/axiosDefaults";
@@ -12,21 +16,24 @@ import SignInForm from "./pages/auth/SignInForm";
 
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 
+import ImageListPage from "./pages/posts/ImageListPage";
 // import PostsPage from "./pages/posts/PostsPage";
 // import ProfilePage from "./pages/profiles/ProfilePage";
 // import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 // import UsernameForm from "./pages/profiles/UsernameForm";
 // import UserPasswordForm from "./pages/profiles/UserPasswordForm";
-// import NotFound from "./components/NotFound";
+// import NotFound from "./components/NotFound";a
 
 import MapLeaflet from "./components/MapLeaflet";
 import MapLeafletTripId from "./components/MapLeafletTripId";
+import SearchBar from "./components/SearchBar";
 // import Button from "react-bootstrap/Button";
 // import Footer from "./components/Footer";
 
 function App() {
     const currentUser = useCurrentUser();
     //const profile_id = currentUser?.profile?.id || "";
+    const [query, setQuery] = useState(""); // Search query state
 
     console.log("currentUser: ", currentUser);
 
@@ -34,17 +41,39 @@ function App() {
         <div className={styles.App}>
             <NavBar />
             <Container className={styles.Main}>
+                <Row className="justify-content-center my-3">
+                    <Col xs={12} md={8}>
+                        <SearchBar query={query} setQuery={setQuery} />{" "}
+                    </Col>
+                </Row>
                 <Routes>
-                    <Route path="/" element={<MapLeaflet />} />
-                    <Route path="/trips/" element={<MapLeaflet />} />
-                    <Route path="/trips/:id" element={<MapLeafletTripId />} />
-
-                    {/* <Route
+                    <Route
                         path="/"
                         element={
-                            <PostsPage message="No results found. Adjust the search keyword." />
+                            <Row>
+                                <Col xs={12} lg={8}>
+                                    <MapLeaflet query={query} />
+                                </Col>
+                                <Col xs={12} lg={4}>
+                                    <ImageListPage query={query} />
+                                </Col>
+                            </Row>
                         }
-                    /> */}
+                    />
+                    <Route
+                        path="/trips/"
+                        element={<MapLeaflet query={query} />}
+                    />
+                    <Route
+                        path="/trips/:id"
+                        element={<MapLeafletTripId query={query} />}
+                    />
+
+                    <Route
+                        path="/images/"
+                        element={<ImageListPage query={query} />}
+                    />
+
                     {/* <Route
                         path="/feed"
                         element={

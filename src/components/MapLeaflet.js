@@ -85,7 +85,7 @@ L.Icon.Default.mergeOptions({
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const MapLeaflet = () => {
+const MapLeaflet = ({ query }) => {
     const [markers, setMarkers] = useState([]);
     const mapRef = useRef(null);
     //const position = [51.505, -0.09]; // Default center position for the map
@@ -126,13 +126,13 @@ const MapLeaflet = () => {
     return (
         <Container className="d-flex flex-column w-100 p-0">
             <Row className="h-100">
-                <Col className="py-2 p-0 p-lg-2" lg={8}>
+                <Col className="py-2 p-0 p-lg-2" >
                     <MapContainer
                         //ref={mapRef}
                         //center={position}
                         center={[51.505, -0.09]}
                         zoom={13}
-                        style={{ height: "85vh", width: "100%" }}
+                        style={{ height: "75vh", width: "50%", position: "fixed" }}
                     >
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -157,30 +157,3 @@ const MapLeaflet = () => {
 };
 
 export default MapLeaflet;
-
-// return (
-// <Container
-//     className="d-flex
-//         align-items-center
-//         justify-content-center"
-// >
-//     <MapContainer
-//         ref={mapRef}
-//         center={position}
-//         zoom={13}
-//         style={{ height: "50vh", width: "50%" }}
-//     >
-//         <TileLayer
-//             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//         />
-//         <MarkerClusterGroup>
-//             {markers.map((marker, index) => (
-//                 <Marker key={index} position={marker.position}>
-//                     <Popup>{marker.popup}</Popup>
-//                 </Marker>
-//             ))}
-//         </MarkerClusterGroup>
-//     </MapContainer>
-// </Container>
-// );
