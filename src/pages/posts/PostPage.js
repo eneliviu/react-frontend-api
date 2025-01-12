@@ -33,14 +33,17 @@ function PostPage() {
     useEffect(() => {
         const handleMount = async () => {
             try {
-                const [{ data: post }, {data: comments}] = await Promise.all([
-                    axiosReq.get(`/posts/${id}`),  // Fetch post data
-                    axiosReq.get(`/comments/?post=${id}`),  // Fetch comments data
+                const [
+                    { data: post },
+                    //{data: comments}
+                ] = await Promise.all([
+                    axiosReq.get(`/trips/${id}`),  // Fetch post data
+                    //axiosReq.get(`/comments/?post=${id}`),  // Fetch comments data
                 ]);
                 setPost({ results: [post] });
                 console.log("Fetched Post Data:", post);
-                setComments(comments);
-                console.log("Fetched comment data:", comments);
+                //setComments(comments);
+                //console.log("Fetched comment data:", comments);
             } catch (err) {
                 console.error("Post fetch failed:", err);
             }
@@ -54,8 +57,8 @@ function PostPage() {
             <Col className="py-2 p-0 p-lg-2" lg={8}>
                 <PopularProfiles mobile />
                 {<Post {...post.results[0]} setPosts={setPost} />}
-                <Container className={appStyles.Content}>
-                    {currentUser ? (
+                {/* <Container className={appStyles.Content}> */}
+                    {/* {currentUser ? (
                         <CommentCreateForm
                             profile_id={currentUser.profile_id}
                             profileImage={profile_image}
@@ -65,7 +68,7 @@ function PostPage() {
                         />
                     ) : comments.results.length ? (
                         "Comments"
-                    ) : null}
+                    ) : null} */}
 
                     {/* {comments.results.length ? (
                         // Render comments
@@ -88,7 +91,7 @@ function PostPage() {
                     ) : (
                         <span>No comments ...yet</span>
                     )} */}
-                </Container>
+                {/* </Container> */}
             </Col>
             <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
                 <PopularProfiles />

@@ -30,6 +30,8 @@ import TripFilterForm from "./components/TripFilterForm";
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import SearchTripPage from "./components/SearchTripPage";
+import ProfilePage from "./pages/profiles/ProfilePage";
+
 
 // import Button from "react-bootstrap/Button";
 // import Footer from "./components/Footer";
@@ -66,10 +68,7 @@ function App() {
                                         placeQuery={filterCriteria.place}
                                     />
                                 </Col>
-                                <Col
-                                    xs={12}
-                                    lg={4}
-                                >
+                                <Col xs={12} lg={4}>
                                     <TripFilterForm
                                         filterCriteria={filterCriteria}
                                         setFilterCriteria={setFilterCriteria}
@@ -104,7 +103,7 @@ function App() {
                         path="/images/"
                         element={<ImageListPage query={query} />}
                     />
-
+                    <Route path="/profiles/:id" element={<ProfilePage />} />
                     {/* <Route
                         path="/feed"
                         element={
