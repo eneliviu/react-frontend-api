@@ -60,7 +60,7 @@ function TripCreateForm({ onTripCreated }) {
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
-                <Col className="py-2 p-0 p-md-2" md={8} lg={6}>
+                <Col className="py-2 p-0 p-md-2" md={6} lg={6}>
                     <Container className={`${appStyles.Content}`}>
                         <h2>Create Trip</h2>
                         <Form.Group controlId="title">

@@ -40,7 +40,7 @@ function ImageUploadForm({ tripId, onFinish }) {
         formData.append("image_title", image_title);
         formData.append("description", description);
         formData.append("shared", shared);
-        formData.append("trip_id", tripId); // Associate the image with the trip
+        formData.append("trip_id", tripId);
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
