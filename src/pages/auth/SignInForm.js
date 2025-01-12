@@ -60,7 +60,7 @@ function SignInForm() {
                 }
             );
             setCurrentUser(userResponse.data);
-            navigate(-1); // Navigate back to the previous page
+            navigate("/"); // Navigate back to the previous page
 
         } catch (err) {
             console.error("Error during form submission:", err);

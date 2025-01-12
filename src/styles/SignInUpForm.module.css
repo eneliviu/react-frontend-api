@@ -1,6 +1,9 @@
+
 .Row {
-  height: calc(100vh - 81px);
+  height: calc(100vh - 216px);
+  display: flex;
 }
+
 .Input {
   background: #ffffff;
   border: 1px solid #f0f1f9;

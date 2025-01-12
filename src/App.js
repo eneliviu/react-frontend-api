@@ -19,10 +19,10 @@ import { useCurrentUser } from "./contexts/CurrentUserContext";
 import ImageListPage from "./pages/posts/ImageListPage";
 // import PostsPage from "./pages/posts/PostsPage";
 // import ProfilePage from "./pages/profiles/ProfilePage";
-// import ProfileEditForm from "./pages/profiles/ProfileEditForm";
-// import UsernameForm from "./pages/profiles/UsernameForm";
-// import UserPasswordForm from "./pages/profiles/UserPasswordForm";
-// import NotFound from "./components/NotFound";a
+
+import ProfileEditForm from "./pages/profiles/ProfileEditForm";
+import UsernameForm from "./pages/profiles/UsernameForm";
+import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 
 import MapLeaflet from "./components/MapLeaflet";
 import MapLeafletTripId from "./components/MapLeafletTripId";
@@ -31,10 +31,10 @@ import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import SearchTripPage from "./components/SearchTripPage";
 import ProfilePage from "./pages/profiles/ProfilePage";
+import TripCreateForm from "./pages/posts/TripCreateForm";
+import TripImageCreateForm from "./pages/posts/TripImageCreateForm";
+import NotFound from "./components/NotFound";
 
-
-// import Button from "react-bootstrap/Button";
-// import Footer from "./components/Footer";
 
 function App() {
     const currentUser = useCurrentUser();
@@ -103,7 +103,7 @@ function App() {
                         path="/images/"
                         element={<ImageListPage query={query} />}
                     />
-                    <Route path="/profiles/:id" element={<ProfilePage />} />
+
                     {/* <Route
                         path="/feed"
                         element={
@@ -126,11 +126,15 @@ function App() {
                     /> */}
                     <Route path="/signin" element={<SignInForm />} />
                     <Route path="/signup" element={<SignUpForm />} />
-                    {/* <Route path="/trips/create" element={<PostCreateForm />} /> */}
+                    <Route
+                        path="/trips/create"
+                        element={<TripImageCreateForm />}
+                    />
+
                     {/* <Route exact path="/trips/:id" element={<PostPage />} />
                     <Route path="/trips/:id/edit" element={<PostEditForm />} /> */}
-                    {/* <Route path="/profiles/:id" element={<ProfilePage />} /> */}
-                    {/* <Route
+                    <Route path="/profiles/:id" element={<ProfilePage />} />
+                    <Route
                         path="/profiles/:id/edit/username"
                         element={<UsernameForm />}
                     />
@@ -141,8 +145,8 @@ function App() {
                     <Route
                         path="/profiles/:id/edit"
                         element={<ProfileEditForm />}
-                    /> */}
-                    {/* <Route path="*" element={<NotFound />} /> */}
+                    />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Container>
             {/* <div style={{ paddingTop: "80px" }}>

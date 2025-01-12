@@ -1,3 +1,18 @@
+/**
+ * ProfilePage component displays the profile information and posts of a user.
+ *
+ * This component fetches and displays the profile details and posts of a user.
+ * It allows the current user to follow or unfollow the profile owner.
+ *
+ * @component ProfilePage
+ * @example <ProfilePage />
+ * return (
+ *   <ProfilePage />
+ * )
+ *
+ * @returns {JSX.Element} The ProfilePage component.
+ */
+
 import React, { useEffect, useState } from "react";
 
 import Col from "react-bootstrap/Col";
@@ -34,7 +49,7 @@ function ProfilePage() {
 
     const currentUser = useCurrentUser();
     const { id } = useParams();
-    console.log("useSetProfileData: ", useSetProfileData);
+
     const { setProfileData, handleFollow, handleUnfollow } =
         useSetProfileData();
     const { pageProfile } = useProfileData();
@@ -49,8 +64,8 @@ function ProfilePage() {
                     await Promise.all([
                         axiosReq.get(`/profiles/${id}/`),
                         // Filter posts by owner profile ID
-                        // axiosReq.get(`/posts/?owner__profile=${id}`),
-                        axiosReq.get(`/posts/?current_user_posts=True&owner__profile=${id}`),
+                        axiosReq.get(`/trips/?owner__profile=${id}`),
+                        axiosReq.get(`/trips/?current_user_trips=True&owner__profile=${id}`),
                     ]);
                 setProfileData((prevState) => ({
                     ...prevState,
@@ -80,8 +95,8 @@ function ProfilePage() {
                     <h3 className="m-2">{profile?.owner}</h3>
                     <Row className="justify-content-center no-gutters">
                         <Col xs={3} className="my-2">
-                            <div>{profile?.posts_count}</div>
-                            <div>posts</div>
+                            <div>{profile?.trips_count}</div>
+                            <div>trips</div>
                         </Col>
                         <Col xs={3} className="my-2">
                             <div>{profile?.followers_count}</div>

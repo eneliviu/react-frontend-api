@@ -40,9 +40,9 @@ const NavBar = () => {
             className={({ isActive }) =>
                 `${styles.NavLink} ${isActive ? styles.Active : ""}`
             }
-            to="/posts/create"
+            to="/trips/create"
         >
-            <i className="fas fa-plus-square"></i>Add Post
+            <i className="fas fa-plus-square"></i>Add Trip
         </NavLink>
     );
 
