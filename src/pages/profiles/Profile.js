@@ -31,7 +31,7 @@ const Profile = (props) => {
     const { handleFollow, handleUnfollow } = useSetProfileData();
 
     const currentUser = useCurrentUser();
-    console.log("currentUser: ", currentUser);
+    //console.log("currentUser: ", currentUser);
 
     const is_owner = currentUser?.username === owner;
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TripCreateForm from "./TripCreateForm";
 import ImageUploadForm from "./ImageUploadForm";
 import { useNavigate } from "react-router-dom";
+import Button  from "react-bootstrap/Button";
 
 function TripWithImageCreate() {
     const [tripCreatedId, setTripCreatedId] = useState(null); // To track the created trip
@@ -21,13 +22,13 @@ function TripWithImageCreate() {
     return (
         <div>
             <TripCreateForm onTripCreated={handleTripCreated} />
+            <Button onClick={skipImageUpload}>Skip Image Upload ?</Button>
             {tripCreatedId && (
                 <>
                     <ImageUploadForm
                         tripId={tripCreatedId}
                         onFinish={() => navigate(`/trips/${tripCreatedId}`)}
                     />
-                    <button onClick={skipImageUpload}>Skip Image Upload</button>
                 </>
             )}
         </div>

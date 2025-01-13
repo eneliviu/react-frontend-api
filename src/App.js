@@ -12,12 +12,14 @@ import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
 // import PostCreateForm from "./pages/posts/PostCreateForm";
 // import PostEditForm from "./pages/posts/PostEditForm";
-// import PostPage from "./pages/posts/PostPage";
+
+//import PostPage from "./pages/posts/PostPage";
 
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 
 import ImageListPage from "./pages/posts/ImageListPage";
-// import PostsPage from "./pages/posts/PostsPage";
+
+import PostsPage from "./pages/posts/PostsPage";
 // import ProfilePage from "./pages/profiles/ProfilePage";
 
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
@@ -33,13 +35,16 @@ import SearchTripPage from "./components/SearchTripPage";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import TripCreateForm from "./pages/posts/TripCreateForm";
 import TripImageCreateForm from "./pages/posts/TripImageCreateForm";
+import TripEditForm from "./pages/posts/TripEditForm";
 import NotFound from "./components/NotFound";
+import ImageUploadForm from "./pages/posts/ImageUploadForm";
+import ImageGalleryPublic from "./pages/posts/ImageGalleryPublic";
+import { useLocation } from "react-router-dom";
 
 
 function App() {
+    const location = useLocation();
     const currentUser = useCurrentUser();
-    console.log("currentUser: ", currentUser);
-
     //const profile_id = currentUser?.profile?.id || "";
     const [query, setQuery] = useState(""); // Search query state
 
@@ -55,8 +60,8 @@ function App() {
     return (
         <div className={styles.App}>
             <NavBar />
-            <Header />
             <Container className={styles.Main}>
+                {location.pathname === "/" && <Header />}
                 <Routes>
                     <Route
                         path="/"
@@ -78,38 +83,32 @@ function App() {
                             </Row>
                         }
                     />
-                    {/* <Route path="/" element={<SearchTripPage />} /> */}
-
                     <Route
                         path="/trips/"
-                        element={
-                            <MapLeaflet
-                                countryQuery={filterCriteria.country}
-                                placeQuery={filterCriteria.place}
-                            />
-                        }
+                        element={<PostsPage query={query} />}
                     />
                     <Route
-                        path="/trips/:id"
+                        path="/trips/:trip_id"
                         element={
                             <MapLeafletTripId
-                                countryQuery={filterCriteria.country}
-                                placeQuery={filterCriteria.place}
                             />
                         }
                     />
 
                     <Route
-                        path="/images/"
-                        element={<ImageListPage query={query} />}
+                        path="/gallery"
+                        element={
+                            <ImageGalleryPublic
+                                message="No results found. Adjust the search keyword or follow a user."
+                            />
+                        }
                     />
 
-                    {/* <Route
+                    <Route
                         path="/feed"
                         element={
                             <PostsPage
                                 message="No results found. Adjust the search keyword or follow a user."
-                                //filter={`owner__followed__owner__profile=${profile_id}&`}
                                 filter={`followed_users=True&`}
                             />
                         }
@@ -119,20 +118,23 @@ function App() {
                         element={
                             <PostsPage
                                 message="No results found. Adjust the search keyword or like a post."
-                                //filter={`likes_owner_profile=${profile_id}&ordering=-likes__created_at&`}
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                             />
                         }
-                    /> */}
+                    />
                     <Route path="/signin" element={<SignInForm />} />
                     <Route path="/signup" element={<SignUpForm />} />
+                    <Route path="/trips/create" element={<TripCreateForm />} />
                     <Route
-                        path="/trips/create"
-                        element={<TripImageCreateForm />}
+                        path="/trips/:tripId/images"
+                        element={<ImageUploadForm />}
                     />
 
-                    {/* <Route exact path="/trips/:id" element={<PostPage />} />
-                    <Route path="/trips/:id/edit" element={<PostEditForm />} /> */}
+                    {/* <Route exact path="/trips/:id" element={<PostPage />} />*/}
+                    <Route
+                        path="/trips/:tripId/edit"
+                        element={<TripEditForm />}
+                    />
                     <Route path="/profiles/:id" element={<ProfilePage />} />
                     <Route
                         path="/profiles/:id/edit/username"

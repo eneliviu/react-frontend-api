@@ -99,6 +99,10 @@ function ProfilePage() {
                             <div>trips</div>
                         </Col>
                         <Col xs={3} className="my-2">
+                            <div>{profile?.images_count}</div>
+                            <div>photos</div>
+                        </Col>
+                        <Col xs={3} className="my-2">
                             <div>{profile?.followers_count}</div>
                             <div>followers</div>
                         </Col>

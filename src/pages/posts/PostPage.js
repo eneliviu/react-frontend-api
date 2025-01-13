@@ -22,28 +22,20 @@ import PopularProfiles from "../profiles/PopularProfiles";
 // the post ID from the URL parameters and then renders the Post
 // component to display the post.
 function PostPage() {
-    const  {id} = useParams();
-    const [post, setPost] = useState({results : []});
-
-
+    const { id } = useParams();
+    const [post, setPost] = useState({ results: [] });
     const currentUser = useCurrentUser();
     const profile_image = currentUser?.profile_image;
-    const [comments, setComments] = useState({ results: [] });
 
     useEffect(() => {
         const handleMount = async () => {
             try {
                 const [
                     { data: post },
-                    //{data: comments}
                 ] = await Promise.all([
-                    axiosReq.get(`/trips/${id}`),  // Fetch post data
-                    //axiosReq.get(`/comments/?post=${id}`),  // Fetch comments data
+                    axiosReq.get(`/trips/${id}`), // Fetch post data
                 ]);
                 setPost({ results: [post] });
-                console.log("Fetched Post Data:", post);
-                //setComments(comments);
-                //console.log("Fetched comment data:", comments);
             } catch (err) {
                 console.error("Post fetch failed:", err);
             }
@@ -58,7 +50,7 @@ function PostPage() {
                 <PopularProfiles mobile />
                 {<Post {...post.results[0]} setPosts={setPost} />}
                 {/* <Container className={appStyles.Content}> */}
-                    {/* {currentUser ? (
+                {/* {currentUser ? (
                         <CommentCreateForm
                             profile_id={currentUser.profile_id}
                             profileImage={profile_image}
@@ -70,7 +62,7 @@ function PostPage() {
                         "Comments"
                     ) : null} */}
 
-                    {/* {comments.results.length ? (
+                {/* {comments.results.length ? (
                         // Render comments
                         <InfiniteScroll
                             children={comments.results.map((comment) => (

@@ -145,11 +145,20 @@ const NavBar = () => {
                             <i className="fas fa-home"></i>Home
                         </NavLink>
 
+                        <NavLink
+                            exact="true"
+                            className={({ isActive }) =>
+                                `${styles.NavLink} ${
+                                    isActive ? styles.Active : ""
+                                }`
+                            }
+                            to="/gallery"
+                        >
+                            <i className="fas fa-solid fa-image"></i>Gallery
+                        </NavLink>
                         {currentUser ? loggedInIcons : loggedOutIcons}
-
                     </Nav>
                 </Navbar.Collapse>
-
             </Container>
         </Navbar>
     );

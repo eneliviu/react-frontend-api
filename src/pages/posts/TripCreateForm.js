@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Form, Button, Alert, Row, Col, Container } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
+// import ImageUploadForm from "./ImageUploadForm"; // Import ImageUploadForm
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
+// import { useRedirect } from "../../contexts/RedirectContext";
 
-function TripCreateForm({ onTripCreated }) {
+function TripCreateForm() {
+    //useRedirect("loggedOut");
     const [errors, setErrors] = useState({});
+    const [tripId, setTripId] = useState(null); // State to hold created trip ID
     const [tripData, setTripData] = useState({
         title: "",
         content: "",
@@ -13,9 +18,13 @@ function TripCreateForm({ onTripCreated }) {
         country: "",
         start_date: "",
         end_date: "",
-        trip_category: "Leisure", // Default value
-        trip_status: "Planned", // Default value
+        trip_category: "Leisure", // Default category
+        trip_status: "Planned", // Default status
+        shared: true, // Default status
     });
+
+    const navigate = useNavigate();
+
     const {
         title,
         content,
@@ -25,17 +34,48 @@ function TripCreateForm({ onTripCreated }) {
         end_date,
         trip_category,
         trip_status,
+        shared,
     } = tripData;
 
     const handleChange = (e) => {
-        setTripData({
-            ...tripData,
-            [e.target.name]: e.target.value,
-        });
+        const { name, value, type, checked } = e.target;
+        setTripData((prevData) => ({
+            ...prevData,
+            //[name]: value,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+
+        if (name === "start_date" || name === "end_date") {
+            const dateErrors = validateDates(value);
+            if (Object.keys(dateErrors).length === 0) {
+                setErrors((prevErrors) => {
+                    const newErrors = { ...prevErrors };
+                    delete newErrors.date;
+                    return newErrors;
+                });
+            }
+        }
+    };
+
+    const validateDates = () => {
+        let dateErrors = {};
+        const start = new Date(tripData.start_date);
+        const end = new Date(tripData.end_date);
+        if (start_date && end_date && start > end) {
+            dateErrors.date = "Start date must be before end date.";
+        }
+        return dateErrors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const dateErrors = validateDates();
+        if (Object.keys(dateErrors).length > 0) {
+            setErrors(dateErrors);
+            return;
+        }
+
         const formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
@@ -45,13 +85,15 @@ function TripCreateForm({ onTripCreated }) {
         formData.append("end_date", end_date);
         formData.append("trip_category", trip_category);
         formData.append("trip_status", trip_status);
+        formData.append("shared", shared);
 
         try {
             const { data } = await axiosReq.post("/trips/", formData);
-            onTripCreated(data.id); // Notify parent that the trip is created
+            setTripId(data.id); // Set the created trip ID
+            navigate(`/trips/${data.id}`);
         } catch (err) {
             console.error("Failed to create trip:", err);
-            if (err.response?.status !== 401) {
+            if (err.response?.status === 400) {
                 setErrors(err.response?.data);
             }
         }
@@ -100,6 +142,11 @@ function TripCreateForm({ onTripCreated }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
+                        {errors.place?.map((message, idx) => (
+                            <Alert key={idx} variant="warning">
+                                {message}
+                            </Alert>
+                        ))}
                         <Form.Group controlId="country">
                             <Form.Label>Country</Form.Label>
                             <Form.Control
@@ -109,6 +156,11 @@ function TripCreateForm({ onTripCreated }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
+                        {errors.country?.map((message, idx) => (
+                            <Alert key={idx} variant="warning">
+                                {message}
+                            </Alert>
+                        ))}
                         <Form.Group controlId="start_date">
                             <Form.Label>Start Date</Form.Label>
                             <Form.Control
@@ -127,6 +179,9 @@ function TripCreateForm({ onTripCreated }) {
                                 onChange={handleChange}
                             />
                         </Form.Group>
+                        {errors.date && (
+                            <Alert variant="warning">{errors.date}</Alert>
+                        )}
                         <Form.Group controlId="trip_category">
                             <Form.Label>Trip Category</Form.Label>
                             <Form.Control
@@ -155,14 +210,36 @@ function TripCreateForm({ onTripCreated }) {
                                 <option value="Completed">Completed</option>
                             </Form.Control>
                         </Form.Group>
+                        <Form.Group controlId="shared">
+                            <Form.Check
+                                type="checkbox"
+                                label="Shared"
+                                name="shared"
+                                checked={shared}
+                                onChange={handleChange}
+                            />
+                        </Form.Group>
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Blue}`}
                             type="submit"
                         >
                             Create
                         </Button>
+                        {errors.non_field_errors?.map((message, idx) => (
+                            <Alert key={idx} variant="warning">
+                                {message}
+                            </Alert>
+                        ))}
                     </Container>
                 </Col>
+                {/* {tripId && (
+                    <Col md={6}>
+                        <ImageUploadForm
+                            tripId={tripId}
+                            onFinish={() => setTripId(null)} // Reset state or handle next steps
+                        />
+                    </Col>
+                )} */}
             </Row>
         </Form>
     );

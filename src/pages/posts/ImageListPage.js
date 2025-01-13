@@ -17,7 +17,7 @@ import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 
-//import PopularProfiles from "../profiles/PopularProfiles";
+import PopularProfiles from "../profiles/PopularProfiles";
 
 //import SearchBar from "../../components/SearchBar";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -25,14 +25,12 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 // component that is responsible for displaying a list of posts.
 // It fetches the posts data from the server using an optional filter
 // and then renders a list of Post components to display each post.
-function ImageListPage({ message, filter = "" }) {
-    const currentUser = useCurrentUser();
 
+function ImageListPage({ message, filter }) {
+    const currentUser = useCurrentUser();
     const [posts, setPosts] = useState({ results: [] });
-    console.log("images: ", posts);
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
-
     const [query, setQuery] = useState("");
 
     useEffect(() => {
@@ -57,14 +55,13 @@ function ImageListPage({ message, filter = "" }) {
 
         //  Clear the timer if the component unmounts
         return () => clearTimeout(timer);
-    }, [filter, query, pathname, currentUser]);
+    }, [query, pathname, currentUser]);
 
     return (
         <Row className="h-100">
             <Col className="py-2 p-0 p-lg-2">
-                {/*<h2>Most Liked Images</h2>
-                 <PopularProfiles mobile />*/}
-                {/* <i className={`fas fa-search ${styles.SearchIcon}`} />
+                 <PopularProfiles mobile />
+                <i className={`fas fa-search ${styles.SearchIcon}`} />
                 <Form
                     className={styles.SearchBar}
                     onSubmit={(event) => event.preventDefault()}
@@ -73,12 +70,10 @@ function ImageListPage({ message, filter = "" }) {
                         value={query}
                         onChange={(event) => setQuery(event.target.value)}
                         type="text"
-                        placeholder="Search posts"
+                        placeholder="Search free text and upload date (yyyy-mm-dd)"
                         className="mr-sm-2"
                     />
-                </Form> */}
-                {/* <SearchBar query={query} setQuery={setQuery} /> */}
-
+                </Form>
                 {hasLoaded ? (
                     <>
                         {posts.results.length ? (
@@ -107,10 +102,9 @@ function ImageListPage({ message, filter = "" }) {
                     </Container>
                 )}
             </Col>
-            {/* <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
+            <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
                  <PopularProfiles />
-                <h1>Most Liked Images</h1> 
-            </Col> */}
+            </Col>
         </Row>
     );
 }

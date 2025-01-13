@@ -7,7 +7,7 @@ import React, {
 } from "react";
 // import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { axiosReq } from "../api/axiosDefaults";
+import { axiosReq, axiosRes } from "../api/axiosDefaults";
 
 export const CurrentUserContext = createContext(null);
 export const SetCurrentUserContext = createContext(null);
@@ -17,16 +17,16 @@ export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
 
 const getToken = (type) => {
     const token = localStorage.getItem(type);
-    console.log(`Retrieved ${type}:`, token);
+    //console.log(`Retrieved ${type}:`, token);
     return token;
 };
 
 const setToken = (type, value) => {
     if (value) {
-        console.log(`Setting ${type}:`, value);
+        //console.log(`Setting ${type}:`, value);
         localStorage.setItem(type, value);
     } else {
-        console.log(`Removing ${type}`);
+        //console.log(`Removing ${type}`);
         localStorage.removeItem(type);
     }
 };
@@ -52,9 +52,9 @@ const CurrentUserProvider = ({ children }) => {
             const { data } = await axiosReq.get("/dj-rest-auth/user/");
             setCurrentUser(data);
         } catch (err) {
-            console.error("Failed to fetch user data:", err);
+            //console.error("Failed to fetch user data:", err);
             if (err.response && err.response.status === 401) {
-                console.warn("Unauthorized access - clearing user session");
+                //console.warn("Unauthorized access - clearing user session");
                 handleLogout();
                 setCurrentUser(null);
                 clearTokens();
@@ -65,7 +65,7 @@ const CurrentUserProvider = ({ children }) => {
     const refreshToken = useCallback(async () => {
         const refreshTokenValue = getToken("refresh_token");
         if (!refreshTokenValue) {
-            console.warn("No refresh token available, redirecting to sign-in.");
+            //console.warn("No refresh token available, redirecting to sign-in.");
             handleLogout();
             return;
         }
@@ -93,19 +93,14 @@ const CurrentUserProvider = ({ children }) => {
     useEffect(() => {
         const refreshTokenValue = getToken("refresh_token");
         if (!refreshTokenValue) {
-            console.warn("No refresh token available; skipping refresh setup.");
+            //console.warn("No refresh token available; skipping refresh setup.");
             return;
         }
 
         const intervalId = setInterval(async () => {
-            console.log("Attempting to refresh token...");
+            //console.log("Attempting to refresh token...");
             await refreshToken();
-        }, 30000);
-
-        // const intervalId = setInterval(() => {
-        //     console.log("Attempting to refresh token...");
-        //     refreshToken();
-        // }, 30000);
+        }, 53000);
 
         return () => clearInterval(intervalId);
     }, [refreshToken]);

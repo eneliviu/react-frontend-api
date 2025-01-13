@@ -9,30 +9,25 @@ import { MoreDropdown } from "../../components/MoreDropdown";
 
 // component that is responsible for rendering the details of a single post.
 // This component is used by both PostPage.js and PostsPage.js to display
-// individual posts.
-
-// TODO: Add a prop to determine if the post is being displayed on the post page
-// or the posts page. Use this prop to conditionally render the like and comment
-// buttons. If the post is being displayed on the post page, render the buttons.
-
+// individual posts. It displays the post's image, title, description, owner,
 
 const Post = (props) => {
     const {
-        id,
-        //owner,
-        owner_name,
-        //comments_count,
-        likes_count,
-        like_id,
-        image_title,
         description,
+        id,
         image,
-        updated_at,
-        postPage,
+        images,
+        image_title,
+        owner_name,
         setPosts,
+        shared,
+        uploaded_at,
+        like_id,
+        likes_count,
+        trip_id,
     } = props;
 
-    console.log("props", props);
+    //console.log("Image Post props", image);
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
     //const is_owner = currentUser?.id === owner;
@@ -44,7 +39,7 @@ const Post = (props) => {
 
     const handleDelete = async () => {
         try {
-            await axiosReq.delete(`/images/${id}/`);
+            await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
             navigate("*"); // Redirect to the 404 page;
         } catch (err) {
             console.log(err);
@@ -91,22 +86,28 @@ const Post = (props) => {
             console.error("Failed to unlike post:", err);
         }
     };
-    console.log("is_owner: ", is_owner);
-    console.log("postPage: ", postPage);
+
     return (
         <Card className={styles.Post}>
+            <Card.Header>
+                <Link to={`/trips/${id}`} className="d-flex align-items-center">
+                    <Avatar src={image} height={55} />
+                    <span className="ml-2">{owner_name}</span>
+                    {image_title}
+                </Link>
+            </Card.Header>
             <Card.Body>
                 <div className="d-flex align-items-center justify-content-between">
                     <Link
                         to={`/profiles/${id}`}
                         className="d-flex align-items-center"
                     >
-                        <Avatar src={image} height={55} />
+                        {/* <Avatar src={image} height={55} /> */}
                         <span className="ml-2">{owner_name}</span>
                     </Link>
 
-                    <div className="d-flex align-items-center">
-                        <span>{updated_at}</span>
+                    <div className="d-flex align-items-center justify-content-between">
+                        <span className="mx-3"> Uploadet : {uploaded_at}</span>
                         {is_owner && (
                             <MoreDropdown
                                 handleEdit={handleEdit}
@@ -116,7 +117,7 @@ const Post = (props) => {
                     </div>
                 </div>
             </Card.Body>
-            <Link to={`/posts/${id}`}>
+            <Link to={`/trips/${trip_id}`}>
                 <Card.Img src={image} alt={image_title} />
             </Link>
             <Card.Body>
@@ -155,10 +156,6 @@ const Post = (props) => {
                         </OverlayTrigger>
                     )}
                     {likes_count}
-                    {/* <Link to={`/posts/${id}`}>
-                        <i className="far fa-comments" />
-                    </Link>
-                    {comments_count} */}
                 </div>
             </Card.Body>
         </Card>
