@@ -1,6 +1,6 @@
 
 .Row {
-  height: calc(100vh - 216px);
+  height: calc(100vh - 71px); 
   display: flex;
 }
 

@@ -18,7 +18,6 @@ import React, { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-
 import Asset from "../../components/Asset";
 
 import styles from "../../styles/ProfilePage.module.css";
@@ -40,6 +39,8 @@ import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
+import MapLeafletTripId from "../../components/MapLeafletTripId";
+import MapLeaflet from "../../components/MapLeaflet";
 
 
 function ProfilePage() {
@@ -56,6 +57,11 @@ function ProfilePage() {
 
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
+
+   const [filterCriteria, setFilterCriteria] = useState({
+        country: "",
+        place: "",
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -138,53 +144,61 @@ function ProfilePage() {
         </>
     );
 
-    const mainProfilePosts = (
-        <>
-            <hr />
-            <p className="text-center">{profile?.owner}'s posts</p>
-            <hr />
-            {profilePosts.results.length ? (
-                <InfiniteScroll
-                    children={profilePosts.results.map((post) => (
-                        <Post
-                            key={post.id}
-                            {...post}
-                            setPosts={setProfilePosts}
-                        />
-                    ))}
-                    dataLength={profilePosts.results.length}
-                    loader={<Asset spinner />}
-                    hasMore={!!profilePosts.next}
-                    next={() => fetchMoreData(profilePosts, setProfilePosts)}
-                />
-            ) : (
-                <Asset
-                    src={NoResults}
-                    message={`No results found, ${profile?.owner} hasn't posted yet.`}
-                />
-            )}
-        </>
-    );
+    // const mainProfilePosts = (
+    //     <>
+    //         <hr />
+    //         <p className="text-center">{profile?.owner}'s posts</p>
+    //         <hr />
+    //         {profilePosts.results.length ? (
+    //             <InfiniteScroll
+    //                 children={profilePosts.results.map((post) => (
+    //                     <Post
+    //                         key={post.id}
+    //                         {...post}
+    //                         setPosts={setProfilePosts}
+    //                     />
+    //                 ))}
+    //                 dataLength={profilePosts.results.length}
+    //                 loader={<Asset spinner />}
+    //                 hasMore={!!profilePosts.next}
+    //                 next={() => fetchMoreData(profilePosts, setProfilePosts)}
+    //             />
+    //         ) : (
+    //             <Asset
+    //                 src={NoResults}
+    //                 message={`No results found, ${profile?.owner} hasn't posted yet.`}
+    //             />
+    //         )}
+    //     </>
+    // );
 
     return (
-        <Row>
-            <Col className="py-2 p-0 p-lg-2" lg={8}>
-                <PopularProfiles mobile />
-                <Container className={appStyles.Content}>
-                    {hasLoaded ? (
-                        <>
-                            {mainProfile}
-                            {mainProfilePosts}
-                        </>
-                    ) : (
-                        <Asset spinner />
-                    )}
-                </Container>
-            </Col>
-            <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
-                <PopularProfiles />
-            </Col>
-        </Row>
+        <Container>
+            <Row>
+                <Col className="py-2 p-lg-2" lg={8}>
+                    <PopularProfiles mobile />
+                    <Container>
+                        {hasLoaded ? (
+                            <>
+                                {mainProfile}
+                                {/* {mainProfilePosts} */}
+
+                                <MapLeaflet
+                                    countryQuery={filterCriteria.country}
+                                    placeQuery={filterCriteria.place}
+                                    style={{ height: "50%" }}
+                                />
+                            </>
+                        ) : (
+                            <Asset spinner />
+                        )}
+                    </Container>
+                </Col>
+                <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
+                    <PopularProfiles />
+                </Col>
+            </Row>
+        </Container>
     );
 }
 

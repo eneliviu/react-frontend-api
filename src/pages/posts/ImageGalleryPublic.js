@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import Post from "./Post";
 import Asset from "../../components/Asset";
@@ -18,7 +19,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
-
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 // component that is responsible for displaying a list of posts.
 // It fetches the posts data from the server using an optional filter
@@ -29,6 +30,8 @@ function ImageGalleryPublic({ message }) {
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
     const [query, setQuery] = useState("");
+    const currentUser = useCurrentUser() || {};
+    console.log("currentUser: ", currentUser);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -52,7 +55,25 @@ function ImageGalleryPublic({ message }) {
     return (
         <Row className="h-100">
             <Col className="py-2 p-0 p-lg-2">
-                <PopularProfiles mobile />
+                <OverlayTrigger
+                    placement="top"
+                    overlay={
+                        <Tooltip>
+                            {currentUser
+                                ? "See Most Followed Profiles"
+                                : "Log in to see profiles"}
+                        </Tooltip>
+                    }
+                >
+                    <div
+                        style={{
+                            opacity: currentUser ? 1 : 0.5,
+                            pointerEvents: currentUser ? "auto" : "none",
+                        }}
+                    >
+                        <PopularProfiles mobile />
+                    </div>
+                </OverlayTrigger>
                 <i className={`fas fa-search ${styles.SearchIcon}`} />
                 <Form
                     className={styles.SearchBar}
@@ -70,13 +91,15 @@ function ImageGalleryPublic({ message }) {
                     <>
                         {posts.results.length ? (
                             <InfiniteScroll
-                                children={posts.results.map((post) => (
-                                    <Post
-                                        key={post.id}
-                                        {...post}
-                                        setPosts={setPosts}
-                                    />
-                                ))}
+                                children={posts.results
+                                    .filter((post) => post.image)
+                                    .map((post) => (
+                                        <Post
+                                            key={post.id}
+                                            {...post}
+                                            setPosts={setPosts}
+                                        />
+                                    ))}
                                 dataLength={posts.results.length}
                                 loader={<Asset spinner />}
                                 hasMore={!!posts.next}
@@ -102,3 +125,4 @@ function ImageGalleryPublic({ message }) {
 }
 
 export default ImageGalleryPublic;
+

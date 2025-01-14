@@ -6,9 +6,12 @@ import { axiosReq } from "../../api/axiosDefaults";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 // import { useRedirect } from "../../contexts/RedirectContext";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+
 
 function TripCreateForm() {
     //useRedirect("loggedOut");
+    //const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
     const [tripId, setTripId] = useState(null); // State to hold created trip ID
     const [tripData, setTripData] = useState({
@@ -91,6 +94,7 @@ function TripCreateForm() {
             const { data } = await axiosReq.post("/trips/", formData);
             setTripId(data.id); // Set the created trip ID
             navigate(`/trips/${data.id}`);
+            //navigate(`profiles/${currentUser.id}/trips/${data.id}`);
         } catch (err) {
             console.error("Failed to create trip:", err);
             if (err.response?.status === 400) {

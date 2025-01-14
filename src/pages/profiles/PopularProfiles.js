@@ -4,10 +4,13 @@ import { Container } from "react-bootstrap";
 import Asset from "../../components/Asset";
 import Profile from "./Profile";
 import { useProfileData } from "../../contexts/ProfileDataContext";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 
 const PopularProfiles = ({ mobile }) => {
     const { popularProfiles } = useProfileData();
-    //console.log("popularProfiles: ", popularProfiles);
+    const currentUser = useCurrentUser();
 
     return (
         <Container
@@ -16,26 +19,39 @@ const PopularProfiles = ({ mobile }) => {
             }`}
         >
             {popularProfiles.results.length ? (
-                <>
-                    <p>Most followed profiles.</p>
-                    {mobile ? (
-                        <div className="d-flex justify-content-around">
-                            {popularProfiles.results
-                                .slice(0, 4)
-                                .map((profile) => (
-                                    <Profile
-                                        key={profile.id}
-                                        profile={profile}
-                                        mobile
-                                    />
-                                ))}
+                currentUser ? (
+                    <>
+                        <p>Most followed profiles.</p>
+                        {mobile ? (
+                            <div className="d-flex justify-content-around">
+                                {popularProfiles.results
+                                    .slice(0, 4)
+                                    .map((profile) => (
+                                        <Profile
+                                            key={profile.id}
+                                            profile={profile}
+                                            mobile
+                                        />
+                                    ))}
+                            </div>
+                        ) : (
+                            popularProfiles.results.map((profile) => (
+                                <Profile key={profile.id} profile={profile} />
+                            ))
+                        )}
+                    </>
+                ) : (
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Log in to see popular profiles!</Tooltip>}
+                    >
+                        <div style={{ pointerEvents: 'none', opacity: 0.7 }}>
+                            <p className="text-center py-4">
+                                Please log in to view popular profiles.
+                            </p>
                         </div>
-                    ) : (
-                        popularProfiles.results.map((profile) => (
-                            <Profile key={profile.id} profile={profile} />
-                        ))
-                    )}
-                </>
+                    </OverlayTrigger>
+                )
             ) : (
                 <Asset spinner />
             )}

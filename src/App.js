@@ -13,8 +13,6 @@ import SignInForm from "./pages/auth/SignInForm";
 // import PostCreateForm from "./pages/posts/PostCreateForm";
 // import PostEditForm from "./pages/posts/PostEditForm";
 
-//import PostPage from "./pages/posts/PostPage";
-
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 
 import ImageListPage from "./pages/posts/ImageListPage";
@@ -29,7 +27,6 @@ import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import MapLeaflet from "./components/MapLeaflet";
 import MapLeafletTripId from "./components/MapLeafletTripId";
 import TripFilterForm from "./components/TripFilterForm";
-import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import SearchTripPage from "./components/SearchTripPage";
 import ProfilePage from "./pages/profiles/ProfilePage";
@@ -39,8 +36,10 @@ import TripEditForm from "./pages/posts/TripEditForm";
 import NotFound from "./components/NotFound";
 import ImageUploadForm from "./pages/posts/ImageUploadForm";
 import ImageGalleryPublic from "./pages/posts/ImageGalleryPublic";
-import { useLocation } from "react-router-dom";
+import PostPage from "./pages/posts/PostPage";
+import ImagePostEditForm from "./pages/posts/ImagePostEditForm";
 
+import { useLocation } from "react-router-dom";
 
 function App() {
     const location = useLocation();
@@ -66,7 +65,7 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <Row className="justify-content-center my-3">
+                            <Row className="justify-content-center my-0">
                                 <Col xs={12} lg={8}>
                                     <MapLeaflet
                                         countryQuery={filterCriteria.country}
@@ -84,23 +83,14 @@ function App() {
                         }
                     />
                     <Route
-                        path="/trips/"
-                        element={<PostsPage query={query} />}
-                    />
-                    <Route
                         path="/trips/:trip_id"
-                        element={
-                            <MapLeafletTripId
-                            />
-                        }
+                        element={<MapLeafletTripId />}
                     />
 
                     <Route
                         path="/gallery"
                         element={
-                            <ImageGalleryPublic
-                                message="No results found. Adjust the search keyword or follow a user."
-                            />
+                            <ImageGalleryPublic message="No results found. Adjust the search keyword or follow a user." />
                         }
                     />
 
@@ -130,11 +120,16 @@ function App() {
                         element={<ImageUploadForm />}
                     />
 
-                    {/* <Route exact path="/trips/:id" element={<PostPage />} />*/}
+                    <Route exact path="/trips/:id" element={<PostPage />} />
                     <Route
                         path="/trips/:tripId/edit"
                         element={<TripEditForm />}
                     />
+                    <Route
+                        path="/trips/:tripId/images/edit"
+                        element={<ImagePostEditForm />}
+                    />
+
                     <Route path="/profiles/:id" element={<ProfilePage />} />
                     <Route
                         path="/profiles/:id/edit/username"
@@ -151,12 +146,6 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Container>
-            {/* <div style={{ paddingTop: "80px" }}>
-                <Button variant="primary">Primary</Button>
-            </div>
-            <div style={{ paddingTop: "80px" }}>
-                <MapLeaflet />
-            </div> */}
             {/* <Footer /> */}
         </div>
     );

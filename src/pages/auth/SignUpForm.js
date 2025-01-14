@@ -114,7 +114,11 @@ const SignUpForm = () => {
                         </Button>
                         {errors.non_field_errors &&
                             errors.non_field_errors.map((message, idx) => (
-                                <Alert key={idx} variant="warning" className="mt-3">
+                                <Alert
+                                    key={idx}
+                                    variant="warning"
+                                    className="mt-3"
+                                >
                                     {message}
                                 </Alert>
                             ))}
@@ -133,7 +137,7 @@ const SignUpForm = () => {
                 <Image
                     className={`${appStyles.FillerImage}`}
                     src={
-                        "https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero2.jpg"
+                        "https://res.cloudinary.com/dchoskzxj/image/upload/v1735383494/jzedo2mouc0pelamikwh.webp"
                     }
                 />
             </Col>

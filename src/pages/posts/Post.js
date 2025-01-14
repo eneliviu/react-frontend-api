@@ -16,31 +16,30 @@ const Post = (props) => {
         description,
         id,
         image,
-        images,
         image_title,
         owner_name,
         setPosts,
-        shared,
         uploaded_at,
-        like_id,
         likes_count,
         trip_id,
+        like_id,
     } = props;
 
-    //console.log("Image Post props", image);
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
-    //const is_owner = currentUser?.id === owner;
+    //const is_owner = currentUser?.pk === owner;
     const navigate = useNavigate();
 
     const handleEdit = () => {
         navigate(`/images/${id}/edit`);
+        //navigate(`/trips/${trip_id}/images/`);
+        navigate(`/trips/${trip_id}/images/edit/`);
     };
 
     const handleDelete = async () => {
         try {
             await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
-            navigate("*"); // Redirect to the 404 page;
+            navigate("*");
         } catch (err) {
             console.log(err);
         }
@@ -48,15 +47,16 @@ const Post = (props) => {
 
     const handleLike = async () => {
         try {
-            const { data } = await axiosReq.post(`/likes/`, { post: id });
-            console.log("data: ", data);
+            const { data } = await axiosReq.post("/likes/", {
+                image: id,
+            });
             setPosts((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
                     return post.id === id
                         ? {
                               ...post,
-                              likes_count: post.likes_count + 1,
+                              likes_count: (post.likes_count ) + 1,
                               like_id: data.id,
                           }
                         : post;
@@ -89,44 +89,70 @@ const Post = (props) => {
 
     return (
         <Card className={styles.Post}>
-            <Card.Header>
-                <Link to={`/trips/${id}`} className="d-flex align-items-center">
-                    <Avatar src={image} height={55} />
-                    <span className="ml-2">{owner_name}</span>
-                    {image_title}
-                </Link>
-            </Card.Header>
             <Card.Body>
                 <div className="d-flex align-items-center justify-content-between">
-                    <Link
-                        to={`/profiles/${id}`}
-                        className="d-flex align-items-center"
-                    >
-                        {/* <Avatar src={image} height={55} /> */}
-                        <span className="ml-2">{owner_name}</span>
-                    </Link>
+                    {currentUser ? (
+                        <Link
+                            to={`/profiles/${currentUser.pk}`}
+                            className="d-flex align-items-center"
+                        >
+                            <Avatar src={image} height={55} />
+                            <span className="ml-2">{owner_name}</span>
+                        </Link>
+                    ) : (
+                        <>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip>Log in for details!</Tooltip>}
+                            >
+                                <div className="d-flex align-items-center">
+                                    <Avatar src={image} height={55} />
+                                    <span className="ml-2">{owner_name}</span>
+                                </div>
+                            </OverlayTrigger>
+                        </>
+                    )}
 
                     <div className="d-flex align-items-center justify-content-between">
-                        <span className="mx-3"> Uploadet : {uploaded_at}</span>
+                        <span className="mx-3">Uploaded: {uploaded_at}</span>
                         {is_owner && (
                             <MoreDropdown
                                 handleEdit={handleEdit}
                                 handleDelete={handleDelete}
-                            ></MoreDropdown>
+                            />
                         )}
                     </div>
                 </div>
             </Card.Body>
-            <Link to={`/trips/${trip_id}`}>
-                <Card.Img src={image} alt={image_title} />
-            </Link>
             <Card.Body>
-                {image_title && (
-                    <Card.Title className="text-center">
-                        {image_title}
-                    </Card.Title>
+                {is_owner ? (
+                    <>
+                        {image_title && (
+                            <Card.Title className="text-center">
+                                {image_title}
+                            </Card.Title>
+                        )}
+                        <Link to={`/trips/${trip_id}`}>
+                            <Card.Img src={image} alt={image_title} />
+                        </Link>
+                        {description && <Card.Text>{description}</Card.Text>}
+                    </>
+                ) : (
+                    <>
+                        {currentUser ? (
+                            <Link to={`/trips/${trip_id}`}>
+                                <Card.Img src={image} alt={image_title} />
+                            </Link>
+                        ) : (
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip>Log in for details!</Tooltip>}
+                            >
+                                <Card.Img src={image} alt={image_title} />
+                            </OverlayTrigger>
+                        )}
+                    </>
                 )}
-                {description && <Card.Text>{description}</Card.Text>}
                 <div className={styles.PostBar}>
                     {is_owner ? (
                         <OverlayTrigger

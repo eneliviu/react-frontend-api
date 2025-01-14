@@ -10,6 +10,9 @@ import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 
 import { useParams } from "react-router-dom";
+import { Button } from "react-bootstrap";
+
+import btnStyles from "../styles/Button.module.css";
 
 // Fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -89,7 +92,8 @@ const MapLeafletTripId = () => {
                                             flexDirection: "row",
                                             alignItems: "center",
                                             justifyContent: "space-between",
-                                            padding: "10px",
+                                            padding: "5px",
+                                            marginRight: "10px",
                                         }}
                                     >
                                         {marker.latestImageUrl ? (
@@ -107,19 +111,17 @@ const MapLeafletTripId = () => {
                                             <NavLink
                                                 to={`/trips/${trip_id}/images/`}
                                             >
-                                                <button
+                                                <Button
                                                     style={{
                                                         padding: "5px 10px",
-                                                        backgroundColor:
-                                                            "#007bff",
-                                                        color: "white",
-                                                        border: "none",
-                                                        borderRadius: "4px",
+                                                        margin: "20px",
+                                                        textAlign: "center",
                                                         cursor: "pointer",
                                                     }}
+                                                    className={`${btnStyles.Button}  ${btnStyles.Bright}`}
                                                 >
-                                                    Add Image
-                                                </button>
+                                                    <small>Add Image</small>
+                                                </Button>
                                             </NavLink>
                                         )}
                                         <div style={{ flex: 1 }}>
@@ -128,8 +130,11 @@ const MapLeafletTripId = () => {
                                             </strong>
                                             <div style={{ margin: "5px 0" }}>
                                                 <span>
-                                                    {marker.place},{" "}
-                                                    {marker.country}
+                                                    {" "}
+                                                    <small>
+                                                        {marker.place},{" "}
+                                                        {marker.country}
+                                                    </small>
                                                 </span>
                                             </div>
                                             <div style={{ margin: "5px 0" }}>
@@ -137,9 +142,11 @@ const MapLeafletTripId = () => {
                                                     className="text-muted"
                                                     style={{ margin: 0 }}
                                                 >
-                                                    {marker.content
-                                                        ? marker.content
-                                                        : "Content N/A"}
+                                                    <small>
+                                                        {marker.content
+                                                            ? marker.content
+                                                            : "Content N/A"}
+                                                    </small>
                                                 </p>
                                             </div>
                                             <div>
@@ -168,92 +175,6 @@ const MapLeafletTripId = () => {
                                         </div>
                                     </div>
                                 </Popup>
-                                {/* <Popup>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <strong style={{ textAlign: "center" }}>
-                                            {marker.owner}'s Trip
-                                        </strong>
-                                        <hr style={{ width: "100%" }} />
-
-                                        <span>
-                                            {marker.place}, {marker.country}
-                                        </span>
-                                        <hr style={{ width: "100%" }} />
-
-                                        <div
-                                            style={{
-                                                textAlign: "center",
-                                                //marginTop: "5px",
-                                            }}
-                                        >
-                                            <p className="text-muted">
-                                                {marker.content
-                                                    ? marker.content
-                                                    : "N/A"}
-                                            </p>
-                                        </div>
-                                        <hr style={{ width: "100%" }} />
-
-                                        <div
-                                            style={{
-                                                textAlign: "center",
-                                                // marginTop: "5px",
-                                            }}
-                                        >
-                                            <span className="text-muted">
-                                                <small>
-                                                    Category: {marker.category}
-                                                </small>
-                                            </span>
-                                        </div>
-                                        <hr style={{ width: "100%" }} />
-                                        <div
-                                            style={{
-                                                textAlign: "center",
-                                                //marginTop: "0px",
-                                            }}
-                                        >
-                                            <span className="text-muted">
-                                                <small>
-                                                    Status: {marker.status}
-                                                </small>
-                                            </span>
-                                        </div>
-                                        <hr style={{ width: "100%" }} />
-                                        <div
-                                            style={{
-                                                textAlign: "center",
-                                                //marginTop: "5px",
-                                            }}
-                                        >
-                                            <span className="text-muted">
-                                                <small>
-                                                    {marker.from} : {marker.to}
-                                                </small>
-                                            </span>
-                                            <hr style={{ width: "100%" }} />
-                                        </div>
-
-                                        {marker.latestImageUrl && (
-                                            <img
-                                                src={marker.latestImageUrl}
-                                                alt={`${marker.owner}'s latest trip`}
-                                                style={{
-                                                    maxWidth: "100%",
-                                                    height: "auto",
-                                                    marginTop: "10px",
-                                                    borderRadius: "4px",
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                </Popup> */}
                             </Marker>
                         )}
                         {marker && <ZoomToMarker marker={marker} />}

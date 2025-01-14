@@ -9,6 +9,10 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
+import btnStyles from "../styles/Button.module.css";
+import { Button } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -21,6 +25,8 @@ L.Icon.Default.mergeOptions({
 
 const MapLeaflet = ({ countryQuery, placeQuery }) => {
     const currentUser = useCurrentUser();
+    const isAuthenticated = !!currentUser;
+
     const [markers, setMarkers] = useState([]);
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
@@ -92,7 +98,7 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
         <Container className="d-flex flex-column p-0">
             <Row>
                 <Col
-                    className="py-2 p-0 p-lg-2"
+                    className="py-0 p-0 p-lg-2"
                     style={{ position: "relative" }}
                 >
                     {showNotFound && (
@@ -150,73 +156,130 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
                                     key={marker.id}
                                     position={marker.position}
                                 >
-                                    <Popup>
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                flexDirection: "column",
-                                                alignItems: "center",
-                                            }}
-                                        >
-                                            <strong
-                                                style={{ textAlign: "center" }}
-                                            >
-                                                {marker.owner}
-                                            </strong>
-                                            <span>
-                                                {marker.country}, {marker.place}
-                                            </span>
+                                    {isAuthenticated ? (
+                                        <Popup>
                                             <div
                                                 style={{
-                                                    textAlign: "center",
-                                                    marginTop: "5px",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    alignItems: "center",
+                                                    justifyContent:
+                                                        "space-between",
+                                                    padding: "5px",
+                                                    marginRight: "10px",
                                                 }}
                                             >
-                                                <span className="text-muted">
-                                                    <small>
-                                                        {marker.from} :{" "}
-                                                        {marker.to}
-                                                    </small>
-                                                </span>
+                                                {marker.latestImageUrl ? (
+                                                    <img
+                                                        src={
+                                                            marker.latestImageUrl
+                                                        }
+                                                        alt={`${marker.owner}'s latest trip`}
+                                                        style={{
+                                                            maxWidth: "100px",
+                                                            height: "auto",
+                                                            borderRadius: "4px",
+                                                            marginRight: "10px",
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <NavLink
+                                                        to={`/trips/${marker.id}/images/`}
+                                                    >
+                                                        <Button
+                                                            style={{
+                                                                padding:
+                                                                    "5px 10px",
+                                                                margin: "20px",
+                                                                textAlign:
+                                                                    "center",
+                                                                cursor: "pointer",
+                                                            }}
+                                                            className={`${btnStyles.Button}  ${btnStyles.Bright}`}
+                                                        >
+                                                            <small>
+                                                                Add Image
+                                                            </small>
+                                                        </Button>
+                                                    </NavLink>
+                                                )}
+                                                <div style={{ flex: 1 }}>
+                                                    <strong>
+                                                        {marker.owner}'s Trip
+                                                    </strong>
+                                                    <div
+                                                        style={{
+                                                            margin: "5px 0",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {" "}
+                                                            <small>
+                                                                {marker.place},{" "}
+                                                                {marker.country}
+                                                            </small>
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            margin: "5px 0",
+                                                        }}
+                                                    >
+                                                        <p
+                                                            className="text-muted"
+                                                            style={{
+                                                                margin: 0,
+                                                            }}
+                                                        >
+                                                            <small>
+                                                                {marker.content
+                                                                    ? marker.content
+                                                                    : "Content N/A"}
+                                                            </small>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-muted">
+                                                            <small>
+                                                                Category:{" "}
+                                                                {
+                                                                    marker.category
+                                                                }
+                                                            </small>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-muted">
+                                                            <small>
+                                                                Status:{" "}
+                                                                {marker.status}
+                                                            </small>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-muted">
+                                                            <small>
+                                                                {marker.from} to{" "}
+                                                                {marker.to}
+                                                            </small>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div
-                                                style={{
-                                                    textAlign: "center",
-                                                    marginTop: "5px",
-                                                }}
+                                        </Popup>
+                                    ) : (
+                                        // <></>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                overlay={
+                                                    <Tooltip>
+                                                        Log in for details!
+                                                    </Tooltip>
+                                                }
                                             >
-                                                <span className="text-muted">
-                                                    <small>
-                                                        {marker.category}
-                                                    </small>
-                                                </span>
-                                            </div>
-                                            <div
-                                                style={{
-                                                    textAlign: "center",
-                                                    marginTop: "5px",
-                                                }}
-                                            >
-                                                <span className="text-muted">
-                                                    <small>
-                                                        {marker.status}
-                                                    </small>
-                                                </span>
-                                            </div>
-                                            {marker.latestImageUrl && (
-                                                <img
-                                                    src={marker.latestImageUrl}
-                                                    alt={`${marker.owner}'s latest trip`}
-                                                    style={{
-                                                        maxWidth: "100%",
-                                                        height: "auto",
-                                                        marginTop: "10px",
-                                                        borderRadius: "4px",
-                                                    }}
-                                                />
-                                            )}
-                                        </div>
-                                    </Popup>
+                                                <i className="fas fa-info-circle" />
+                                            </OverlayTrigger>
+                                    )}
                                 </Marker>
                             ))}
                         </MarkerClusterGroup>
