@@ -39,7 +39,6 @@ function ImagePostEditForm() {
     const [errors, setErrors] = useState({});
     const imageInput = useRef(null);
     const navigate = useNavigate();
-    const [imageChanged, setImageChanged] = useState(false);
 
     useEffect(() => {
         const handleMount = async () => {
@@ -75,7 +74,6 @@ function ImagePostEditForm() {
     const handleChangeImage = (event) => {
         if (event.target.files.length) {
             URL.revokeObjectURL(image);
-            // setImageChanged(true);
             setPostData({
                 ...postData,
                 image: event.target.files[0] //URL.createObjectURL(),

@@ -58,7 +58,8 @@ function ImageUploadForm() {
                 formData
             );
             alert("Image uploaded successfully!");
-            navigate(`/trips/${tripId}/images/${data.id}`);
+            //navigate(`/trips/${tripId}/images/${data.id}`);
+            navigate('/gallery');
             setErrors({});
         } catch (err) {
             setErrors(

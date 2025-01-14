@@ -1,59 +1,41 @@
 import React, { useState } from "react";
 import styles from "./App.module.css";
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import "./api/axiosDefaults";
+import { useLocation } from "react-router-dom";
+
 import SignUpForm from "./pages/auth/SignUpForm";
 import SignInForm from "./pages/auth/SignInForm";
-// import PostCreateForm from "./pages/posts/PostCreateForm";
-// import PostEditForm from "./pages/posts/PostEditForm";
-
-import { useCurrentUser } from "./contexts/CurrentUserContext";
-
-import ImageListPage from "./pages/posts/ImageListPage";
-
-import PostsPage from "./pages/posts/PostsPage";
-// import ProfilePage from "./pages/profiles/ProfilePage";
 
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 
-import MapLeaflet from "./components/MapLeaflet";
-import MapLeafletTripId from "./components/MapLeafletTripId";
 import TripFilterForm from "./components/TripFilterForm";
 import Header from "./components/Header";
-import SearchTripPage from "./components/SearchTripPage";
 import ProfilePage from "./pages/profiles/ProfilePage";
 import TripCreateForm from "./pages/posts/TripCreateForm";
-import TripImageCreateForm from "./pages/posts/TripImageCreateForm";
 import TripEditForm from "./pages/posts/TripEditForm";
 import NotFound from "./components/NotFound";
 import ImageUploadForm from "./pages/posts/ImageUploadForm";
 import ImageGalleryPublic from "./pages/posts/ImageGalleryPublic";
 import PostPage from "./pages/posts/PostPage";
 import ImagePostEditForm from "./pages/posts/ImagePostEditForm";
-
-import { useLocation } from "react-router-dom";
+import MapComponent from "./components/MapComponent";
 
 function App() {
     const location = useLocation();
-    const currentUser = useCurrentUser();
-    //const profile_id = currentUser?.profile?.id || "";
-    const [query, setQuery] = useState(""); // Search query state
-
     const [filterCriteria, setFilterCriteria] = useState({
         country: "",
         place: "",
     });
 
     const handleFilter = () => {
-        console.log("Applying filters:", filterCriteria);
+        console.log("Apply filters:", filterCriteria);
     };
 
     return (
@@ -67,7 +49,7 @@ function App() {
                         element={
                             <Row className="justify-content-center my-0">
                                 <Col xs={12} lg={8}>
-                                    <MapLeaflet
+                                    <MapComponent
                                         countryQuery={filterCriteria.country}
                                         placeQuery={filterCriteria.place}
                                     />
@@ -83,37 +65,37 @@ function App() {
                         }
                     />
                     <Route
-                        path="/trips/:trip_id"
-                        element={<MapLeafletTripId />}
-                    />
-
-                    <Route
                         path="/gallery"
                         element={
-                            <ImageGalleryPublic message="No results found. Adjust the search keyword or follow a user." />
+                            <ImageGalleryPublic
+                                message="No results found. Adjust the
+                            search keyword or follow a user."
+                            />
                         }
                     />
 
-                    <Route
+                    {/* <Route
                         path="/feed"
                         element={
-                            <PostsPage
+                            <ImageGalleryPublic
                                 message="No results found. Adjust the search keyword or follow a user."
-                                filter={`followed_users=True&`}
+                                filter={`following=True&`}
                             />
                         }
                     />
                     <Route
                         path="/liked"
                         element={
-                            <PostsPage
+                            <ImageGalleryPublic
                                 message="No results found. Adjust the search keyword or like a post."
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                             />
                         }
-                    />
+                    /> */}
+
                     <Route path="/signin" element={<SignInForm />} />
                     <Route path="/signup" element={<SignUpForm />} />
+
                     <Route path="/trips/create" element={<TripCreateForm />} />
                     <Route
                         path="/trips/:tripId/images"
@@ -146,7 +128,6 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Container>
-            {/* <Footer /> */}
         </div>
     );
 }

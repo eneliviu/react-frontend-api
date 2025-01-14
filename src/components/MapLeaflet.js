@@ -12,7 +12,8 @@ import { useCurrentUser } from "../contexts/CurrentUserContext";
 import btnStyles from "../styles/Button.module.css";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -26,17 +27,18 @@ L.Icon.Default.mergeOptions({
 const MapLeaflet = ({ countryQuery, placeQuery }) => {
     const currentUser = useCurrentUser();
     const isAuthenticated = !!currentUser;
-
+    const [errors, setErrors] = useState({});
     const [markers, setMarkers] = useState([]);
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
     const mapRef = useRef(null);
+    const navigate = useNavigate();
     const defaultPosition = [51.505, -0.09]; // Default center position for the map
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axiosReq("/trips");
+                const { data } = await axiosReq("/public/");
                 const markerData = data.results.map((result) => ({
                     id: result.id,
                     owner: result.owner,
@@ -92,6 +94,18 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
         }, [markers, map]);
 
         return null;
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            await axiosReq.delete(`/trips/${id}/`);
+            navigate("/gallery");
+        } catch (err) {
+            console.error("Failed to delete trip:", err);
+            setErrors(
+                err.response?.data || { error: "Unexpected error occurred" }
+            );
+        }
     };
 
     return (
@@ -166,7 +180,7 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
                                                     justifyContent:
                                                         "space-between",
                                                     padding: "5px",
-                                                    marginRight: "10px",
+                                                    marginRight: "20px",
                                                 }}
                                             >
                                                 {marker.latestImageUrl ? (
@@ -266,19 +280,44 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div>
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() =>
+                                                        handleDelete(marker.id)
+                                                    }
+                                                    style={{
+                                                        padding: "5px 10px",
+                                                        margin: "20px",
+                                                        textAlign: "center",
+                                                        width: "50%",
+                                                        cursor: "pointer",
+                                                    }}
+                                                    className={`${
+                                                        btnStyles.Button
+                                                    }  ${"danger"}`}
+                                                >
+                                                    Delete Trip
+                                                </Button>
+                                                {errors.error && (
+                                                    <p className="text-danger">
+                                                        {errors.error}
+                                                    </p>
+                                                )}
+                                            </div>
                                         </Popup>
                                     ) : (
-                                        // <></>
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={
-                                                    <Tooltip>
-                                                        Log in for details!
-                                                    </Tooltip>
-                                                }
-                                            >
-                                                <i className="fas fa-info-circle" />
-                                            </OverlayTrigger>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                                <Tooltip>
+                                                    Log in for details!
+                                                </Tooltip>
+                                            }
+                                        >
+                                            <i className="fas fa-info-circle" />
+                                        </OverlayTrigger>
                                     )}
                                 </Marker>
                             ))}

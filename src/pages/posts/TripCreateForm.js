@@ -8,7 +8,6 @@ import btnStyles from "../../styles/Button.module.css";
 // import { useRedirect } from "../../contexts/RedirectContext";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-
 function TripCreateForm() {
     //useRedirect("loggedOut");
     //const currentUser = useCurrentUser();
@@ -39,12 +38,12 @@ function TripCreateForm() {
         trip_status,
         shared,
     } = tripData;
+    //console.log(tripData);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setTripData((prevData) => ({
             ...prevData,
-            //[name]: value,
             [name]: type === "checkbox" ? checked : value,
         }));
 
@@ -90,25 +89,31 @@ function TripCreateForm() {
         formData.append("trip_status", trip_status);
         formData.append("shared", shared);
 
+        for (let pair of formData.entries()) {
+            console.log("paris", pair);
+            console.log(pair[0] + ", " + pair[1]);
+        }
+
         try {
             const { data } = await axiosReq.post("/trips/", formData);
+            console.log("sent data", data);
             setTripId(data.id); // Set the created trip ID
             navigate(`/trips/${data.id}`);
             //navigate(`profiles/${currentUser.id}/trips/${data.id}`);
         } catch (err) {
             console.error("Failed to create trip:", err);
-            if (err.response?.status === 400) {
-                setErrors(err.response?.data);
-            }
+            setErrors(
+                err.response?.data || { error: "Unexpected error occurred" }
+            );
         }
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Row>
-                <Col className="py-2 p-0 p-md-2" md={6} lg={6}>
-                    <Container className={`${appStyles.Content}`}>
-                        <h2>Create Trip</h2>
+        <Row>
+            <Col className="py-2 p-0 p-md-2" md={8}>
+                <Container className={`${appStyles.Content}`}>
+                    <h2>Create Trip</h2>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="title">
                             <Form.Label>Title</Form.Label>
                             <Form.Control
@@ -116,6 +121,7 @@ function TripCreateForm() {
                                 name="title"
                                 value={title}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         {errors.title?.map((message, idx) => (
@@ -130,6 +136,7 @@ function TripCreateForm() {
                                 name="content"
                                 value={content}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         {errors.content?.map((message, idx) => (
@@ -144,6 +151,7 @@ function TripCreateForm() {
                                 name="place"
                                 value={place}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         {errors.place?.map((message, idx) => (
@@ -158,6 +166,7 @@ function TripCreateForm() {
                                 name="country"
                                 value={country}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         {errors.country?.map((message, idx) => (
@@ -172,6 +181,7 @@ function TripCreateForm() {
                                 name="start_date"
                                 value={start_date}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         <Form.Group controlId="end_date">
@@ -181,6 +191,7 @@ function TripCreateForm() {
                                 name="end_date"
                                 value={end_date}
                                 onChange={handleChange}
+                                required
                             />
                         </Form.Group>
                         {errors.date && (
@@ -193,6 +204,7 @@ function TripCreateForm() {
                                 name="trip_category"
                                 value={trip_category}
                                 onChange={handleChange}
+                                required
                             >
                                 <option value="Leisure">Leisure</option>
                                 <option value="Business">Business</option>
@@ -208,6 +220,7 @@ function TripCreateForm() {
                                 name="trip_status"
                                 value={trip_status}
                                 onChange={handleChange}
+                                required
                             >
                                 <option value="Planned">Planned</option>
                                 <option value="Ongoing">Ongoing</option>
@@ -220,32 +233,29 @@ function TripCreateForm() {
                                 label="Shared"
                                 name="shared"
                                 checked={shared}
-                                onChange={handleChange}
+                                onChange={(e) =>
+                                    setTripData({
+                                        ...tripData,
+                                        shared: e.target.checked,
+                                    })
+                                }
                             />
                         </Form.Group>
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Blue}`}
                             type="submit"
                         >
-                            Create
+                            Create Trip
                         </Button>
                         {errors.non_field_errors?.map((message, idx) => (
                             <Alert key={idx} variant="warning">
                                 {message}
                             </Alert>
                         ))}
-                    </Container>
-                </Col>
-                {/* {tripId && (
-                    <Col md={6}>
-                        <ImageUploadForm
-                            tripId={tripId}
-                            onFinish={() => setTripId(null)} // Reset state or handle next steps
-                        />
-                    </Col>
-                )} */}
-            </Row>
-        </Form>
+                    </Form>
+                </Container>
+            </Col>
+        </Row>
     );
 }
 

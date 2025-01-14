@@ -74,7 +74,7 @@ function ProfilePage() {
                             `/trips/?current_user_trips=True&owner__profile=${id}`
                         ),
                     ]);
-                console.log(profilePosts.results[0].total_likes_count);
+
                 setProfileData((prevState) => ({
                     ...prevState,
                     pageProfile: { results: [pageProfile] },
