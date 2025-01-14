@@ -44,7 +44,6 @@ import MapLeaflet from "../../components/MapLeaflet";
 
 
 function ProfilePage() {
-
     const [hasLoaded, setHasLoaded] = useState(false);
     const [profilePosts, setProfilePosts] = useState({ results: [] });
 
@@ -58,7 +57,7 @@ function ProfilePage() {
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
 
-   const [filterCriteria, setFilterCriteria] = useState({
+    const [filterCriteria, setFilterCriteria] = useState({
         country: "",
         place: "",
     });
@@ -71,8 +70,11 @@ function ProfilePage() {
                         axiosReq.get(`/profiles/${id}/`),
                         // Filter posts by owner profile ID
                         axiosReq.get(`/trips/?owner__profile=${id}`),
-                        axiosReq.get(`/trips/?current_user_trips=True&owner__profile=${id}`),
+                        axiosReq.get(
+                            `/trips/?current_user_trips=True&owner__profile=${id}`
+                        ),
                     ]);
+                console.log(profilePosts.results[0].total_likes_count);
                 setProfileData((prevState) => ({
                     ...prevState,
                     pageProfile: { results: [pageProfile] },
@@ -86,6 +88,12 @@ function ProfilePage() {
         fetchData();
     }, [id, setProfileData]);
 
+    // Calculate total likes count
+    const totalLikesCount = profilePosts.results.reduce(
+        (acc, trip) => acc + (trip.total_likes_count || 0),
+        0
+    );
+
     const mainProfile = (
         <>
             {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
@@ -97,24 +105,39 @@ function ProfilePage() {
                         src={profile?.image}
                     />
                 </Col>
+
                 <Col lg={6}>
                     <h3 className="m-2">{profile?.owner}</h3>
                     <Row className="justify-content-center no-gutters">
-                        <Col xs={3} className="my-2">
-                            <div>{profile?.trips_count}</div>
-                            <div>trips</div>
+                        <Col xs={4} className="my-2">
+                            <small>
+                                <div>{profile?.trips_count}</div>
+                                <div>trips</div>
+                            </small>
                         </Col>
-                        <Col xs={3} className="my-2">
-                            <div>{profile?.images_count}</div>
-                            <div>photos</div>
+                        <Col xs={4} className="my-2">
+                            <small>
+                                <div>{profile?.images_count}</div>
+                                <div>photos</div>
+                            </small>
                         </Col>
-                        <Col xs={3} className="my-2">
-                            <div>{profile?.followers_count}</div>
-                            <div>followers</div>
+                        <Col xs={4} className="my-2">
+                            <small>
+                                <div>{profile?.followers_count}</div>
+                                <div>followers</div>
+                            </small>
                         </Col>
-                        <Col xs={3} className="my-2">
-                            <div>{profile?.following_count}</div>
-                            <div>following</div>
+                        <Col xs={4} className="my-2">
+                            <small>
+                                <div>{profile?.following_count}</div>
+                                <div>follows</div>
+                            </small>
+                        </Col>
+                        <Col xs={4} className="my-2">
+                            <small>
+                                <div>{totalLikesCount}</div>
+                                <div>likes</div>
+                            </small>
                         </Col>
                     </Row>
                 </Col>
