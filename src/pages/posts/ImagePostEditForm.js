@@ -21,26 +21,40 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 function ImagePostEditForm() {
     const currentUser = useCurrentUser();
     const [postData, setPostData] = useState({
-        title: "",
+        id: "",
+        owner: "",
+        owner_name: "",
+        trip_id: "",
+        image_title: "",
         description: "",
         image: "",
         shared: true,
-        id: "",
+        uploaded_at: "",
+        likes_count: 0,
     });
-    const { title, description, image, shared, id } = postData;
+    const { id, owner, owner_name, trip_id, image_title, description, image,
+        shared,uploaded_at, likes_count } = postData;
     const { tripId } = useParams();
 
     const [errors, setErrors] = useState({});
     const imageInput = useRef(null);
     const navigate = useNavigate();
+    const [imageChanged, setImageChanged] = useState(false);
 
     useEffect(() => {
         const handleMount = async () => {
             try {
                 const { data } = await axiosReq.get(`/trips/${tripId}/images/`);
-                const { title, description, image, shared, id} = data.results[0];
+                const { image_title, description, image, shared, id } =
+                    data.results[0];
                 currentUser
-                    ? setPostData({ title, description, image, shared, id })
+                    ? setPostData({
+                          image_title,
+                          description,
+                          image,
+                          shared,
+                          id,
+                      })
                     : navigate("/");
             } catch (err) {
                 console.error("Post fetch failed:", err);
@@ -48,7 +62,7 @@ function ImagePostEditForm() {
         };
 
         handleMount();
-    }, [navigate, tripId]);
+    }, [navigate, tripId, currentUser]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -61,10 +75,10 @@ function ImagePostEditForm() {
     const handleChangeImage = (event) => {
         if (event.target.files.length) {
             URL.revokeObjectURL(image);
-            console.log("image URL", event.target.files[0]);
+            // setImageChanged(true);
             setPostData({
                 ...postData,
-                image: URL.createObjectURL(event.target.files[0]),
+                image: event.target.files[0] //URL.createObjectURL(),
             });
         }
     };
@@ -72,19 +86,21 @@ function ImagePostEditForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append("image_title", title);
+        formData.append("image_title", image_title);
         formData.append("description", description);
         formData.append("shared", shared);
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
+      for (let pair of formData.entries()) {
+          console.log(pair[0] + ", " + pair[1]);
+      }
 
         try {
-            //await axiosReq.patch(`/images/${id}/`, formData);
             console.log(`/trips/${tripId}/images/${id}/`);
-             const { data }= await axiosReq.patch(`/trips/${tripId}/images/${id}/`,
+            await axiosReq.patch(`/trips/${tripId}/images/${id}/`,
                 formData);
-            navigate(`/gallery/${id}/`);
+            navigate(`/gallery/`);
             setErrors({});
         } catch (err) {
             console.error("Failed to update post:", err);
@@ -96,12 +112,12 @@ function ImagePostEditForm() {
 
     const textFields = (
         <div className="text-center">
-            <Form.Group controlId="title">
+            <Form.Group controlId="image_title">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
                     type="text"
-                    name="title"
-                    value={title}
+                    name="image_title"
+                    value={image_title}
                     onChange={handleChange}
                 />
             </Form.Group>
@@ -135,7 +151,7 @@ function ImagePostEditForm() {
             </Form.Group>
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(`/gallery/${id}/`)}
             >
                 Cancel
             </Button>
@@ -161,7 +177,11 @@ function ImagePostEditForm() {
                                     <figure>
                                         <Image
                                             className={styles.ImagePreview}
-                                            src={image}
+                                            src={
+                                                typeof image === "string"
+                                                    ? image
+                                                    : URL.createObjectURL(image)
+                                            }
                                             rounded
                                         />
                                     </figure>
