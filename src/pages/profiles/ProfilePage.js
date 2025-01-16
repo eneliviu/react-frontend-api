@@ -23,6 +23,7 @@ import Asset from "../../components/Asset";
 import styles from "../../styles/ProfilePage.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
+import rowStyles from "../../styles/SignInUpForm.module.css";
 
 import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -41,7 +42,7 @@ import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
 import MapLeafletTripId from "../../components/MapLeafletTripId";
 import MapLeaflet from "../../components/MapLeaflet";
-
+import MapComponent from "../../components/MapComponent";
 
 function ProfilePage() {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -197,7 +198,7 @@ function ProfilePage() {
 
     return (
         <Container>
-            <Row>
+            <Row className="h-100">
                 <Col className="py-2 p-lg-2" lg={8}>
                     <PopularProfiles mobile />
                     <Container>
@@ -206,7 +207,7 @@ function ProfilePage() {
                                 {mainProfile}
                                 {/* {mainProfilePosts} */}
 
-                                <MapLeaflet
+                                <MapComponent
                                     countryQuery={filterCriteria.country}
                                     placeQuery={filterCriteria.place}
                                     style={{ height: "50%" }}

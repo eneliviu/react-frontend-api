@@ -32,7 +32,6 @@ const Post = (props) => {
 
     const handleEdit = () => {
         navigate(`/images/${id}/edit`);
-        //navigate(`/trips/${trip_id}/images/`);
         navigate(`/trips/${trip_id}/images/edit/`);
     };
 

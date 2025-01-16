@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Button, Tooltip, OverlayTrigger, Container } from "react-bootstrap";
 import btnStyles from "../styles/Button.module.css";
 import { Popup } from "react-leaflet";
 
-function TripImage({ latestImageUrl, tripId }) {
+function TripImage({ latestImageUrl }) {
     return latestImageUrl ? (
         <img
             src={latestImageUrl}
@@ -20,7 +20,9 @@ function TripImage({ latestImageUrl, tripId }) {
 }
 
 function TripDetails({
+    profile_id,
     owner,
+    is_owner,
     place,
     country,
     content,
@@ -30,15 +32,34 @@ function TripDetails({
     to,
 }) {
     return (
-        <div style={{ flex: 1 }}>
-            <strong>{owner}'s Trip</strong>
-            {console.log(content)}
-            <div style={{ margin: "5px 0" }}>
+        <Container className="d-flex flex-column align-items-center">
+            <div className="text-center">
+                {is_owner ? (
+                    <>
+                        <Button
+                            type="label"
+                            variant="text"
+                            style={{
+                                cursor: "auto",
+                            }}
+                        >
+                            <h5>{owner}</h5>
+                        </Button>
+                    </>
+                ) : (
+                    <NavLink to={`/profiles/${profile_id}`}>
+                        <Button type="label" variant="link">
+                            <h5>{owner}</h5>
+                        </Button>
+                    </NavLink>
+                )}
+            </div>
+            <div style={{ margin: "5px" }}>
                 <small>
                     {place}, {country}
                 </small>
             </div>
-            <div style={{ margin: "5px 0" }}>
+            <div style={{ margin: "5px" }}>
                 <p className="text-muted" style={{ margin: 0 }}>
                     <small>{content || "Content N/A"}</small>
                 </p>
@@ -54,12 +75,17 @@ function TripDetails({
                     {from} to {to}
                 </small>
             </div>
-        </div>
+        </Container>
     );
 }
 
 function TripActions({ onDelete, tripId, error, isOwner, isAuthenticated }) {
     console.log("isOwner", isOwner);
+    const handleEdit = () => {
+            navigate(`/images/${id}/edit`);
+            navigate(`/trips/${trip_id}/images/edit/`);
+    };
+
     return (
         <div
             style={{
@@ -147,7 +173,9 @@ export default function TripPopup({
                     tripId={marker.id}
                 />
                 <TripDetails
+                    profile_id={marker.profile_id}
                     owner={marker.owner}
+                    is_owner={isOwner}
                     place={marker.place}
                     country={marker.country}
                     content={marker.content}
@@ -157,6 +185,7 @@ export default function TripPopup({
                     to={marker.to}
                 />
             </div>
+
             <TripActions
                 onDelete={() => handleDelete(marker.id)}
                 tripId={marker.id}

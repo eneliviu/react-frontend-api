@@ -5,6 +5,8 @@ import { axiosReq } from "../../api/axiosDefaults";
 // import ImageUploadForm from "./ImageUploadForm"; // Import ImageUploadForm
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
+import styles from "../../styles/SignInUpForm.module.css";
+import { NavLink } from "react-router-dom";
 // import { useRedirect } from "../../contexts/RedirectContext";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
@@ -109,10 +111,10 @@ function TripCreateForm() {
     };
 
     return (
-        <Row>
-            <Col className="py-2 p-0 p-md-2" md={8}>
+        <Row className={styles.Row}>
+            <Col className="m-auto p-0 p-md-2" md={5}>
                 <Container className={`${appStyles.Content}`}>
-                    <h2>Create Trip</h2>
+                    <h2 className="text-center">Create Trip</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="title">
                             <Form.Label>Title</Form.Label>
@@ -241,12 +243,24 @@ function TripCreateForm() {
                                 }
                             />
                         </Form.Group>
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                            type="submit"
-                        >
-                            Create Trip
-                        </Button>
+                        <div className="d-flex justify-content-around">
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.Bright} ${btnStyles.Blue} `}
+                                type="submit"
+                            >
+                                Create Trip
+                            </Button>
+                            <div className="d-flex">
+                                <NavLink to={`/`}>
+                                    <Button
+                                        className={`${btnStyles.Button} ${btnStyles.Blue}`}
+                                        type="text"
+                                    >
+                                        Cancel Trip
+                                    </Button>
+                                </NavLink>
+                            </div>
+                        </div>
                         {errors.non_field_errors?.map((message, idx) => (
                             <Alert key={idx} variant="warning">
                                 {message}

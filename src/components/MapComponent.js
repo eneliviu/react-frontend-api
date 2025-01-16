@@ -22,13 +22,13 @@ L.Icon.Default.mergeOptions({
 });
 
 const MapComponent = ({ countryQuery, placeQuery }) => {
-
     const currentUser = useCurrentUser();
     const isAuthenticated = !!currentUser;
     const [errors, setErrors] = useState({});
     const [markers, setMarkers] = useState([]);
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
+    const [trips, setTrips] = useState([]);
     const mapRef = useRef(null);
     const navigate = useNavigate();
     const defaultPosition = [51.505, -0.09];
@@ -37,9 +37,9 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
         const fetchData = async () => {
             try {
                 const { data } = await axiosReq("/public/");
-                console.log("fetch data:", data);
                 const markerData = data.results.map((result) => ({
                     id: result.id,
+                    profile_id: result.profile_id,
                     owner: result.owner,
                     position: [result.lat, result.lon],
                     country: result.country || "",
@@ -66,6 +66,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
         if (markers.length === 0) {
             setShowNoMarkers(true);
         } else {
+            setTrips(markers.results);
             setShowNoMarkers(false);
         }
     }, [markers]);
@@ -95,15 +96,32 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
         return null;
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (tripId) => {
         try {
-            await axiosReq.delete(`/public/${id}/`);
+            await axiosReq.delete(`/public/${tripId}/`);
+            setTrips((prevTrips) =>
+                prevTrips.filter((trip) => trip.id !== tripId)
+            );
             navigate("/gallery");
         } catch (err) {
             console.error("Failed to delete trip:", err);
             setErrors(
                 err.response?.data || { error: "Unexpected error occurred" }
             );
+        }
+    };
+
+    const handleImageUpload = async (tripId) => {
+        try {
+            const { data } = await axiosReq.get(`/trips/${tripId}/images/`);
+            const latestImageUrl = data.results[0]?.image || "";
+            setTrips((prevTrips) =>
+                prevTrips.map((trip) =>
+                    trip.id === tripId ? { ...trip, latestImageUrl } : trip
+                )
+            );
+        } catch (err) {
+            console.error("Failed to fetch latest image:", err);
         }
     };
 
@@ -177,6 +195,9 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                                         isOwner={
                                             currentUser?.username ===
                                             marker.owner
+                                        }
+                                        onImageUpload={() =>
+                                            handleImageUpload(marker.id)
                                         }
                                     />
                                 </Marker>
