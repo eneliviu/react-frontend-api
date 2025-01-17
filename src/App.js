@@ -74,12 +74,12 @@ function App() {
                         }
                     />
 
-                    {/* <Route
+                    <Route
                         path="/feed"
                         element={
                             <ImageGalleryPublic
                                 message="No results found. Adjust the search keyword or follow a user."
-                                filter={`following=True&`}
+                                filter={`followed_users=True&`}
                             />
                         }
                     />
@@ -87,11 +87,11 @@ function App() {
                         path="/liked"
                         element={
                             <ImageGalleryPublic
-                                message="No results found. Adjust the search keyword or like a post."
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
+                                message="No results found. Adjust the search keyword or like a post."
                             />
                         }
-                    /> */}
+                    />
 
                     <Route path="/signin" element={<SignInForm />} />
                     <Route path="/signup" element={<SignUpForm />} />

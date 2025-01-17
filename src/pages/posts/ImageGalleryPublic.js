@@ -26,17 +26,18 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 // It fetches the posts data from the server using an optional filter
 // and then renders a list of Post components to display each post.
 
-function ImageGalleryPublic({ message}) {
+function ImageGalleryPublic({ message, filter="" }) {
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
     const [query, setQuery] = useState("");
     const currentUser = useCurrentUser() || {};
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const { data } = await axiosReq.get(
-                    `/gallery/?search=${query}`
+                    `/gallery/?search=${query}&${filter}`
                 );
                 setPosts(data);
                 setHasLoaded(true);

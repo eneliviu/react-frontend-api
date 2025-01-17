@@ -7,12 +7,12 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import styles from "../../styles/SignInUpForm.module.css";
 import { NavLink } from "react-router-dom";
-// import { useRedirect } from "../../contexts/RedirectContext";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function TripCreateForm() {
-    //useRedirect("loggedOut");
-    //const currentUser = useCurrentUser();
+    useRedirect("loggedOut");
+    const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
     const [tripId, setTripId] = useState(null); // State to hold created trip ID
     const [tripData, setTripData] = useState({
