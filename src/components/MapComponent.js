@@ -51,7 +51,8 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                     category: result.trip_category,
                     latestImageUrl:
                         result.images.length > 0
-                            ? result.images[result.images.length - 1].image
+                            //? result.images[result.images.length - 1].image
+                            ? result.images[0].image
                             : "",
                 }));
                 setMarkers(markerData);

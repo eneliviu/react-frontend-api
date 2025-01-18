@@ -23,8 +23,8 @@ function TripFilterForm({ filterCriteria, setFilterCriteria, onSubmit }) {
 
     return (
         <Container className="d-flex flex-column p-2 justify-content-center">
-            <div className="d-flex justify-content-center">
-                <h4>Filter Trips</h4>
+            <div className="d-flex justify-content-center py-md-3 py-lg-0">
+                <h4>Filter by:</h4>
             </div>
 
             <div>

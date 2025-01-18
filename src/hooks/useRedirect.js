@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { axiosReq } from "../api/axiosDefaults";
-// import axios from "axios";
 
 export const useRedirect = (userAuthStatus) => {
     const navigate = useNavigate();

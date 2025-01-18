@@ -40,9 +40,10 @@ import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
-import MapLeafletTripId from "../../components/MapLeafletTripId";
-import MapLeaflet from "../../components/MapLeaflet";
-import MapComponent from "../../components/MapComponent";
+
+import ProfilePost from "../posts/ProfilePost";
+
+// import MapComponent from "../../components/MapComponent";
 
 function ProfilePage() {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -58,6 +59,7 @@ function ProfilePage() {
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
 
+    // Add search bar free text search
     const [filterCriteria, setFilterCriteria] = useState({
         country: "",
         place: "",
@@ -88,6 +90,7 @@ function ProfilePage() {
         };
         fetchData();
     }, [id, setProfileData]);
+    console.log("setProfileData", profilePosts.results);
 
     // Calculate total likes count
     const totalLikesCount = profilePosts.results.reduce(
@@ -168,50 +171,50 @@ function ProfilePage() {
         </>
     );
 
-    // const mainProfilePosts = (
-    //     <>
-    //         <hr />
-    //         <p className="text-center">{profile?.owner}'s posts</p>
-    //         <hr />
-    //         {profilePosts.results.length ? (
-    //             <InfiniteScroll
-    //                 children={profilePosts.results.map((post) => (
-    //                     <Post
-    //                         key={post.id}
-    //                         {...post}
-    //                         setPosts={setProfilePosts}
-    //                     />
-    //                 ))}
-    //                 dataLength={profilePosts.results.length}
-    //                 loader={<Asset spinner />}
-    //                 hasMore={!!profilePosts.next}
-    //                 next={() => fetchMoreData(profilePosts, setProfilePosts)}
-    //             />
-    //         ) : (
-    //             <Asset
-    //                 src={NoResults}
-    //                 message={`No results found, ${profile?.owner} hasn't posted yet.`}
-    //             />
-    //         )}
-    //     </>
-    // );
+    const mainProfilePosts = (
+        <>
+            <hr />
+            <p className="text-center">{profile?.owner}'s posts</p>
+            <hr />
+            {profilePosts.results.length ? (
+                <InfiniteScroll
+                    children={profilePosts.results.map((post) => (
+                        <ProfilePost
+                            key={post.id}
+                            {...post}
+                            setPosts={setProfilePosts}
+                        />
+                    ))}
+                    dataLength={profilePosts.results.length}
+                    loader={<Asset spinner />}
+                    hasMore={!!profilePosts.next}
+                    next={() => fetchMoreData(profilePosts, setProfilePosts)}
+                />
+            ) : (
+                <Asset
+                    src={NoResults}
+                    message={`No results found, ${profile?.owner} hasn't posted yet.`}
+                />
+            )}
+        </>
+    );
 
     return (
         <Container>
-            <Row className="h-100">
+            <Row className={`${rowStyles.Row}  h-100`}>
                 <Col className="py-2 p-lg-2" lg={8}>
                     <PopularProfiles mobile />
                     <Container>
                         {hasLoaded ? (
                             <>
                                 {mainProfile}
-                                {/* {mainProfilePosts} */}
+                                {mainProfilePosts}
 
-                                <MapComponent
+                                {/* <MapComponent
                                     countryQuery={filterCriteria.country}
                                     placeQuery={filterCriteria.place}
                                     style={{ height: "50%" }}
-                                />
+                                /> */}
                             </>
                         ) : (
                             <Asset spinner />

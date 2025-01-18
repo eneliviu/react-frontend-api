@@ -116,7 +116,7 @@ const NavBar = () => {
         <Navbar
             expanded={expanded}
             className={styles.NavBar}
-            expand="md"
+            expand="lg"
             fixed="top"
         >
             <Container>

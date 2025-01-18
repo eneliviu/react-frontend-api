@@ -1,3 +1,22 @@
+/**
+ * Post component renders a single post with its details, including the image, title, description,
+ * owner information, and likes functionality.
+ *
+ * @component
+ * @param {Object} props - The properties object.
+ * @param {string} props.description - The description of the post.
+ * @param {number} props.id - The ID of the post.
+ * @param {string} props.image - The URL of the image in the post.
+ * @param {string} props.image_title - The title of the image.
+ * @param {string} props.owner_name - The username of the post owner.
+ * @param {Function} props.setPosts - Function to update the posts state.
+ * @param {string} props.uploaded_at - The upload date of the post.
+ * @param {number} props.likes_count - The number of likes the post has received.
+ * @param {number} props.trip_id - The ID of the trip associated with the post.
+ * @param {number} props.like_id - The ID of the like if the current user has liked the post.
+ * @returns {JSX.Element} The rendered Post component.
+ */
+
 import React from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -7,9 +26,6 @@ import Avatar from "../../components/Avatar";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
-// component that is responsible for rendering the details of a single post.
-// This component is used by both PostPage.js and PostsPage.js to display
-// individual posts. It displays the post's image, title, description, owner,
 
 const Post = (props) => {
     const {
@@ -90,7 +106,7 @@ const Post = (props) => {
         <Card className={styles.Post}>
             <Card.Body>
                 <div className="d-flex align-items-center justify-content-between">
-                    {currentUser ? (
+                    {is_owner ? (
                         <Link
                             to={`/profiles/${currentUser.pk}`}
                             className="d-flex align-items-center"

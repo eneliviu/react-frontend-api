@@ -4,15 +4,14 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useParams } from "react-router-dom";
-// import { useRedirect } from "../../hooks/useRedirect";
+import { useRedirect } from "../../hooks/useRedirect";
 import { useNavigate } from "react-router-dom";
 import btnStyles from "../../styles/Button.module.css";
 import styles from "../../styles/SignInUpForm.module.css";
 
 function ImageUploadForm() {
     const { tripId } = useParams(); // Get the trip ID from the URL
-    //useRedirect("loggedOut");
-    console.log("tripId", tripId);
+    useRedirect("loggedOut");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [imageData, setImageData] = useState({
@@ -22,7 +21,6 @@ function ImageUploadForm() {
         shared: true,
     });
     const { title, description, image, shared } = imageData;
-    console.log("imageData upload", imageData);
 
     const imageFile = useRef(null);
 
@@ -69,7 +67,10 @@ function ImageUploadForm() {
     };
     return (
         <Container className="d-flex justify-content-center align-items-center">
-            <Row className={styles.Row}>
+            <Row
+                className={`${styles.Row} w-50`}
+                style={{ maxWidth: "600px", minWidth: "320px" }}
+            >
                 <Col className="p-0 p-md-2">
                     <h2 className="text-center">Upload Image</h2>
                     <Form onSubmit={handleSubmit}>
@@ -105,7 +106,7 @@ function ImageUploadForm() {
                                 required
                             />
                             <Button
-                                className={`${btnStyles.Button} my-3`}
+                                className={`${btnStyles.Button} ${btnStyles.Bright} my-3 d-flex mx-auto`}
                                 onClick={() => imageFile.current.click()}
                             >
                                 Select Image
@@ -126,12 +127,21 @@ function ImageUploadForm() {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Button
-                            className={`${btnStyles.Button} ${btnStyles.Bright} my-2`}
-                            type="submit"
-                        >
-                            Upload Image
-                        </Button>
+                        <div className="d-flex justify-content-between">
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.Bright} my-2`}
+                                type="submit"
+                            >
+                                Upload Image
+                            </Button>
+                            <Button
+                                className={`${btnStyles.Button} my-2 ${btnStyles.Blue}`}
+                                type="submit"
+                                onClick={() => navigate("/")}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
                     </Form>
                     {errors.error && (
                         <Alert variant="danger">{errors.error}</Alert>

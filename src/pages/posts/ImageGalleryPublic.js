@@ -53,7 +53,7 @@ function ImageGalleryPublic({ message, filter="" }) {
     }, [query, pathname]);
 
     return (
-        <Row className={rowStyles.Row}>
+        <Row className={`${rowStyles.Row} h-100`}>
             <Col className="py-2 p-0 p-lg-2">
                 <OverlayTrigger
                     placement="top"

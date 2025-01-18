@@ -97,22 +97,25 @@ function App() {
                     <Route path="/signup" element={<SignUpForm />} />
 
                     <Route path="/trips/create" element={<TripCreateForm />} />
+
+                    <Route
+                        path="/trips/:tripId/edit"
+                        element={<TripEditForm />}
+                    />
                     <Route
                         path="/trips/:tripId/images"
                         element={<ImageUploadForm />}
                     />
 
-                    <Route exact path="/trips/:id" element={<PostPage />} />
-                    <Route
-                        path="/trips/:tripId/edit"
-                        element={<TripEditForm />}
-                    />
+                    {/* <Route exact path="/trips/:tripId" element={<PostPage />} /> */}
+
                     <Route
                         path="/trips/:tripId/images/edit"
                         element={<ImagePostEditForm />}
                     />
 
                     <Route path="/profiles/:id" element={<ProfilePage />} />
+
                     <Route
                         path="/profiles/:id/edit/username"
                         element={<UsernameForm />}

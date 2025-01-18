@@ -81,10 +81,10 @@ function TripDetails({
 
 function TripActions({ onDelete, tripId, error, isOwner, isAuthenticated }) {
     console.log("isOwner", isOwner);
-    const handleEdit = () => {
-            navigate(`/images/${id}/edit`);
-            navigate(`/trips/${trip_id}/images/edit/`);
-    };
+    // const handleEdit = () => {
+    //         navigate(`/images/${id}/edit`);
+    //         navigate(`/trips/${trip_id}/images/edit/`);
+    // };
 
     return (
         <div

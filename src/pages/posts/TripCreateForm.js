@@ -40,7 +40,6 @@ function TripCreateForm() {
         trip_status,
         shared,
     } = tripData;
-    //console.log(tripData);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
