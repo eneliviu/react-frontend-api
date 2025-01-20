@@ -47,15 +47,17 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <Row className="justify-content-center my-0">
+                            <Row className="justify-content-center my-0 flex-column-reverse flex-lg-row">
                                 <Col xs={12} lg={8}>
                                     <MapComponent
+                                        className="mt-2 mt-lg-0"
                                         countryQuery={filterCriteria.country}
                                         placeQuery={filterCriteria.place}
                                     />
                                 </Col>
                                 <Col xs={12} lg={4}>
                                     <TripFilterForm
+                                        className="mt-2 mt-lg-0"
                                         filterCriteria={filterCriteria}
                                         setFilterCriteria={setFilterCriteria}
                                         onSubmit={handleFilter}
@@ -116,7 +118,11 @@ function App() {
                         element={<ImagePostEditForm />}
                     />
 
-                    <Route path="/profiles/:id" element={<ProfilePage />} />
+                    <Route
+                        path="/profiles/:id"
+                        element={<ProfilePage />}
+                        message="No results found. Adjust the search keyword."
+                    />
 
                     <Route
                         path="/profiles/:id/edit/username"

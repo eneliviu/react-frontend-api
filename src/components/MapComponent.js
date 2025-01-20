@@ -12,6 +12,9 @@ import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
 import TripPopup from "./TripPopUp";
 import rowStyles from "../styles/SignInUpForm.module.css";
+import appStyles from "../App.module.css";
+import styles from "../styles/MapComponent.module.css";
+
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -128,11 +131,12 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     };
 
     return (
-        <Container className="d-flex flex-column p-0">
-            <Row className={`${rowStyles.Row}`}>
+        // "d-flex flex-column p-0" className={appStyles.App}  className={styles.MapContainer}
+        <Container className={styles.MapContainer}>
+            <Row>
                 <Col
                     className="py-0 p-0 p-lg-2 h-100"
-                    style={{ position: "relative" }}
+                    // style={{ position: "relative" }}
                 >
                     {showNotFound && (
                         <Alert

@@ -23,7 +23,7 @@ function TripEditForm() {
         trip_status: "Planned",
         shared: true,
     });
-    console.log("id", tripId);
+
     const {
         title,
         content,
@@ -86,7 +86,8 @@ function TripEditForm() {
 
         try {
             await axiosReq.patch(`/trips/${tripId}/`, formData);
-            navigate(`/trips/${tripId}`);
+            // navigate(`/trips/${tripId}`);
+            navigate(`/profiles/${currentUser.profile_id}`);
             setErrors({});
         } catch (err) {
             console.error("Failed to update trip:", err);
@@ -237,7 +238,11 @@ function TripEditForm() {
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
                                 type="button"
-                                onClick={() => navigate(`/trips/${tripId}`)}
+                                onClick={() =>
+                                    navigate(
+                                        `/profiles/${currentUser.profile_id}`
+                                    )
+                                }
                             >
                                 Cancel
                             </Button>

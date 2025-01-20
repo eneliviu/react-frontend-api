@@ -11,7 +11,7 @@ import Asset from "../../components/Asset";
 
 import appStyles from "../../App.module.css";
 import rowStyles from "../../styles/SignInUpForm.module.css";
-import styles from "../../styles/ImageListPage.module.css";
+import srcbStyles from "../../styles/SearchBar.module.css";
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -38,6 +38,7 @@ function ImageGalleryPublic({ message, filter="" }) {
                 );
                 setPosts(data);
                 setHasLoaded(true);
+                console.log(data);
             } catch (err) {
                 console.log(err);
             }
@@ -50,9 +51,9 @@ function ImageGalleryPublic({ message, filter="" }) {
     }, [query, pathname]);
 
     return (
-        <div className={styles.App}>
-            <Row className={`${rowStyles.Row} `}>
-                <Col className="py-2 p-0 p-lg-2">
+        <div className={appStyles.App}>
+            <Row >
+                <Col className="py-2 p-0 p-lg-2 h-100">
                     <OverlayTrigger
                         placement="top"
                         overlay={
@@ -72,9 +73,9 @@ function ImageGalleryPublic({ message, filter="" }) {
                             <PopularProfiles mobile />
                         </div>
                     </OverlayTrigger>
-                    <i className={`fas fa-search ${styles.SearchIcon}`} />
+                    <i className={`fas fa-search ${srcbStyles.SearchIcon}`} />
                     <Form
-                        className={styles.SearchBar}
+                        className={srcbStyles.SearchBar}
                         onSubmit={(event) => event.preventDefault()}
                     >
                         <Form.Control

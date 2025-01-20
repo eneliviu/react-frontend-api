@@ -17,7 +17,7 @@
  * @returns {JSX.Element} The rendered Post component.
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -38,12 +38,15 @@ const Post = (props) => {
         uploaded_at,
         likes_count,
         trip_id,
-        like_id,
+        likes,
     } = props;
 
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
     const navigate = useNavigate();
+
+//   const [likeId, setLikeId] = useState(null);
+
 
     const handleImageEdit = () => {
         navigate(`/trips/${trip_id}/images/edit/`);
@@ -70,7 +73,7 @@ const Post = (props) => {
                         ? {
                               ...post,
                               likes_count: (post.likes_count ) + 1,
-                              like_id: data.id,
+                              likes: data.id,
                           }
                         : post;
                 }),
@@ -82,7 +85,7 @@ const Post = (props) => {
 
     const handleUnlike = async () => {
         try {
-            await axiosReq.delete(`/likes/${like_id}/`);
+            await axiosReq.delete(`/likes/${likes}/`);
             setPosts((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
@@ -90,7 +93,7 @@ const Post = (props) => {
                         ? {
                               ...post,
                               likes_count: post.likes_count - 1,
-                              like_id: null,
+                              likes: null,
                           }
                         : post;
                 }),
@@ -100,6 +103,8 @@ const Post = (props) => {
         }
     };
 
+    console.log("likes_count", likes_count);
+    console.log("likes", likes);
     return (
         <Card className={styles.Post}>
             <Card.Body>
@@ -149,7 +154,7 @@ const Post = (props) => {
                             </Card.Title>
                         )}
                         {/* <Link to={`/trips/${trip_id}`}> */}
-                            <Card.Img src={image} alt={image_title} />
+                        <Card.Img src={image} alt={image_title} />
                         {/* </Link> */}
                         {description && <Card.Text>{description}</Card.Text>}
                     </>
@@ -157,9 +162,9 @@ const Post = (props) => {
                     <>
                         {currentUser ? (
                             // <Link to={`/trips/${trip_id}`}>
-                                <Card.Img src={image} alt={image_title} />
-                            // </Link>
+                            <Card.Img src={image} alt={image_title} />
                         ) : (
+                            // </Link>
                             <OverlayTrigger
                                 placement="top"
                                 overlay={<Tooltip>Log in for details!</Tooltip>}
@@ -179,7 +184,7 @@ const Post = (props) => {
                         >
                             <i className="far fa-heart" />
                         </OverlayTrigger>
-                    ) : like_id ? (
+                    ) : likes_count>0 ? (
                         <span onClick={handleUnlike}>
                             <i className={`fas fa-heart ${styles.Heart}`} />
                         </span>
@@ -205,3 +210,4 @@ const Post = (props) => {
 };
 
 export default Post;
+
