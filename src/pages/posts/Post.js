@@ -43,15 +43,13 @@ const Post = (props) => {
 
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
-    //const is_owner = currentUser?.pk === owner;
     const navigate = useNavigate();
 
-    const handleEdit = () => {
-        navigate(`/images/${id}/edit`);
+    const handleImageEdit = () => {
         navigate(`/trips/${trip_id}/images/edit/`);
     };
 
-    const handleDelete = async () => {
+    const handleImageDelete = async () => {
         try {
             await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
             navigate("*");
@@ -129,11 +127,14 @@ const Post = (props) => {
                     )}
 
                     <div className="d-flex align-items-center justify-content-between">
-                        <span className="mx-3">Uploaded: {uploaded_at}</span>
+                        <span className="mx-3 text-muted">
+                            {" "}
+                            Uploaded: {uploaded_at}
+                        </span>
                         {is_owner && (
                             <MoreDropdown
-                                handleEdit={handleEdit}
-                                handleDelete={handleDelete}
+                                handleEdit={handleImageEdit}
+                                handleDelete={handleImageDelete}
                             />
                         )}
                     </div>
@@ -147,17 +148,17 @@ const Post = (props) => {
                                 {image_title}
                             </Card.Title>
                         )}
-                        <Link to={`/trips/${trip_id}`}>
+                        {/* <Link to={`/trips/${trip_id}`}> */}
                             <Card.Img src={image} alt={image_title} />
-                        </Link>
+                        {/* </Link> */}
                         {description && <Card.Text>{description}</Card.Text>}
                     </>
                 ) : (
                     <>
                         {currentUser ? (
-                            <Link to={`/trips/${trip_id}`}>
+                            // <Link to={`/trips/${trip_id}`}>
                                 <Card.Img src={image} alt={image_title} />
-                            </Link>
+                            // </Link>
                         ) : (
                             <OverlayTrigger
                                 placement="top"

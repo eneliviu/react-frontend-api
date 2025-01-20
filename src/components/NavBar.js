@@ -76,8 +76,9 @@ const NavBar = () => {
             </NavLink>
 
             <NavLink
-                exact="true"
-                className={styles.NavLink}
+                className={({ isActive }) =>
+                    `${styles.NavLink} ${isActive ? styles.Active : ""}`
+                }
                 to={`/profiles/${currentUser?.profile_id}`}
             >
                 <Avatar

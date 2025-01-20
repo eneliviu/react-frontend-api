@@ -1,0 +1,7 @@
+.CarouselIndicators li {
+    background-color: #000; /* Dark color for indicators */
+}
+
+.CarouselIndicators .active {
+    background-color: #444; /* Slightly lighter dark color for active indicator */
+}

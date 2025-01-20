@@ -14,14 +14,13 @@
  */
 
 import React, { useEffect, useState } from "react";
-
+import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Asset from "../../components/Asset";
 
 import styles from "../../styles/ProfilePage.module.css";
-import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import rowStyles from "../../styles/SignInUpForm.module.css";
 
@@ -36,14 +35,11 @@ import {
 
 import { Button, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
 
 import ProfilePost from "../posts/ProfilePost";
-
-// import MapComponent from "../../components/MapComponent";
 
 function ProfilePage() {
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -51,6 +47,7 @@ function ProfilePage() {
 
     const currentUser = useCurrentUser();
     const { id } = useParams();
+    console.log("profileID", id)
 
     const { setProfileData, handleFollow, handleUnfollow } =
         useSetProfileData();
@@ -59,23 +56,25 @@ function ProfilePage() {
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
 
+    const [query, setQuery] = useState("");
+    // -------------------------------
     // Add search bar free text search
-    const [filterCriteria, setFilterCriteria] = useState({
-        country: "",
-        place: "",
-    });
-
+    // const [filterCriteria, setFilterCriteria] = useState({
+    //     country: "",
+    //     place: "",
+    // });
+    // -------------------------------
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [{ data: pageProfile }, { data: profilePosts }] =
                     await Promise.all([
                         axiosReq.get(`/profiles/${id}/`),
-                        // Filter posts by owner profile ID
-                        axiosReq.get(`/trips/?owner__profile=${id}`),
+                        // axiosReq.get(`/trips/?owner__profile_id=${id}`),
                         axiosReq.get(
                             `/trips/?current_user_trips=True&owner__profile=${id}`
                         ),
+                        axiosReq.get(`/trips/?current_user_trips=True&owner__profile=${id}?search=${query}`),
                     ]);
 
                 setProfileData((prevState) => ({
@@ -89,8 +88,10 @@ function ProfilePage() {
             }
         };
         fetchData();
-    }, [id, setProfileData]);
+    }, [id, query, setProfileData]);
+
     console.log("setProfileData", profilePosts.results);
+    console.log("query", query);
 
     // Calculate total likes count
     const totalLikesCount = profilePosts.results.reduce(
@@ -176,6 +177,21 @@ function ProfilePage() {
             <hr />
             <p className="text-center">{profile?.owner}'s posts</p>
             <hr />
+
+            <i className={`fas fa-search ${styles.SearchIcon}`} />
+            <Form
+                className={styles.SearchBar}
+                onSubmit={(event) => event.preventDefault()}
+            >
+                <Form.Control
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    type="text"
+                    placeholder="Search free text and upload date (yyyy-mm-dd)"
+                    className="mr-sm-2"
+                />
+            </Form>
+
             {profilePosts.results.length ? (
                 <InfiniteScroll
                     children={profilePosts.results.map((post) => (
@@ -201,20 +217,15 @@ function ProfilePage() {
 
     return (
         <Container>
-            <Row className={`${rowStyles.Row}  h-100`}>
-                <Col className="py-2 p-lg-2" lg={8}>
+            {/* className={styles.App} */}
+            <Row>
+                <Col className="py-2 p-lg-2 vh-100`" lg={8}>
                     <PopularProfiles mobile />
                     <Container>
                         {hasLoaded ? (
                             <>
                                 {mainProfile}
                                 {mainProfilePosts}
-
-                                {/* <MapComponent
-                                    countryQuery={filterCriteria.country}
-                                    placeQuery={filterCriteria.place}
-                                    style={{ height: "50%" }}
-                                /> */}
                             </>
                         ) : (
                             <Asset spinner />

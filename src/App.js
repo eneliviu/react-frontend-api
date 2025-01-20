@@ -23,7 +23,7 @@ import TripEditForm from "./pages/posts/TripEditForm";
 import NotFound from "./components/NotFound";
 import ImageUploadForm from "./pages/posts/ImageUploadForm";
 import ImageGalleryPublic from "./pages/posts/ImageGalleryPublic";
-import PostPage from "./pages/posts/PostPage";
+
 import ImagePostEditForm from "./pages/posts/ImagePostEditForm";
 import MapComponent from "./components/MapComponent";
 
@@ -102,12 +102,14 @@ function App() {
                         path="/trips/:tripId/edit"
                         element={<TripEditForm />}
                     />
+
+                    {/* Add new image form */}
                     <Route
                         path="/trips/:tripId/images"
                         element={<ImageUploadForm />}
                     />
 
-                    {/* <Route exact path="/trips/:tripId" element={<PostPage />} /> */}
+                    {/* <Route exact path="/trips/:tripId" element={<ProfilePost />} /> */}
 
                     <Route
                         path="/trips/:tripId/images/edit"

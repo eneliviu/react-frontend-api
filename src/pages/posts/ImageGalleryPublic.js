@@ -22,9 +22,6 @@ import { fetchMoreData } from "../../utils/utils";
 import PopularProfiles from "../profiles/PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-// component that is responsible for displaying a list of posts.
-// It fetches the posts data from the server using an optional filter
-// and then renders a list of Post components to display each post.
 
 function ImageGalleryPublic({ message, filter="" }) {
     const [posts, setPosts] = useState({ results: [] });
@@ -53,74 +50,76 @@ function ImageGalleryPublic({ message, filter="" }) {
     }, [query, pathname]);
 
     return (
-        <Row className={`${rowStyles.Row} h-100`}>
-            <Col className="py-2 p-0 p-lg-2">
-                <OverlayTrigger
-                    placement="top"
-                    overlay={
-                        <Tooltip>
-                            {currentUser
-                                ? "See Most Followed Profiles"
-                                : "Log in to see profiles"}
-                        </Tooltip>
-                    }
-                >
-                    <div
-                        style={{
-                            opacity: currentUser ? 1 : 0.5,
-                            pointerEvents: currentUser ? "auto" : "none",
-                        }}
+        <div className={styles.App}>
+            <Row className={`${rowStyles.Row} `}>
+                <Col className="py-2 p-0 p-lg-2">
+                    <OverlayTrigger
+                        placement="top"
+                        overlay={
+                            <Tooltip>
+                                {currentUser
+                                    ? "See Most Followed Profiles"
+                                    : "Log in to see profiles"}
+                            </Tooltip>
+                        }
                     >
-                        <PopularProfiles mobile />
-                    </div>
-                </OverlayTrigger>
-                <i className={`fas fa-search ${styles.SearchIcon}`} />
-                <Form
-                    className={styles.SearchBar}
-                    onSubmit={(event) => event.preventDefault()}
-                >
-                    <Form.Control
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
-                        type="text"
-                        placeholder="Search free text and upload date (yyyy-mm-dd)"
-                        className="mr-sm-2"
-                    />
-                </Form>
-                {hasLoaded ? (
-                    <>
-                        {posts.results.length ? (
-                            <InfiniteScroll
-                                children={posts.results
-                                    .filter((post) => post.image)
-                                    .map((post) => (
-                                        <Post
-                                            key={post.id}
-                                            {...post}
-                                            setPosts={setPosts}
-                                        />
-                                    ))}
-                                dataLength={posts.results.length}
-                                loader={<Asset spinner />}
-                                hasMore={!!posts.next}
-                                next={() => fetchMoreData(posts, setPosts)}
-                            />
-                        ) : (
-                            <Container className={appStyles.Content}>
-                                <Asset src={NoResults} message={message} />
-                            </Container>
-                        )}
-                    </>
-                ) : (
-                    <Container className={appStyles.Content}>
-                        <Asset spinner />
-                    </Container>
-                )}
-            </Col>
-            <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-                <PopularProfiles />
-            </Col>
-        </Row>
+                        <div
+                            style={{
+                                opacity: currentUser ? 1 : 0.5,
+                                pointerEvents: currentUser ? "auto" : "none",
+                            }}
+                        >
+                            <PopularProfiles mobile />
+                        </div>
+                    </OverlayTrigger>
+                    <i className={`fas fa-search ${styles.SearchIcon}`} />
+                    <Form
+                        className={styles.SearchBar}
+                        onSubmit={(event) => event.preventDefault()}
+                    >
+                        <Form.Control
+                            value={query}
+                            onChange={(event) => setQuery(event.target.value)}
+                            type="text"
+                            placeholder="Search free text and upload date (yyyy-mm-dd)"
+                            className="mr-sm-2"
+                        />
+                    </Form>
+                    {hasLoaded ? (
+                        <>
+                            {posts.results.length ? (
+                                <InfiniteScroll
+                                    children={posts.results
+                                        .filter((post) => post.image)
+                                        .map((post) => (
+                                            <Post
+                                                key={post.id}
+                                                {...post}
+                                                setPosts={setPosts}
+                                            />
+                                        ))}
+                                    dataLength={posts.results.length}
+                                    loader={<Asset spinner />}
+                                    hasMore={!!posts.next}
+                                    next={() => fetchMoreData(posts, setPosts)}
+                                />
+                            ) : (
+                                <Container className={appStyles.Content}>
+                                    <Asset src={NoResults} message={message} />
+                                </Container>
+                            )}
+                        </>
+                    ) : (
+                        <Container className={appStyles.Content}>
+                            <Asset spinner />
+                        </Container>
+                    )}
+                </Col>
+                <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
+                    <PopularProfiles />
+                </Col>
+            </Row>
+        </div>
     );
 }
 

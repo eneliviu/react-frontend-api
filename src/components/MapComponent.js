@@ -11,6 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
 import TripPopup from "./TripPopUp";
+import rowStyles from "../styles/SignInUpForm.module.css";
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -128,9 +129,9 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
 
     return (
         <Container className="d-flex flex-column p-0">
-            <Row>
+            <Row className={`${rowStyles.Row}`}>
                 <Col
-                    className="py-0 p-0 p-lg-2"
+                    className="py-0 p-0 p-lg-2 h-100"
                     style={{ position: "relative" }}
                 >
                     {showNotFound && (
@@ -173,7 +174,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                         center={defaultPosition}
                         zoom={13}
                         style={{
-                            height: "75vh",
+                            height: "70vh",
                             width: "100%",
                             position: "relative",
                         }}

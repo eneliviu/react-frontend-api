@@ -95,10 +95,10 @@ function ImagePostEditForm() {
       }
 
         try {
-            console.log(`/trips/${tripId}/images/${id}/`);
+            //console.log(`/trips/${tripId}/images/${id}/`);
             await axiosReq.patch(`/trips/${tripId}/images/${id}/`,
                 formData);
-            navigate(`/gallery/`);
+            navigate(-1);
             setErrors({});
         } catch (err) {
             console.error("Failed to update post:", err);
