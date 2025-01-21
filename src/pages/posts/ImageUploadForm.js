@@ -303,72 +303,76 @@ function ImageUploadForm() {
     );
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Row>
-                <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
-                    <Container
-                        className={`${appStyles.Content}
+        <div className={styles.Div}>
+            <Form onSubmit={handleSubmit}>
+                <Row>
+                    <Col className="py-2 p-0 p-md-2" md={7} lg={8}>
+                        <Container
+                            className={`${appStyles.Content}
                         ${styles.Container} d-flex flex-column justify-content-center`}
-                    >
-                        <Form.Group className="text-center">
-                            {image ? (
-                                <>
-                                    <figure>
-                                        <Image
-                                            className={styles.ImagePreview}
-                                            src={
-                                                typeof image === "string"
-                                                    ? image
-                                                    : URL.createObjectURL(image)
-                                            }
-                                            rounded
+                        >
+                            <Form.Group className="text-center">
+                                {image ? (
+                                    <>
+                                        <figure>
+                                            <Image
+                                                className={styles.ImagePreview}
+                                                src={
+                                                    typeof image === "string"
+                                                        ? image
+                                                        : URL.createObjectURL(
+                                                              image
+                                                          )
+                                                }
+                                                rounded
+                                            />
+                                        </figure>
+
+                                        <div>
+                                            <Form.Label
+                                                className={`${btnStyles.Button} ${btnStyles.Blue} btn`}
+                                                htmlFor="image-upload"
+                                            >
+                                                Change the image
+                                            </Form.Label>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <Form.Label
+                                        className="d-flex justify-content-center"
+                                        htmlFor="image-upload"
+                                    >
+                                        <Asset
+                                            src={Upload}
+                                            message="Click or tap to upload an image"
                                         />
-                                    </figure>
+                                    </Form.Label>
+                                )}
 
-                                    <div>
-                                        <Form.Label
-                                            className={`${btnStyles.Button} ${btnStyles.Blue} btn`}
-                                            htmlFor="image-upload"
-                                        >
-                                            Change the image
-                                        </Form.Label>
-                                    </div>
-                                </>
-                            ) : (
-                                <Form.Label
-                                    className="d-flex justify-content-center"
-                                    htmlFor="image-upload"
-                                >
-                                    <Asset
-                                        src={Upload}
-                                        message="Click or tap to upload an image"
-                                    />
-                                </Form.Label>
-                            )}
-
-                            <Form.Control
-                                id="image-upload"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleChangeImage}
-                                ref={imageInput}
-                            />
-                        </Form.Group>
-                        {errors?.image?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
-                                {message}
-                            </Alert>
-                        ))}
-                        <div className="d-md-none">{textFields}</div>
-                    </Container>
-                </Col>
-                <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
-                    <Container className={appStyles.Content}>
-                        {textFields}
-                    </Container>
-                </Col>
-            </Row>
-        </Form>
+                                <Form.Control
+                                    id="image-upload"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleChangeImage}
+                                    ref={imageInput}
+                                />
+                            </Form.Group>
+                            {errors?.image?.map((message, idx) => (
+                                <Alert key={idx} variant="warning">
+                                    {message}
+                                </Alert>
+                            ))}
+                            <div className="d-md-none">{textFields}</div>
+                        </Container>
+                    </Col>
+                    <Col md={5} lg={4} className="d-none d-md-block p-0 p-md-2">
+                        <Container className={appStyles.Content}>
+                            {textFields}
+                        </Container>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
     );
 }
 

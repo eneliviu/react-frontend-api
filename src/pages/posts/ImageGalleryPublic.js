@@ -10,8 +10,9 @@ import Post from "./Post";
 import Asset from "../../components/Asset";
 
 import appStyles from "../../App.module.css";
-import rowStyles from "../../styles/SignInUpForm.module.css";
 import srcbStyles from "../../styles/SearchBar.module.css";
+import styles from "../../styles/ImageGalleryPublic.module.css";
+
 import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -51,9 +52,10 @@ function ImageGalleryPublic({ message, filter="" }) {
     }, [query, pathname]);
 
     return (
-        <div className={appStyles.App}>
-            <Row >
-                <Col className="py-2 p-0 p-lg-2 h-100">
+        // className={styles.GalleryContainer}
+        <div className={styles.GalleryContainer}>
+            <Row>
+                <Col className="py-2 p-0 p-lg-2">
                     <OverlayTrigger
                         placement="top"
                         overlay={

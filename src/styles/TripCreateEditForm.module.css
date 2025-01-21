@@ -1,5 +1,11 @@
 .Container {
   min-height: 343px;
+  padding: 1rem;
+}
+
+.Div {
+  min-height: calc(100vh - 71px);
+  padding: 1rem;
 }
 
 .ImagePreview {

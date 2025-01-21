@@ -1,0 +1,5 @@
+.GalleryContainer {
+    min-height: calc(100vh - 71px);
+    overflow: hidden;
+    margin-top: 0;
+}
