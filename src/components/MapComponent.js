@@ -131,7 +131,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     };
 
     return (
-        // "d-flex flex-column p-0" className={appStyles.App}  className={styles.MapContainer}
         <Container className={styles.MapContainer}>
             <Row>
                 <Col

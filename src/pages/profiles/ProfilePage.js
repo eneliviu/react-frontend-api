@@ -348,6 +348,7 @@ function MainProfilePosts({
  * @component
  * @returns {JSX.Element} The ProfilePage component.
  */
+
 function ProfilePage({ message }) {
     const [hasLoaded, setHasLoaded] = useState(false);
     const [profilePosts, setProfilePosts] = useState({ results: [] });
@@ -471,52 +472,54 @@ function ProfilePage({ message }) {
         </>
     );
 
+    console.log("Profile: ", profile)
     return (
         <div className={styles.App}>
             <Row className={`${rowStyles.Row} h-100`}>
                 <Col className="py-2 p-lg-2 `" lg={8}>
                     <PopularProfiles mobile />
-                    {
-                        hasLoaded ? (
-                            <>
-                                {mainProfile}
-                                <hr />
-                                <h5 className="text-center pb-2">
-                                    Latest {profile?.owner}'s posts
-                                </h5>
+                    {hasLoaded ? (
+                        <>
+                            {mainProfile}
+                            <hr />
+                            <h5 className="text-center pb-2">
+                                Latest {profile?.owner}'s posts
+                            </h5>
 
-                                <i
-                                    className={`fas fa-search ${srcbStyles.SearchIcon}`}
+                            <i
+                                className={`fas fa-search ${srcbStyles.SearchIcon}`}
+                            />
+                            <Form
+                                className={srcbStyles.SearchBar}
+                                onSubmit={(event) => event.preventDefault()}
+                            >
+                                <Form.Control
+                                    value={query}
+                                    onChange={(event) =>
+                                        setQuery(event.target.value)
+                                    }
+                                    type="text"
+                                    placeholder="Search free text and upload date (yyyy-mm-dd)"
+                                    className="mr-sm-2"
                                 />
-                                <Form
-                                    className={srcbStyles.SearchBar}
-                                    onSubmit={(event) => event.preventDefault()}
-                                >
-                                    <Form.Control
-                                        value={query}
-                                        onChange={(event) =>
-                                            setQuery(event.target.value)
-                                        }
-                                        type="text"
-                                        placeholder="Search free text and upload date (yyyy-mm-dd)"
-                                        className="mr-sm-2"
-                                    />
-                                </Form>
+                            </Form>
 
-                                <MainProfilePosts
-                                    profile={profile}
-                                    query={query}
-                                    setQuery={setQuery}
-                                    profilePosts={profilePosts}
-                                    setProfilePosts={setProfilePosts}
-                                />
-                            </>
-                        ) : null
-                        // <Asset spinner />
-                        // <Container className={appStyles.Content}>
-                        //     <Asset src={NoResults} message={message} />
-                        // </Container>
-                    }
+                            <MainProfilePosts
+                                profile={profile}
+                                query={query}
+                                setQuery={setQuery}
+                                profilePosts={profilePosts}
+                                setProfilePosts={setProfilePosts}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Asset spinner />
+                            <Container className={appStyles.Content}>
+                                <Asset src={NoResults} message={message} />
+                            </Container>
+                        </>
+                    )}
                 </Col>
                 <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
                     <PopularProfiles />

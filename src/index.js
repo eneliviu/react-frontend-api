@@ -8,7 +8,7 @@ import { ProfileDataProvider } from "./contexts/ProfileDataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    //<React.StrictMode>
+    // <React.StrictMode>
         <Router>
             <CurrentUserProvider>
                 <ProfileDataProvider>
@@ -16,5 +16,5 @@ root.render(
                 </ProfileDataProvider>
             </CurrentUserProvider>
         </Router>,
-    //</React.StrictMode>
+    // </React.StrictMode>
 );

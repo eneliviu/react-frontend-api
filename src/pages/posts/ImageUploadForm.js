@@ -154,7 +154,7 @@
 
 // export default ImageUploadForm;
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -187,16 +187,16 @@ function ImageUploadForm() {
         likes_count: 0,
     });
     const {
-        id,
-        owner,
-        owner_name,
-        trip_id,
+        // id,
+        // owner,
+        // owner_name,
+        // trip_id,
         image_title,
         description,
         image,
         shared,
-        uploaded_at,
-        likes_count,
+        // uploaded_at,
+        // likes_count,
     } = postData;
     const { tripId } = useParams();
 
@@ -231,11 +231,6 @@ function ImageUploadForm() {
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
-
-        // for (let pair of formData.entries()) {
-        //     console.log(pair[0] + ", " + pair[1]);
-        // }
-
         try {
             await axiosReq.post(`/trips/${tripId}/images/`, formData);
             navigate(-1);
