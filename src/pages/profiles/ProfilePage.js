@@ -388,10 +388,7 @@ function ProfilePage({ message }) {
             }
         };
         fetchData();
-    }, [id, query, setProfileData]);
-
-    console.log("setProfileData", profilePosts.results);
-    console.log("query", query);
+    }, [id, query, setProfileData, setProfilePosts, setHasLoaded]);
 
     // Calculate total likes count
     const totalLikesCount = profilePosts.results.reduce(
@@ -446,6 +443,7 @@ function ProfilePage({ message }) {
                         </Col>
                     </Row>
                 </Col>
+
                 <Col lg={3} className="text-lg-right">
                     {currentUser &&
                         !is_owner &&
@@ -472,7 +470,7 @@ function ProfilePage({ message }) {
         </>
     );
 
-    console.log("Profile: ", profile)
+    console.log("Profile: ", profile);
     return (
         <div className={styles.App}>
             <Row className={`${rowStyles.Row} h-100`}>
@@ -481,36 +479,45 @@ function ProfilePage({ message }) {
                     {hasLoaded ? (
                         <>
                             {mainProfile}
-                            <hr />
-                            <h5 className="text-center pb-2">
-                                Latest {profile?.owner}'s posts
-                            </h5>
 
-                            <i
-                                className={`fas fa-search ${srcbStyles.SearchIcon}`}
-                            />
-                            <Form
-                                className={srcbStyles.SearchBar}
-                                onSubmit={(event) => event.preventDefault()}
-                            >
-                                <Form.Control
-                                    value={query}
-                                    onChange={(event) =>
-                                        setQuery(event.target.value)
-                                    }
-                                    type="text"
-                                    placeholder="Search free text and upload date (yyyy-mm-dd)"
-                                    className="mr-sm-2"
+                            {is_owner && (
+                                <>
+                                    {" "}
+                                    <hr />
+                                    <h5 className="text-center pb-2">
+                                        Latest {profile?.owner}'s posts
+                                    </h5>
+                                    <i
+                                        className={`fas fa-search ${srcbStyles.SearchIcon}`}
+                                    />
+                                    <Form
+                                        className={srcbStyles.SearchBar}
+                                        onSubmit={(event) =>
+                                            event.preventDefault()
+                                        }
+                                    >
+                                        <Form.Control
+                                            value={query}
+                                            onChange={(event) =>
+                                                setQuery(event.target.value)
+                                            }
+                                            type="text"
+                                            placeholder="Search free text and upload date (yyyy-mm-dd)"
+                                            className="mr-sm-2"
+                                        />
+                                    </Form>
+                                </>
+                            )}
+
+                            {is_owner && (
+                                <MainProfilePosts
+                                    profile={profile}
+                                    query={query}
+                                    setQuery={setQuery}
+                                    profilePosts={profilePosts}
+                                    setProfilePosts={setProfilePosts}
                                 />
-                            </Form>
-
-                            <MainProfilePosts
-                                profile={profile}
-                                query={query}
-                                setQuery={setQuery}
-                                profilePosts={profilePosts}
-                                setProfilePosts={setProfilePosts}
-                            />
+                            )}
                         </>
                     ) : (
                         <>

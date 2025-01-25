@@ -55,7 +55,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                     category: result.trip_category,
                     latestImageUrl:
                         result.images.length > 0
-                            //? result.images[result.images.length - 1].image
+                            //? result.images[result.images.length - 1].image // first image
                             ? result.images[0].image
                             : "",
                 }));
@@ -135,7 +135,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
             <Row>
                 <Col
                     className="py-0 p-0 p-lg-2 h-100"
-                    // style={{ position: "relative" }}
+                    style={{ position: "relative" }}
                 >
                     {showNotFound && (
                         <Alert

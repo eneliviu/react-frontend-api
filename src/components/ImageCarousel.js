@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { MoreDropdown } from "../components/MoreDropdown";
-import styles from "../styles/ImageCarousel.module.css";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../api/axiosDefaults";
 import ImageModal from "./ImageModal";
@@ -9,13 +8,13 @@ import ImageModal from "./ImageModal";
 const ImageCarousel = ({ images, tripId }) => {
     const navigate = useNavigate();
 
-    const handleImageEdit = () => {
+    const handleImageEdit = async () => {
         navigate(`/trips/${tripId}/images/edit`);
     };
 
-    const handleImageDelete = async () => {
+    const handleImageDelete = async (image_id) => {
         try {
-            await axiosReq.delete(`/trips/${tripId}/images/${images.id}/`);
+            await axiosReq.delete(`/trips/${tripId}/images/${image_id}/`);
             navigate("*");
         } catch (err) {
             console.log(err);
@@ -29,22 +28,25 @@ const ImageCarousel = ({ images, tripId }) => {
         setShowModal(true);
     };
 
+    console.log("Images to delete: ", images);
+
     return (
         <>
-            <Carousel>
+            <Carousel variant="dark" indicators={false}>
                 {images.map((image) => (
                     <Carousel.Item
                         key={image.id}
-                        className={`${styles.CarouselIndicators} position-relative`}
                     >
                         <img
                             className="d-block w-100"
                             src={image.image}
-                            alt={image.image_title}
+                            alt={image.image_title && "First slide"}
                             style={{
                                 objectFit: "contain",
                                 height: "200px",
                                 width: "100%",
+                                marginBottom: "5px",
+                                // backgroundColor: "black",
                             }}
                             onClick={() => handleImageClick(image)}
                         />
@@ -71,20 +73,3 @@ const ImageCarousel = ({ images, tripId }) => {
 };
 
 export default ImageCarousel;
-
-// <Carousel className={styles.Carousel}>
-//     {images.map((image) => (
-//         <Carousel.Item key={image.id}>
-//             <img
-//                 className="d-block w-100"
-//                 src={image.image}
-//                 alt={image.image_title}
-//                 style={{
-//                     height: "400px",
-//                     objectFit: "cover",
-//                 }}
-//             />
-//             {/* Add any other components here like captions */}
-//         </Carousel.Item>
-//     ))}
-// </Carousel>

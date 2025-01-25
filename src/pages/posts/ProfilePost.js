@@ -111,15 +111,15 @@ const ProfilePost = (props) => {
                                 <h6>Photos</h6>
                                 <ImageCarousel images={images} tripId={id} />
                                 <Button
-                                className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto`}
-                                onClick={handleAddNewImage}
-                            >
-                                Add Images
-                            </Button>
+                                    className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto mt-1`}
+                                    onClick={handleAddNewImage}
+                                >
+                                    Add Images
+                                </Button>
                             </>
                         ) : (
                             <Button
-                                className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto`}
+                                className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto mt-1`}
                                 onClick={handleAddNewImage}
                             >
                                 Add Images
