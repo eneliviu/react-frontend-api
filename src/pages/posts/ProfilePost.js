@@ -4,7 +4,7 @@ import { Button, Card, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
+// import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import ImageCarousel from "../../components/ImageCarousel";
 import btnStyles from "../../styles/Button.module.css";
 
@@ -21,14 +21,16 @@ const ProfilePost = (props) => {
         start_date,
         end_date,
         content,
-        likes_count,
+        total_likes_count,
         images,
-        owner,
+        //owner,
     } = props;
-    console.log("posfilepostdata", props);
 
-    const currentUser = useCurrentUser();
-    const is_owner = currentUser?.username === owner;
+    // console.log("posfilepostdata", props);
+
+    // const currentUser = useCurrentUser();
+
+    // const is_owner = currentUser?.username === owner;
 
     const navigate = useNavigate();
 
@@ -48,21 +50,6 @@ const ProfilePost = (props) => {
     const handleAddNewImage = () => {
             navigate(`/trips/${id}/images/`);
     };
-
-
-    const handleImageEdit = () => {
-        navigate(`/trips/${id}/images/edit`);
-    };
-
-    const handleImageDelete = async () => {
-        try {
-             await axiosReq.delete(`/trips/${id}/images/${images.id}/`);
-            navigate("*");
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
 
     return (
         <Card className={styles.Post}>
@@ -133,7 +120,7 @@ const ProfilePost = (props) => {
                 <Container>
                     <div className={styles.PostBar}>
                         <i className="far fa-heart" />
-                        {likes_count}
+                        {total_likes_count}
                     </div>
                     <div className="mx-3 text-muted">
                         {" "}

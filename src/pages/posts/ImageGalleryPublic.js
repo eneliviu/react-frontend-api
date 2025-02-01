@@ -39,7 +39,6 @@ function ImageGalleryPublic({ message, filter="" }) {
                 );
                 setPosts(data);
                 setHasLoaded(true);
-                console.log(data);
             } catch (err) {
                 console.log(err);
             }

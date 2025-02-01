@@ -105,7 +105,6 @@ function App() {
                         element={<TripEditForm />}
                     />
 
-                    {/* Add new image form */}
                     <Route
                         path="/trips/:tripId/images"
                         element={<ImageUploadForm />}
@@ -123,6 +122,7 @@ function App() {
                         element={<ProfilePage />}
                         message="No results found. Adjust the search keyword."
                     />
+
 
                     <Route
                         path="/profiles/:id/edit/username"

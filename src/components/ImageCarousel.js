@@ -28,8 +28,6 @@ const ImageCarousel = ({ images, tripId }) => {
         setShowModal(true);
     };
 
-    console.log("Images to delete: ", images);
-
     return (
         <>
             <Carousel variant="dark" indicators={false}>

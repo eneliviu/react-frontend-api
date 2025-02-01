@@ -103,8 +103,6 @@ const Post = (props) => {
         }
     };
 
-    console.log("likes_count", likes_count);
-    console.log("likes", likes);
     return (
         <Card className={styles.Post}>
             <Card.Body>
