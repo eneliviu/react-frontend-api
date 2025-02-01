@@ -13,3 +13,8 @@
     font-size: 1.2rem;
 }
 
+.header span {
+   color:rgb(17, 100, 226);
+   font-weight: bold;
+}
+

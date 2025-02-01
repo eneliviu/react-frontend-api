@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -11,10 +11,9 @@ import Alert from "react-bootstrap/Alert";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { useNavigate } from "react-router-dom";
 import TripPopup from "./TripPopUp";
-import rowStyles from "../styles/SignInUpForm.module.css";
-import appStyles from "../App.module.css";
+// import rowStyles from "../styles/SignInUpForm.module.css";
+// import appStyles from "../App.module.css";
 import styles from "../styles/MapComponent.module.css";
-
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -32,7 +31,9 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     const [markers, setMarkers] = useState([]);
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
+    const [notification, setNotification] = useState("");
     const [trips, setTrips] = useState([]);
+    //const [isTripsLoaded, setIsTripsLoaded] = useState(false);
     const mapRef = useRef(null);
     const navigate = useNavigate();
     const defaultPosition = [51.505, -0.09];
@@ -55,8 +56,8 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                     category: result.trip_category,
                     latestImageUrl:
                         result.images.length > 0
-                            //? result.images[result.images.length - 1].image // first image
-                            ? result.images[0].image
+                            ? //? result.images[result.images.length - 1].image // first image
+                              result.images[0].image
                             : "",
                 }));
                 setMarkers(markerData);
@@ -103,22 +104,28 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
 
     const handleDelete = async (tripId) => {
         try {
-            await axiosReq.delete(`/public/${tripId}/`);
-            setTrips((prevTrips) =>
-                prevTrips.filter((trip) => trip.id !== tripId)
-            );
-            navigate("/gallery");
+            await axiosReq.delete(`/trips/${tripId}/`);
+            setTrips((trips) =>
+                  (trips || []).filter((trip) => trip.id !== tripId)
+              );
+             setMarkers((prevMarkers) =>
+                 prevMarkers.filter((marker) => marker.id !== tripId)
+             );
+              setNotification("Trip deleted successfully.");
+              //navigate('/');
         } catch (err) {
             console.error("Failed to delete trip:", err);
             setErrors(
                 err.response?.data || { error: "Unexpected error occurred" }
             );
+            setNotification("Failed to delete the trip. Please try again.");
         }
     };
 
     const handleImageUpload = async (tripId) => {
         try {
             const { data } = await axiosReq.get(`/trips/${tripId}/images/`);
+            console.log("tripID", tripId);
             const latestImageUrl = data.results[0]?.image || "";
             setTrips((prevTrips) =>
                 prevTrips.map((trip) =>
@@ -141,14 +148,8 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                         <Alert
                             variant="warning"
                             onClose={() => setShowNotFound(false)}
-                            style={{
-                                position: "absolute",
-                                top: 20,
-                                left: "50%",
-                                transform: "translateX(-50%)",
-                                zIndex: 1000,
-                                width: "auto",
-                            }}
+                            className={styles.MapAlert}
+                            dismissible
                         >
                             Sorry, no trips match your current search filters.
                         </Alert>
@@ -159,28 +160,36 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                             variant="info"
                             dismissible
                             onClose={() => setShowNoMarkers(false)}
-                            style={{
-                                position: "absolute",
-                                top: 60,
-                                left: "50%",
-                                transform: "translateX(-50%)",
-                                zIndex: 1000,
-                                width: "auto",
-                            }}
+                            className={styles.MapAlert}
                         >
                             There are no trips to display.
                         </Alert>
                     )}
 
+                    {notification && (
+                        <Alert
+                            variant="success"
+                            onClose={() => setNotification("")}
+                            className={styles.MapAlertDelete}
+                            dismissible
+                            // style={{
+                            //     position: "fixed",
+                            //     top: 250,
+                            //     left: "50%",
+                            //     transform: "translateX(-50%)",
+                            //     zIndex: 1000,
+                            //     width: "auto",
+                            // }}
+                        >
+                            {notification}
+                        </Alert>
+                    )}
+
                     <MapContainer
+                        className={styles.MapWrapper}
                         ref={mapRef}
                         center={defaultPosition}
-                        zoom={13}
-                        style={{
-                            height: "70vh",
-                            width: "100%",
-                            position: "relative",
-                        }}
+                        zoom={7}
                     >
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -193,17 +202,19 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                                     position={marker.position}
                                 >
                                     <TripPopup
-                                        isAuthenticated={isAuthenticated}
+                                        handleDelete={() =>
+                                            handleDelete(marker.id)
+                                        }
+                                        imageUpload={() =>
+                                            handleImageUpload(marker.id)
+                                        }
                                         marker={marker}
                                         errors={errors}
-                                        handleDelete={handleDelete}
                                         isOwner={
                                             currentUser?.username ===
                                             marker.owner
                                         }
-                                        onImageUpload={() =>
-                                            handleImageUpload(marker.id)
-                                        }
+                                        isAuthenticated={isAuthenticated}
                                     />
                                 </Marker>
                             ))}

@@ -14,7 +14,7 @@ function TripCreateForm() {
     useRedirect("loggedOut");
     const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
-    const [tripId, setTripId] = useState(null); // State to hold created trip ID
+    const [tripId, setTripId] = useState(null);
     const [tripData, setTripData] = useState({
         title: "",
         content: "",
@@ -22,7 +22,7 @@ function TripCreateForm() {
         country: "",
         start_date: "",
         end_date: "",
-        trip_category: "Leisure", // Default category
+        trip_category: "Leisure",
         trip_status: "Planned", // Default status
         shared: true, // Default status
     });
@@ -99,8 +99,7 @@ function TripCreateForm() {
             const { data } = await axiosReq.post("/trips/", formData);
             console.log("sent data", data);
             setTripId(data.id); // Set the created trip ID
-            navigate(`/trips/${data.id}`);
-            //navigate(`profiles/${currentUser.id}/trips/${data.id}`);
+            navigate(`/profiles/${currentUser.profile_id}`); // `profiles/${currentUser.id}/trips/${data.id}`
         } catch (err) {
             console.error("Failed to create trip:", err);
             setErrors(

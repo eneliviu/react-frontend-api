@@ -79,13 +79,14 @@ function TripDetails({
     );
 }
 
-function TripActions({ onDelete, tripId, error, isOwner, isAuthenticated }) {
-    // console.log("isOwner", isOwner);
-    // const handleEdit = () => {
-    //         navigate(`/images/${id}/edit`);
-    //         navigate(`/trips/${trip_id}/images/edit/`);
-    // };
-
+function TripActions({
+    onDelete,
+    onImageUpload,
+    tripId,
+    error,
+    isOwner,
+    isAuthenticated,
+}) {
     return (
         <div
             style={{
@@ -104,6 +105,7 @@ function TripActions({ onDelete, tripId, error, isOwner, isAuthenticated }) {
                                 cursor: "pointer",
                             }}
                             className={`${btnStyles.Button} ${btnStyles.Bright}`}
+                            onClick={onImageUpload}
                         >
                             Add Image
                         </Button>
@@ -154,6 +156,7 @@ export default function TripPopup({
     marker,
     errors,
     handleDelete,
+    imageUpload,
     isOwner,
 }) {
     return isAuthenticated ? (
@@ -188,6 +191,7 @@ export default function TripPopup({
 
             <TripActions
                 onDelete={() => handleDelete(marker.id)}
+                onImageUpload={() => imageUpload(marker.id)}
                 tripId={marker.id}
                 error={errors.error}
                 isOwner={isOwner}
