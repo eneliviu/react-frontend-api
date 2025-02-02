@@ -74,11 +74,14 @@ function ProfilePage({ message }) {
 
     useEffect(() => {
         const fetchData = async () => {
+             if (!currentUser) {
+                 console.error("User is not logged in.");
+                 return;
+             }
             try {
                 const [{ data: pageProfile }, { data: profilePosts }] =
                     await Promise.all([
                         axiosReq.get(`/profiles/${id}/`),
-
                         currentUser.profile_id === id
                             ? axiosReq.get(
                                   `/trips/?current_user_trips=True&owner__profile=${id}&search=${query}`
@@ -87,7 +90,6 @@ function ProfilePage({ message }) {
                                   `/trips/?profile_id=${id}&search=${query}`
                               ),
                     ]);
-
                 setProfileData((prevState) => ({
                     ...prevState,
                     pageProfile: { results: [pageProfile] },

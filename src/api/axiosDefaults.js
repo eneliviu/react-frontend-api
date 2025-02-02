@@ -51,7 +51,9 @@ axiosRes.interceptors.response.use(
                     ] = `Bearer ${data.access}`;
                     return axiosRes(originalRequest);
                 } catch (err) {
-                    //console.error("Token refresh failed:", err);
+                    console.error("Token refresh failed:", err);
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("refresh_token");
                     // Handle logout or redirect to login page if needed
                 }
             }

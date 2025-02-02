@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Form, Button, Alert, Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
-// import ImageUploadForm from "./ImageUploadForm"; // Import ImageUploadForm
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import styles from "../../styles/SignInUpForm.module.css";
@@ -14,7 +13,7 @@ function TripCreateForm() {
     useRedirect("loggedOut");
     const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
-    const [tripId, setTripId] = useState(null);
+    const [, setTripId] = useState(null); //tripId
     const [tripData, setTripData] = useState({
         title: "",
         content: "",

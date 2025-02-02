@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import styles from "../styles/MoreDropdown.module.css";
 import { useNavigate } from "react-router-dom";
-
-
+import { axiosReq } from "../api/axiosDefaults";
+import { useSetCurrentUser } from "../contexts/CurrentUserContext";
+import Alert from "react-bootstrap/Alert";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
     <div
@@ -38,7 +41,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
                     onClick={handleEdit}
                     aria-label="edit"
                 >
-                    <i className="fas fa-edit" /> 
+                    <i className="fas fa-edit" />
                 </Dropdown.Item>
 
                 <Dropdown.Item
@@ -46,7 +49,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
                     onClick={handleDelete}
                     aria-label="delete"
                 >
-                    <i className="fas fa-trash-alt" /> 
+                    <i className="fas fa-trash-alt" />
                 </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
@@ -55,31 +58,96 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
 
 export function ProfileEditDropdown({ id }) {
     const navigate = useNavigate();
+    const [showAlert, setShowAlert] = useState(false);
+    const setCurrentUser = useSetCurrentUser();
+
+    const handleDeleteProfile = async () => {
+        if (
+            !window.confirm(
+                "Are you sure you want to delete this profile? The action is irreversible."
+            )
+        ) {
+            return;
+        }
+        try {
+            await axiosReq.delete(`/profiles/${id}/`);
+            setTimeout(() => {
+                window.alert("Profile deleted successfully.");
+            }, 1000);
+
+            setCurrentUser(null);
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("refreshToken");
+
+            setShowAlert(true);
+            setTimeout(() => {
+                navigate("/signin");
+            }, 1000);
+
+        } catch (error) {
+            console.error("Error deleting profile:", error);
+        }
+    };
+
+    
+
     return (
-        <Dropdown className={`ml-auto px-3 ${styles.Absolute}`} drop="left">
-            <Dropdown.Toggle as={ThreeDotsToggle} />
-            <Dropdown.Menu>
-                <Dropdown.Item
-                    onClick={() => navigate(`/profiles/${id}/edit`)}
-                    aria-label="edit-profile"
-                >
-                    <i className="fas fa-edit" /> edit profile
-                </Dropdown.Item>
-                <Dropdown.Item
-                    onClick={() => navigate(`/profiles/${id}/edit/username`)}
-                    aria-label="edit-username"
-                >
-                    <i className="far fa-id-card" />
-                    change username
-                </Dropdown.Item>
-                <Dropdown.Item
-                    onClick={() => navigate(`/profiles/${id}/edit/password`)}
-                    aria-label="edit-password"
-                >
-                    <i className="fas fa-key" />
-                    change password
-                </Dropdown.Item>
-            </Dropdown.Menu>
-        </Dropdown>
+        <>
+        {showAlert && (
+            <Alert
+                variant="success"
+                onClose={() => setShowAlert(false)}
+                dismissible
+                style={{
+                    marginTop: "1rem",
+                    position: "absolute",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    zIndex: 1000,
+                    fontSize: "16px",
+                    width: "280px",
+                    top: "260px",
+                }}
+            >
+                Profile deleted successfully. Redirecting to login...
+            </Alert>
+        )}
+            <Dropdown className={`ml-auto px-3 ${styles.Absolute}`} drop="left">
+                <Dropdown.Toggle as={ThreeDotsToggle} />
+                <Dropdown.Menu>
+                    <Dropdown.Item
+                        onClick={() => navigate(`/profiles/${id}/edit`)}
+                        aria-label="edit-profile"
+                    >
+                        <i className="fas fa-edit" /> edit profile
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={() =>
+                            navigate(`/profiles/${id}/edit/username`)
+                        }
+                        aria-label="edit-username"
+                    >
+                        <i className="far fa-id-card" />
+                        change username
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={() =>
+                            navigate(`/profiles/${id}/edit/password`)
+                        }
+                        aria-label="edit-password"
+                    >
+                        <i className="fas fa-key" />
+                        change password
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={handleDeleteProfile}
+                        aria-label="delete"
+                    >
+                        <i className="fas fa-trash-alt" />
+                        delete profile
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        </>
     );
 }

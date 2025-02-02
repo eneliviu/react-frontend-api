@@ -5,7 +5,7 @@ import Container from "react-bootstrap/Container";
 import styles from "../styles/TripFilterForm.module.css";
 import btnStyles from "../styles/Button.module.css";
 
-function TripFilterForm({ filterCriteria, setFilterCriteria, onSubmit }) {
+function TripFilterForm({ filterCriteria, setFilterCriteria }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFilterCriteria((prevCriteria) => ({
@@ -31,7 +31,7 @@ function TripFilterForm({ filterCriteria, setFilterCriteria, onSubmit }) {
                 <Form
                     onSubmit={(event) => {
                         event.preventDefault();
-                        onSubmit();
+                        //onSubmit();
                     }}
                     className={styles.Form}
                 >

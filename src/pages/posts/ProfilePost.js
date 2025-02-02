@@ -4,7 +4,7 @@ import { Button, Card, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
+//import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import ImageCarousel from "../../components/ImageCarousel";
 import btnStyles from "../../styles/Button.module.css";
 
@@ -96,6 +96,7 @@ const ProfilePost = (props) => {
                                 <Button
                                     className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto mt-1`}
                                     onClick={handleAddNewImage}
+                                    disabled={!is_owner}
                                 >
                                     Add Images
                                 </Button>
@@ -104,6 +105,7 @@ const ProfilePost = (props) => {
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto mt-1`}
                                 onClick={handleAddNewImage}
+                                disabled={!is_owner }
                             >
                                 Add Images
                             </Button>

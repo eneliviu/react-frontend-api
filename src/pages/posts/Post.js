@@ -26,6 +26,9 @@ import Avatar from "../../components/Avatar";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
+//import log from "../utils/logger.js";
+
+
 const Post = (props) => {
     const {
         description,

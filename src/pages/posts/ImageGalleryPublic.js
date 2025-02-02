@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import Post from "./Post";
 import Asset from "../../components/Asset";
@@ -22,7 +20,7 @@ import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
 // import { useCurrentUser } from "../../contexts/CurrentUserContext";
-
+import log from "../../utils/logger";
 
 function ImageGalleryPublic({ message, filter="" }) {
     const [posts, setPosts] = useState({ results: [] });
@@ -40,7 +38,7 @@ function ImageGalleryPublic({ message, filter="" }) {
                 setPosts(data);
                 setHasLoaded(true);
             } catch (err) {
-                console.log(err);
+                log.error(err);
             }
         };
         setHasLoaded(false);
@@ -54,26 +52,6 @@ function ImageGalleryPublic({ message, filter="" }) {
         <div className={styles.GalleryContainer}>
             <Row>
                 <Col className="py-2 p-0 p-lg-2">
-                    {/* <OverlayTrigger
-                        placement="top"
-                        overlay={
-                            <Tooltip>
-                                {currentUser
-                                    ? "See Most Followed Profiles"
-                                    : "Log in to see profiles"}
-                            </Tooltip>
-                        }
-                    >
-                        <div
-                            style={{
-                                opacity: currentUser ? 1 : 0.5,
-                                pointerEvents: currentUser ? "auto" : "none",
-                            }}
-                        >
-                            <PopularProfiles mobile />
-                        </div>
-                    </OverlayTrigger> */}
-
                     <i className={`fas fa-search ${srcbStyles.SearchIcon}`} />
                     <Form
                         className={srcbStyles.SearchBar}

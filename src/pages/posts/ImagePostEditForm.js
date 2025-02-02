@@ -31,10 +31,15 @@ function ImagePostEditForm() {
         uploaded_at: "",
         likes_count: 0,
     });
-    const { id, owner, owner_name, trip_id, image_title, description, image,
-        shared,uploaded_at, likes_count } = postData;
+    const {
+        id,
+        image_title,
+        description,
+        image,
+        shared,
+        //owner, owner_name, trip_id, uploaded_at, likes_count
+    } = postData;
     const { tripId } = useParams();
-
     const [errors, setErrors] = useState({});
     const imageInput = useRef(null);
     const navigate = useNavigate();
@@ -75,7 +80,7 @@ function ImagePostEditForm() {
             URL.revokeObjectURL(image);
             setPostData({
                 ...postData,
-                image: event.target.files[0] //URL.createObjectURL(),
+                image: event.target.files[0], //URL.createObjectURL(),
             });
         }
     };
@@ -89,14 +94,13 @@ function ImagePostEditForm() {
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
-      for (let pair of formData.entries()) {
-          console.log(pair[0] + ", " + pair[1]);
-      }
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ", " + pair[1]);
+        }
 
         try {
             //console.log(`/trips/${tripId}/images/${id}/`);
-            await axiosReq.patch(`/trips/${tripId}/images/${id}/`,
-                formData);
+            await axiosReq.patch(`/trips/${tripId}/images/${id}/`, formData);
             navigate(-1);
             setErrors({});
         } catch (err) {
@@ -108,7 +112,7 @@ function ImagePostEditForm() {
     };
 
     const textFields = (
-        <div >
+        <div>
             <Form.Group controlId="image_title">
                 <Form.Label>Title</Form.Label>
                 <Form.Control
@@ -233,7 +237,6 @@ function ImagePostEditForm() {
             </Form>
         </div>
     );
-
 }
 
 export default ImagePostEditForm;
