@@ -4,7 +4,7 @@ import { Button, Card, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
-// import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import ImageCarousel from "../../components/ImageCarousel";
 import btnStyles from "../../styles/Button.module.css";
 
@@ -23,14 +23,8 @@ const ProfilePost = (props) => {
         content,
         total_likes_count,
         images,
-        //owner,
+        is_owner,
     } = props;
-
-    // console.log("posfilepostdata", props);
-
-    // const currentUser = useCurrentUser();
-
-    // const is_owner = currentUser?.username === owner;
 
     const navigate = useNavigate();
 
@@ -59,10 +53,12 @@ const ProfilePost = (props) => {
                         <strong>{title}</strong>
                     </h5>
                     <div>
-                        <MoreDropdown
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
-                        />
+                        {is_owner && (
+                            <MoreDropdown
+                                handleEdit={handleEdit}
+                                handleDelete={handleDelete}
+                            />
+                        )}
                     </div>
                 </Container>
                 <hr className="p-0 m-0" />

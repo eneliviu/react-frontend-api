@@ -24,17 +24,19 @@ const ImageCarousel = ({ images, tripId }) => {
     const [showModal, setShowModal] = useState(false);
     const [modalImage, setModalImage] = useState({ src: "", title: "" });
     const handleImageClick = (image) => {
-        setModalImage({ src: image.image, title: image.image_title });
+        setModalImage({
+            src: image.image,
+            title: image.image_title,
+            content: image.description,
+            uploaded_at: image.uploaded_at,
+        });
         setShowModal(true);
     };
-
     return (
         <>
             <Carousel variant="dark" indicators={false}>
                 {images.map((image) => (
-                    <Carousel.Item
-                        key={image.id}
-                    >
+                    <Carousel.Item key={image.id}>
                         <img
                             className="d-block w-100"
                             src={image.image}
@@ -44,7 +46,6 @@ const ImageCarousel = ({ images, tripId }) => {
                                 height: "200px",
                                 width: "100%",
                                 marginBottom: "5px",
-                                // backgroundColor: "black",
                             }}
                             onClick={() => handleImageClick(image)}
                         />
@@ -65,6 +66,8 @@ const ImageCarousel = ({ images, tripId }) => {
                 onHide={() => setShowModal(false)}
                 src={images[0]?.image}
                 imageTitle={modalImage.title}
+                imageContent={modalImage.content}
+                uploadedAt={modalImage.uploaded_at}
             />
         </>
     );

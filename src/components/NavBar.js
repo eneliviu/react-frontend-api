@@ -27,8 +27,6 @@ const NavBar = () => {
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             delete axios.defaults.headers.common["Authorization"];
-            console.log("currentUser: ", currentUser);
-
         } catch (err) {
             console.error("Failed to sign out:", err);
         }

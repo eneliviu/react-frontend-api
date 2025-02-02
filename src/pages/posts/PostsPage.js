@@ -18,12 +18,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import PopularProfiles from "../profiles/PopularProfiles";
 
-
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-// component that is responsible for displaying a list of posts.
-// It fetches the posts data from the server using an optional filter
-// and then renders a list of Post components to display each post.
 function PostsPage({ message, filter = "" }) {
 
     const currentUser = useCurrentUser();

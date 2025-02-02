@@ -199,11 +199,16 @@ export default function TripPopup({
             />
         </Popup>
     ) : (
-        <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip>Log in for details!</Tooltip>}
-        >
-            <i className="fas fa-info-circle" />
-        </OverlayTrigger>
+        // <Popup> </Popup>
+            <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip>Log in for details!</Tooltip>}
+                trigger={["hover", "focus"]}
+            >
+                <i className="fas fa-info-circle" />
+            </OverlayTrigger>
+
     );
 }
+
+

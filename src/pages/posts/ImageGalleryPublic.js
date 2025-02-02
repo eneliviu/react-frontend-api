@@ -21,7 +21,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
+// import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 
 function ImageGalleryPublic({ message, filter="" }) {
@@ -29,7 +29,7 @@ function ImageGalleryPublic({ message, filter="" }) {
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
     const [query, setQuery] = useState("");
-    const currentUser = useCurrentUser() || {};
+    //const currentUser = useCurrentUser() || {};
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -48,14 +48,13 @@ function ImageGalleryPublic({ message, filter="" }) {
             fetchPosts();
         }, 1000);
         return () => clearTimeout(timer);
-    }, [query, pathname]);
+    }, [query, pathname, filter]);
 
     return (
-        // className={styles.GalleryContainer}
         <div className={styles.GalleryContainer}>
             <Row>
                 <Col className="py-2 p-0 p-lg-2">
-                    <OverlayTrigger
+                    {/* <OverlayTrigger
                         placement="top"
                         overlay={
                             <Tooltip>
@@ -73,7 +72,8 @@ function ImageGalleryPublic({ message, filter="" }) {
                         >
                             <PopularProfiles mobile />
                         </div>
-                    </OverlayTrigger>
+                    </OverlayTrigger> */}
+
                     <i className={`fas fa-search ${srcbStyles.SearchIcon}`} />
                     <Form
                         className={srcbStyles.SearchBar}

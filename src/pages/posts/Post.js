@@ -17,7 +17,7 @@
  * @returns {JSX.Element} The rendered Post component.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -26,11 +26,11 @@ import Avatar from "../../components/Avatar";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
-
 const Post = (props) => {
     const {
         description,
         id,
+        owner,
         image,
         image_title,
         owner_name,
@@ -43,10 +43,8 @@ const Post = (props) => {
 
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
+    const isAuthenticated = !!currentUser;
     const navigate = useNavigate();
-
-//   const [likeId, setLikeId] = useState(null);
-
 
     const handleImageEdit = () => {
         navigate(`/trips/${trip_id}/images/edit/`);
@@ -72,7 +70,7 @@ const Post = (props) => {
                     return post.id === id
                         ? {
                               ...post,
-                              likes_count: (post.likes_count ) + 1,
+                              likes_count: post.likes_count + 1,
                               likes: data.id,
                           }
                         : post;
@@ -103,36 +101,73 @@ const Post = (props) => {
         }
     };
 
+    const getProfileImage = async (owner) => {
+        try {
+            const { data } = await axiosReq.get(`/profiles/${owner}/`);
+            if (data.image && data.image.length > 0) {
+                return data.image;
+            } else {
+                console.error("No images found for the profile.");
+                return null;
+            }
+        } catch (err) {
+            console.error("Failed to fetch profile image:", err);
+            return null;
+        }
+    };
+
+    const [profileImage, setProfileImage] = useState("");
+    useEffect(() => {
+        const fetchProfileImage = async () => {
+            const imageUrl = await getProfileImage(owner);
+            if (imageUrl) {
+                setProfileImage(imageUrl);
+            }
+        };
+
+        fetchProfileImage();
+    }, [owner]);
+
     return (
         <Card className={styles.Post}>
             <Card.Body>
                 <div className="d-flex align-items-center justify-content-between">
-                    {is_owner ? (
+                    {isAuthenticated ? (
                         <Link
-                            to={`/profiles/${currentUser.pk}`}
+                            to={`/profiles/${owner}`}
                             className="d-flex align-items-center"
                         >
-                            <Avatar src={image} height={55} />
+                            <Avatar
+                                src={profileImage || undefined}
+                                height={55}
+                            />
                             <span className="ml-2">{owner_name}</span>
                         </Link>
                     ) : (
-                        <>
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={<Tooltip>Log in for details!</Tooltip>}
-                            >
-                                <div className="d-flex align-items-center">
-                                    <Avatar src={image} height={55} />
-                                    <span className="ml-2">{owner_name}</span>
-                                </div>
-                            </OverlayTrigger>
-                        </>
+                        <OverlayTrigger
+                            placement="top"
+                            overlay={
+                                <Tooltip>
+                                    {is_owner
+                                        ? "Visit profile"
+                                        : "Log in to see profiles"}
+                                </Tooltip>
+                            }
+                        >
+                            <span className="d-flex align-items-center">
+                                <Avatar
+                                    src={profileImage || undefined}
+                                    height={55}
+                                />
+                                <span className="ml-2">{owner_name}</span>
+                            </span>
+                        </OverlayTrigger>
                     )}
 
                     <div className="d-flex align-items-center justify-content-between">
-                        <span className="mx-3 text-muted">
+                        <span className="mx-3 text-muted text-center">
                             {" "}
-                            Uploaded: {uploaded_at}
+                            <small>Uploaded at: {uploaded_at}</small>
                         </span>
                         {is_owner && (
                             <MoreDropdown
@@ -142,36 +177,18 @@ const Post = (props) => {
                         )}
                     </div>
                 </div>
+                <hr />
             </Card.Body>
             <Card.Body>
-                {is_owner ? (
-                    <>
-                        {image_title && (
-                            <Card.Title className="text-center">
-                                {image_title}
-                            </Card.Title>
-                        )}
-                        {/* <Link to={`/trips/${trip_id}`}> */}
-                        <Card.Img src={image} alt={image_title} />
-                        {/* </Link> */}
-                        {description && <Card.Text>{description}</Card.Text>}
-                    </>
-                ) : (
-                    <>
-                        {currentUser ? (
-                            // <Link to={`/trips/${trip_id}`}>
-                            <Card.Img src={image} alt={image_title} />
-                        ) : (
-                            // </Link>
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={<Tooltip>Log in for details!</Tooltip>}
-                            >
-                                <Card.Img src={image} alt={image_title} />
-                            </OverlayTrigger>
-                        )}
-                    </>
-                )}
+                <>
+                    {image_title && (
+                        <Card.Title className="text-center">
+                            {image_title}
+                        </Card.Title>
+                    )}
+                    <Card.Img src={image} alt={image_title} />
+                    {description && <Card.Text>{description}</Card.Text>}
+                </>
                 <div className={styles.PostBar}>
                     {is_owner ? (
                         <OverlayTrigger
@@ -182,7 +199,7 @@ const Post = (props) => {
                         >
                             <i className="far fa-heart" />
                         </OverlayTrigger>
-                    ) : likes_count>0 ? (
+                    ) : likes_count > 0 ? (
                         <span onClick={handleUnlike}>
                             <i className={`fas fa-heart ${styles.Heart}`} />
                         </span>
@@ -208,4 +225,3 @@ const Post = (props) => {
 };
 
 export default Post;
-

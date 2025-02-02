@@ -9,10 +9,7 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
-import { useNavigate } from "react-router-dom";
 import TripPopup from "./TripPopUp";
-// import rowStyles from "../styles/SignInUpForm.module.css";
-// import appStyles from "../App.module.css";
 import styles from "../styles/MapComponent.module.css";
 
 // Standard fix for default marker icon not showing
@@ -32,10 +29,8 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
     const [notification, setNotification] = useState("");
-    const [trips, setTrips] = useState([]);
-    //const [isTripsLoaded, setIsTripsLoaded] = useState(false);
+    const [, setTrips] = useState([]); //trips
     const mapRef = useRef(null);
-    const navigate = useNavigate();
     const defaultPosition = [51.505, -0.09];
 
     useEffect(() => {
@@ -106,13 +101,12 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
         try {
             await axiosReq.delete(`/trips/${tripId}/`);
             setTrips((trips) =>
-                  (trips || []).filter((trip) => trip.id !== tripId)
-              );
-             setMarkers((prevMarkers) =>
-                 prevMarkers.filter((marker) => marker.id !== tripId)
-             );
-              setNotification("Trip deleted successfully.");
-              //navigate('/');
+                (trips || []).filter((trip) => trip.id !== tripId)
+            );
+            setMarkers((prevMarkers) =>
+                prevMarkers.filter((marker) => marker.id !== tripId)
+            );
+            setNotification("Trip deleted successfully.");
         } catch (err) {
             console.error("Failed to delete trip:", err);
             setErrors(
@@ -172,14 +166,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                             onClose={() => setNotification("")}
                             className={styles.MapAlertDelete}
                             dismissible
-                            // style={{
-                            //     position: "fixed",
-                            //     top: 250,
-                            //     left: "50%",
-                            //     transform: "translateX(-50%)",
-                            //     zIndex: 1000,
-                            //     width: "auto",
-                            // }}
                         >
                             {notification}
                         </Alert>
@@ -189,7 +175,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                         className={styles.MapWrapper}
                         ref={mapRef}
                         center={defaultPosition}
-                        zoom={7}
+                        zoom={13}
                     >
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

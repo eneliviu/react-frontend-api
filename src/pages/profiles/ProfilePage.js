@@ -26,7 +26,6 @@ import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
 import ProfilePost from "../posts/ProfilePost";
-import Post from "../posts/Post";
 
 function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
     return (
@@ -69,10 +68,9 @@ function ProfilePage({ message }) {
     const { pageProfile } = useProfileData();
     const [profile] = pageProfile.results;
     const is_owner = currentUser?.username === profile?.owner;
+    const is_profile_owner = currentUser?.profile_id === profile?.id;
 
     const [query, setQuery] = useState("");
-
-    // console.log("current user: ", currentUser.profile_id);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -107,10 +105,10 @@ function ProfilePage({ message }) {
         (acc, trip) => acc + (trip.total_likes_count || 0),
         0
     );
-
+    // profile?.is_owner
     const mainProfile = (
         <>
-            {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
+            {is_profile_owner && <ProfileEditDropdown id={profile?.id} />}
             <Row className="px-3 text-center">
                 <Col lg={3} className="text-lg-left">
                     <Image
@@ -181,9 +179,6 @@ function ProfilePage({ message }) {
             </Row>
         </>
     );
-    // console.log("profile:", profile);
-    // console.log("profilePosts:", profilePosts);
-    // console.log("id:", id);
 
     return (
         <div className={styles.App}>

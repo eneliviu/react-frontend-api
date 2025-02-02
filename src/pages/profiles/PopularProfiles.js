@@ -25,7 +25,7 @@ const PopularProfiles = ({ mobile }) => {
                         {mobile ? (
                             <div className="d-flex justify-content-around">
                                 {popularProfiles.results
-                                    .slice(0, 4)
+                                    .slice(0, 10)  // top 10 followed profiles
                                     .map((profile) => (
                                         <Profile
                                             key={profile.id}
