@@ -184,8 +184,8 @@ function ProfilePage({ message }) {
 
     return (
         <div className={styles.App}>
-            <Row className={`${rowStyles.Row} h-100`}>
-                <Col className="py-2 p-lg-2" lg={8}>
+            <Row className={`${rowStyles.Row}`}>
+                <Col className="py-2 p-lg-2 h-100" lg={8}>
                     <PopularProfiles mobile />
                     {hasLoaded ? (
                         <>

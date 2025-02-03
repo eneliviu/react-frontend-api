@@ -89,14 +89,14 @@ function TripCreateForm() {
         formData.append("trip_status", trip_status);
         formData.append("shared", shared);
 
-        for (let pair of formData.entries()) {
-            console.log("paris", pair);
-            console.log(pair[0] + ", " + pair[1]);
-        }
+        // for (let pair of formData.entries()) {
+        //     console.log("paris", pair);
+        //     console.log(pair[0] + ", " + pair[1]);
+        // }
 
         try {
             const { data } = await axiosReq.post("/trips/", formData);
-            console.log("sent data", data);
+            // console.log("sent data", data);
             setTripId(data.id); // Set the created trip ID
             navigate(`/profiles/${currentUser.profile_id}`); // `profiles/${currentUser.id}/trips/${data.id}`
         } catch (err) {

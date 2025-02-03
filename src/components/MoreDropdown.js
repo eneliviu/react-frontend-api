@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import styles from "../styles/MoreDropdown.module.css";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../api/axiosDefaults";
 import { useSetCurrentUser } from "../contexts/CurrentUserContext";
-import Alert from "react-bootstrap/Alert";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
     <div
@@ -58,7 +55,6 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
 
 export function ProfileEditDropdown({ id }) {
     const navigate = useNavigate();
-    const [showAlert, setShowAlert] = useState(false);
     const setCurrentUser = useSetCurrentUser();
 
     const handleDeleteProfile = async () => {
@@ -71,29 +67,29 @@ export function ProfileEditDropdown({ id }) {
         }
         try {
             await axiosReq.delete(`/profiles/${id}/`);
+
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("refreshToken");
+            setCurrentUser(null);
+
             setTimeout(() => {
                 window.alert("Profile deleted successfully.");
             }, 1000);
 
-            setCurrentUser(null);
-            localStorage.removeItem("authToken");
-            localStorage.removeItem("refreshToken");
-
-            setShowAlert(true);
             setTimeout(() => {
                 navigate("/signin");
             }, 1000);
+
 
         } catch (error) {
             console.error("Error deleting profile:", error);
         }
     };
 
-    
 
     return (
         <>
-        {showAlert && (
+        {/* {showAlert && (
             <Alert
                 variant="success"
                 onClose={() => setShowAlert(false)}
@@ -111,7 +107,7 @@ export function ProfileEditDropdown({ id }) {
             >
                 Profile deleted successfully. Redirecting to login...
             </Alert>
-        )}
+        )} */}
             <Dropdown className={`ml-auto px-3 ${styles.Absolute}`} drop="left">
                 <Dropdown.Toggle as={ThreeDotsToggle} />
                 <Dropdown.Menu>

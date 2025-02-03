@@ -38,7 +38,6 @@ export const ProfileDataProvider = ({ children }) => {
                 },
             }));
 
-            console.log("Followed profile: ", data);
         } catch (err) {
             console.log(err);
         }

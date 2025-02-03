@@ -13,10 +13,10 @@ import {
     Alert,
 } from "react-bootstrap";
 import axios from "axios";
-// import { useRedirect } from "../../hooks/useRedirect";
+import { useRedirect } from "../../hooks/useRedirect";
 
 const SignUpForm = () => {
-    // useRedirect("loggedIn");
+    useRedirect("loggedIn");
     const [signUpData, setSignUpData] = useState({
         username: "",
         password1: "",
@@ -37,7 +37,6 @@ const SignUpForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form with data:", signUpData);
         try {
             await axios.post("/dj-rest-auth/registration/", signUpData);
             history("/signin");
