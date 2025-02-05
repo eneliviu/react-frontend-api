@@ -110,8 +110,6 @@ function App() {
                         element={<ImageUploadForm />}
                     />
 
-                    {/* <Route exact path="/trips/:tripId" element={<ProfilePost />} /> */}
-
                     <Route
                         path="/trips/:tripId/images/edit"
                         element={<ImagePostEditForm />}

@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Button, Tooltip, OverlayTrigger, Container } from "react-bootstrap";
 import btnStyles from "../styles/Button.module.css";
+
 import { Popup } from "react-leaflet";
 
 function TripImage({ latestImageUrl }) {
@@ -199,16 +200,8 @@ export default function TripPopup({
             />
         </Popup>
     ) : (
-        // <Popup> </Popup>
-            <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip>Log in for details!</Tooltip>}
-                trigger={["hover", "focus"]}
-            >
-                <i className="fas fa-info-circle" />
-            </OverlayTrigger>
-
+        <Popup>
+            <strong>Log in for details!</strong>
+        </Popup>
     );
 }
-
-

@@ -54,7 +54,6 @@ axiosRes.interceptors.response.use(
                     console.error("Token refresh failed:", err);
                     localStorage.removeItem("access_token");
                     localStorage.removeItem("refresh_token");
-                    // Handle logout or redirect to login page if needed
                 }
             }
         }

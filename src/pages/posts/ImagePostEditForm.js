@@ -94,9 +94,9 @@ function ImagePostEditForm() {
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ", " + pair[1]);
-        }
+        // for (let pair of formData.entries()) {
+        //     console.log(pair[0] + ", " + pair[1]);
+        // }
 
         try {
             //console.log(`/trips/${tripId}/images/${id}/`);
