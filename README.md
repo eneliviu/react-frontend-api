@@ -1,25 +1,20 @@
 # ***<center><font color="red"> LovinEscapades-API</font>***: The Ultimate Trip Tracking Tool!</center>
-## <center> A Django web app </center>
-
+## <center> A React - Django DRF web app </center>
 
 The React app project contains the 'auth' folder with SigninForm.js and SignUpForm.js. 
 Please summarize their functionalities in the appropriate sections of the README file:
 
-
-
 ### **Table of content:**
 - [Overview](#overview)
+- [Installation and Setup](#installation-and-setup)
 - [Application Development](#application-development)
 - [Main Features](#main-features)
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
-- [Technologies Used](#technologies-used)
-- [Accessibility and Design](#accessibility-and-design)
-- [Usage and Screenshots](#usage-and-screenshots)
-- [Database Schema](#database-schema)
-- [Online Validators](#online-validators)
-- [Unit Testing](#unit-testing)
-- [Manual Testing](#manual-testing)
+- [State Management](#state-management)
+- [API Integration](#api-integration)
+- [Routing](#routing)
+- [Screenshots](#screenshots)
+- [Testing](#testing)
 - [Heroku Deployment](#heroku-deployment)
 - [Contributing](#contributing)
 - [License](#license)
@@ -29,13 +24,45 @@ Please summarize their functionalities in the appropriate sections of the README
 ## Overview
 This React application serves as the frontend for the LovinEscapades project and draws inspiration from the Moments walkthrough project by Code Institute, as well as the "LovinEscapades" project from Milestone Project 4. While these earlier works influenced the core concepts and design, substantial upgrades and refactoring were implemented to address and resolve conflicts resulting from the deprecation of Create React App (CRA). Additionally, generative AI tools, including OpenAI's GPT-4 model, were leveraged for debugging and updating deprecated libraries throughout the Code Institute walkthrough projects.
 
-## Installation and Setup
-Step-by-step instructions on how to set up and run the project locally. Include prerequisites and how to install dependencies.
+## Application Development
+This application was developed using an iterative approach, following Agile principles.
+
+**User Stories & Epics**
+I employed a user-centric approach, defining key epics and user stories to guide project development.
+
+**Example Epic**:
+Epic: As an API developer,
+I want to implement robust and secure user authentication,
+so that API consumers can securely access and interact with protected resources.
+
+**Example User Story**:
+As an API consumer,
+I can authenticate with the API using JWT (JSON Web Tokens),
+So that I can access protected resources and perform authorized actions.
+
+**Key Epics**:
+* User Authentication: Implement secure and reliable user authentication.
+* Trip Management: Enable users to create, manage, and share trip plans.
+* Social Interaction: Allow users to interact with other users and their content (e.g., liking posts, following users).
+* API Documentation: Provide comprehensive and user-friendly API documentation.
+
+
+All critical user stories identified as "must-have" were successfully implemented within the project timeline.
+
+
+<p align="center"><img src="src/assets/doc/Kanban.png" alt="agile kanban board"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<p align="center"><img src="src/assets/doc/Kanban_detail.png" alt="agile kanban board"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+
+This project builds upon the "LovinEscapades" project from MileCustom template for User Storiesstone Project 4 at CodeInstitute. It provides an opportunity to apply API development concepts and enhance my understanding of backend development principles. During development, I focused on code quality and maintainability, adhering to the DRY principle and utilizing frequent Git commits for effective version control.
 
 
 [*Back to top*](#)
 
-## Features
+## Main Features
 
 ### Authentication
 The React application includes robust authentication features for managing user sessions.
@@ -103,13 +130,7 @@ The `index.js` and `App.js` files are key components of the React application:
 
 
 
-## Available Scripts
 
-Describe the various npm scripts that can be run, for example:
-- `npm start` – Runs the app in development mode.
-- `npm test` – Launches the test runner.
-
-[*Back to top*](#)
 
 ## State Management
 
@@ -155,36 +176,82 @@ It defines multiple routes for various pages in the application:
 
 [*Back to top*](#)
 
-
-## Styling and UI Design
-Discuss the design approach, any UI libraries or frameworks used, and how styling is managed in the project.
-
-[*Back to top*](#)
-
 ## Screenshots
-
 
 ### Un-authenticated site visitors
 <p align="center"><img src="src/assets/doc/home_visitors.png" alt="map visitors"></p>
+<center> Home page view for unauthenticated site visitors.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/filter_map_country.png" alt="filter by country"></p>
+<center> Map filters example: filter by country name.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/filter_map_place.png" alt="filter by place"></p>
+<center> Map filters example: filter by place/city name.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/marker_popup_visitor.png" alt="marker popup"></p>
+<center> Information on popups is not unavailable to unauthenticated site visitors.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/gallery_visitor.png" alt="gallery visitor"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/signup_form.png" alt="signup form"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
 <p align="center"><img src="src/assets/doc/signin_form.png" alt="signin form"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
 
 ### Authenticated users
-![alt text](home_users.png)
+<br>
 <p align="center"><img src="src/assets/doc/home_users.png" alt="map users"></p>
-<p align="center"><img src="src/assets/doc/add_trip.png" alt="add trip"></p>
-<p align="center"><img src="src/assets/doc/gallery_auth_users.png" alt="gallery users"></p>
+<center> Github Kanban board with project User stories.</center><br>
 
-![alt text](gallery_auth_users.png)
+<br>
+<p align="center"><img src="src/assets/doc/add_trip.png" alt="add trip"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
+<p align="center"><img src="src/assets/doc/gallery_auth_users.png" alt="gallery page"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
+<p align="center"><img src="src/assets/doc/feed_auth_users.png" alt="feed page"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
+<p align="center"><img src="src/assets/doc/liked_auth_users.png" alt="liked page"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+<br>
+<p align="center"><img src="src/assets/doc/profile_page.png" alt="profile page"></p>
+<center> Github Kanban board with project User stories.</center><br>
+
+[*Back to top*](#)
 
 
 ## Testing
 
 ### Manual testing
+The manual testing section aims to validate the functionality, usability, and integration of the frontend React app with the Django backend beyond automated tests. This testing strategy ensures that the app operates correctly under various conditions, including user authentication, profile management, trip and image handling, and UI consistency.
+
+| **Test Type**                       | **Description and Steps**                                                                                     | **Expected Result**                                                                                         | **Status**                                 |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+| **Authentication**                  | 1. **User registration:** <br/> - Register using username and password, enter password twice, redirect to `Home` page. <br/> 2. **User login:** <br/> - Log in with credentials, check errors for empty fields, incorrect username/password. <br/> 3. **User logout:** <br/> - Logout via navbar, redirect to `Login` page. | Successful registration and login/logout processes with proper error handling and redirection.                | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **User Profile Management**         | 1. **Edit profile:** <br/> - Edit bio and change image, cancel/submit changes, logout, login required. <br/> 2. **Change username:** <br/> - Edit username, cancel/submit changes, logout, login required. <br/> 3. **Change password:** <br/> - Edit password, cancel/submit changes, logout, login required. <br/> 4. **Delete profile:** <br/> - Access/delete form, confirm, logout, redirect to `Home`. <br/> 5. **Activity indicators:** <br/> - Indicators update correctly. | Successful editing, changing, deleting of profile with proper notifications and navigation feedback.          | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Trip Management**                 | 1. **Create trip:** <br/> - Field error checks, date validation, cancel/redirect, submit/redirect to map. <br/> 2. **Edit trip:** <br/> - Pre-filled form, field error checks, cancel/redirect, submit/redirect. <br/> 3. **Delete trip:** <br/> - Access from marker/profile, cancellation/redirect, submit/redirect. | Successful creation, editing, deletion of trips, with navigational correctness and validation checks.         | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Image Management**                | 1. **Upload new image:** <br/> - Access upload forms, cancel/submit feedback, redirection as appropriate. <br/> 2. **Edit existing image:** <br/> - Pre-filled form, previous image data checks, cancel/submit, redirection proper. <br/> 3. **Delete image:** <br/> - Access/delete forms, cancellation/redirect, submit/redirect. <br/> 4. **Image likes:** <br/> - Correct like functionality, excluding own images. | Correct handling of image management processes with functional forms and appropriate feedback mechanisms.    | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Map Trip Locations**              | 1. Display trip locations on the map. <br/> 2. Update trip/image info in popups. <br/> 3. Disable buttons for non-owners. | Correct display of map locations and interactive elements, with button disabling for unauthorized actions.   | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Gallery Page**                    | 1. Display shared images. <br/> 2. Proper access to edit/delete forms for owners. <br/> 3. Controlled like functionality. | Correct display and interaction of shared content with controlled user functionalities for likes.            | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Feed Page**                       | 1. Display images from followed users. <br/> 2. Hide images from unfollowed users.                             | Appropriate filtering of content based on user follow state.                                                | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Liked Page**                      | 1. Display liked images. <br/> 2. Hide unliked images.                                                          | Correct display of user-liked images with hidden unliked content.                                           | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+| **Privacy Handling**                | 1. Not shared trips not visible to other users on the map. <br/> 2. Not shared trips not visible to other users on the trip's owner profile page. <br/> 3. Not shared images not visible to other users on the map and gallery page. <br/> 4. Not shared images not visible to other users on the trip's owner profile page. | Ensures that non-shared trips and images are correctly hidden from unauthorized users across different pages. | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
+|
 
 
 ### Validators
@@ -201,18 +268,56 @@ The base URL for the backend API is specified in the [`axiosDefaults.js`](src\ap
 [*Back to top*](#)
 
 
-## Contributing
-### To contribute to the ***LovinEscapades-API*** project:
-- Fork the repository on GitHub to create your own copy.
-- Clone the forked repository to your local machine.
-- To fork the project:
-    - Click the "Fork" button on the top-right corner of the repository page
-    - Clone Your Fork by running the following command in the terminal or command prompt:
-        `git clone https://github.com/your-username/repository-name.git`
-- Make your desired changes, whether it's fixing a bug, adding a feature, or updating documentation.
-- Commit your changes with clear messages.
-- Push your commits to your forked repository on GitHub.
-- Submit a pull request detailing your changes and their benefits.
+
+## Installation
+To get the app up and running on your local machine for development and testing purposes, follow these steps:
+
+* **Prerequisites**
+Ensure you have the following tools installed on your development machine:
+- **Node.js**: [Download and install Node.js](https://nodejs.org/), which comes with `npm`.
+- **Git**: [Download and install Git](https://git-scm.com/).
+
+* **Clone Repository**
+First, clone the repository to your local machine using Git. Open your terminal and run:
+```bash
+git clone https://github.com/yourusername/your-repo-name.git
+```
+Navigate into the project directory:
+```bash
+cd your-repo-name
+```
+
+* **Install Dependencies**
+Once inside the project directory, install the necessary `npm` packages:
+```bash
+npm install
+```
+This will install all dependencies listed in the `package.json` file.
+
+* **Running the Application**
+You can run the application in development mode with the following command:
+```bash
+npm start
+```
+This will start the development server and open the app in your default web browser. If not, you can visit it at [http://localhost:3000](http://localhost:3000).
+
+### Contribution Guide
+#### Fork the Project
+* Click the "Fork" button on the top-right corner of the repository page
+* Clone Your Fork by running the following command in the terminal or command prompt:
+    `git clone https://github.com/your-username/repository-name.git`
+* Make your desired changes, whether it's fixing a bug, adding a feature, or updating documentation.
+* Commit your changes with clear messages, for example:
+```bash
+git add .
+git commit -m "Fix issue #123: Corrected the layout on the homepage"
+```
+* Push your commits to your forked repository on GitHub.
+````bash
+git push
+```
+
+* Submit a pull request detailing your changes and their benefits.
 
 [*Back to top*](#)
 
@@ -225,5 +330,11 @@ The code is accessible on GitHub, allowing developers to view, fork, and contrib
 
 ## Acknowledgements
 I would like to extend my gratitude to my mentor, Luke Buchanan, for his support and patience, especially during the challenging initial stages of the frontend development.
+
+[*Back to top*](#)
+
+## Documentation version
+
+Last updated: Feb 5, 2025
 
 [*Back to top*](#)
