@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { axiosReq } from "../api/axiosDefaults";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import { followHelper, unfollowHelper } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 const ProfileDataContext = createContext();
 const SetProfileDataContext = createContext();
@@ -16,6 +17,7 @@ export const ProfileDataProvider = ({ children }) => {
     });
 
     const currentUser = useCurrentUser();
+    const navigate = useNavigate();
 
     const handleFollow = async (clickedProfile) => {
         try {
@@ -68,6 +70,7 @@ export const ProfileDataProvider = ({ children }) => {
 
     useEffect(() => {
         const handleMount = async () => {
+            if (!currentUser) return;
             try {
                 const { data } = await axiosReq.get(
                     "/profiles/?ordering=-followers_count"
@@ -77,12 +80,19 @@ export const ProfileDataProvider = ({ children }) => {
                     popularProfiles: data,
                 }));
             } catch (err) {
-                console.log(err);
+                if (err.response?.status === 401) {
+                    console.log(
+                        "User is not authenticated. Redirecting to login..."
+                    );
+                    navigate("/signin");
+                } else {
+                    console.log("Error fetching profiles:", err);
+                }
             }
         };
 
         handleMount();
-    }, [currentUser]);
+    }, [currentUser, navigate]);
 
     return (
         <ProfileDataContext.Provider value={profileData}>

@@ -53,8 +53,8 @@ const UserPasswordForm = () => {
     };
 
     return (
-        <Row>
-            <Col className="py-2 mx-auto text-center" md={6}>
+        <Row className="h-100">
+            <Col className="py-2 mx-auto text-center h-100" md={6}>
                 <Container className={appStyles.Content}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>

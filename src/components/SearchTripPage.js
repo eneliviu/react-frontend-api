@@ -9,7 +9,7 @@ const SearchPage = () => {
     });
 
     const handleSubmit = () => {
-        // Optional: Perform operations when filters are applied
+        // Optional: Perform some operations when filters are applied
     };
 
     return (

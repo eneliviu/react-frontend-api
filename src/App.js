@@ -69,10 +69,7 @@ function App() {
                     <Route
                         path="/gallery"
                         element={
-                            <ImageGalleryPublic
-                                message="No results found. Adjust the
-                            search keyword or follow a user."
-                            />
+                            <ImageGalleryPublic message="No results found. Adjust the search keyword or follow a user." />
                         }
                     />
 
@@ -80,7 +77,7 @@ function App() {
                         path="/feed"
                         element={
                             <ImageGalleryPublic
-                                message="No results found. Adjust the search keyword or follow a user."
+                                message="No results found. Adjust the search keyword or make sure the user posted an image."
                                 filter={`followed_users=True&`}
                             />
                         }
@@ -118,9 +115,8 @@ function App() {
                     <Route
                         path="/profiles/:id"
                         element={<ProfilePage />}
-                        message="No results found. Adjust the search keyword."
+                        message="No results found."
                     />
-
 
                     <Route
                         path="/profiles/:id/edit/username"

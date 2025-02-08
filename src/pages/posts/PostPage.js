@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
+//import Container from "react-bootstrap/Container";
 
-import appStyles from "../../App.module.css";
+//import appStyles from "../../App.module.css";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
-import Asset from "../../components/Asset";
+//import Asset from "../../components/Asset";
 
-import InfiniteScroll from "react-infinite-scroll-component";
+//import InfiniteScroll from "react-infinite-scroll-component";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { fetchMoreData } from "../../utils/utils";
+//import { fetchMoreData } from "../../utils/utils";
 import PopularProfiles from "../profiles/PopularProfiles";
 
 
@@ -25,7 +25,7 @@ function PostPage() {
     const { id } = useParams();
     const [post, setPost] = useState({ results: [] });
     const currentUser = useCurrentUser();
-    const profile_image = currentUser?.profile_image;
+    //const profile_image = currentUser?.profile_image;
 
     useEffect(() => {
         const handleMount = async () => {

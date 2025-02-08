@@ -1,5 +1,5 @@
 # ***<center><font color="red"> LovinEscapades-API</font>***: The Ultimate Trip Tracking Tool!</center>
-## <center> A React - Django DRF web app </center>
+## <center> **A React - Django DRF web app** </center>
 
 The React app project contains the 'auth' folder with SigninForm.js and SignUpForm.js. 
 Please summarize their functionalities in the appropriate sections of the README file:
@@ -21,50 +21,50 @@ Please summarize their functionalities in the appropriate sections of the README
 - [Acknowledgements](#acknowledgements)
 - [Documentation version](#documentation-version)
 
-## Overview
-This React application serves as the frontend for the LovinEscapades project and draws inspiration from the Moments walkthrough project by Code Institute, as well as the "LovinEscapades" project from Milestone Project 4. While these earlier works influenced the core concepts and design, substantial upgrades and refactoring were implemented to address and resolve conflicts resulting from the deprecation of Create React App (CRA). Additionally, generative AI tools, including OpenAI's GPT-4 model, were leveraged for debugging and updating deprecated libraries throughout the Code Institute walkthrough projects.
+## **Overview**
+This React application serves as the frontend for the LovinEscapades project. It draws inspiration from the Moments walkthrough project by CodeInstitute and the "LovinEscapades" project from Milestone Project 4. While these earlier works laid the groundwork for core concepts and design, mandatory upgrades and refactoring were implemented to address challenges arising from the deprecation of Create React App (CRA), which was originally used in CodeInstitute's React resources. Additionally, generative AI tools, including OpenAI's GPT-4 model, were employed to debug issues caused by deprecated libraries in the CodeInstitute resources. The insights and solutions derived from this process were also applied to enhance the current project.
 
-## Application Development
+## **Application Development**
 This application was developed using an iterative approach, following Agile principles.
+
+#### <center> Github Kanban board with project Epics and User stories.</center>
+<p align="center"><img src="src/assets/doc/kanban_board_view.png" alt="agile kanban board"></p>
+<br>
+
+#### <center> Epics and User story example.</center>
+<p align="center"><img src="src/assets/doc/user_story_example.png" alt="agile kanban board"></p>
+<br>
+
 
 **User Stories & Epics**
 I employed a user-centric approach, defining key epics and user stories to guide project development.
 
 **Example Epic**:
-Epic: As an API developer,
+Epic: As a frontend developer,
 I want to implement robust and secure user authentication,
-so that API consumers can securely access and interact with protected resources.
+so that app users can securely access and interact with protected resources.
 
 **Example User Story**:
-As an API consumer,
-I can authenticate with the API using JWT (JSON Web Tokens),
-So that I can access protected resources and perform authorized actions.
+As a new user,
+I must be able to register for an account on the platform,
+so that I can access all platform features.
 
-**Key Epics**:
-* User Authentication: Implement secure and reliable user authentication.
-* Trip Management: Enable users to create, manage, and share trip plans.
-* Social Interaction: Allow users to interact with other users and their content (e.g., liking posts, following users).
-* API Documentation: Provide comprehensive and user-friendly API documentation.
+**`Must-have` Epics and User Stories**:
+* User Registration and Authentication: Implement secure and reliable user authentication.
+* Core Post Functionality: Enable users to create, manage, and share trip plans and images.
+* User profile and Interaction: Allow users to manage their profiles and interact with other users and their content (e.g., liking posts, following other users).
 
+**`Could-have` Epics and User Stories**:
+* USer comments and messaging: Enable users to post comments on posts and exchange messages with other users to facilitate interaction and communication within the app.
 
-All critical user stories identified as "must-have" were successfully implemented within the project timeline.
-
-
-<p align="center"><img src="src/assets/doc/Kanban.png" alt="agile kanban board"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
-<p align="center"><img src="src/assets/doc/Kanban_detail.png" alt="agile kanban board"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
-
-This project builds upon the "LovinEscapades" project from MileCustom template for User Storiesstone Project 4 at CodeInstitute. It provides an opportunity to apply API development concepts and enhance my understanding of backend development principles. During development, I focused on code quality and maintainability, adhering to the DRY principle and utilizing frequent Git commits for effective version control.
+All the `must-have` user stories were implemented. The `could-have` user stories has not been implemented yet.
 
 
 [*Back to top*](#)
 
-## Main Features
+## **Main Features**
 
-### Authentication
+### **Authentication**
 The React application includes robust authentication features for managing user sessions.
 Below are summaries of the key components responsible for authentication:
 
@@ -86,39 +86,46 @@ Below are summaries of the key components responsible for authentication:
   - Employs Bootstrap components for form structuring and styling, supporting an engaging and accessible registration process.
 
 
-### Mapping and geolocation services
+### **Mapping and geolocation services**
 * Easy navigation from the map markers and profile, add/edit trip images
 
-### Image gallery for site visitiors
+### **Image gallery for site visitiors**
 * Privacy (display only shared trips and images)
 * Private info is available only to the user, on its profile page
 
-### Custom hooks
+### **Custom hooks**
 The application incorporates custom React hooks to streamline functionality and improve user interactions:
 
 - **useRedirect.js**:
-  - This hook manages navigation based on the user's authentication status.
+  - This hook manages navigation based on the user's authentication status and it helps protect routes that require authentication. This is achieved by implementing a mechanism that checks if a user is logged in before allowing them to navigate to protected routes. If the user is not authenticated, they are redirected to the login page or to home page.
   - It utilizes `react-router-dom`'s `useNavigate` hook to redirect users dynamically.
   - When executed, it checks whether a user is logged in via an API request to `/dj-rest-auth/user/`.
     - If the `userAuthStatus` is "loggedIn" and the user is authenticated, the hook navigates to the homepage.
     - If the `userAuthStatus` is "loggedOut" and the user is not authenticated, it also redirects to the homepage.
+
 
 - **useClickOutsideToggle.js**:
   - This utility hook is designed to manage UI elements that expand and collapse based on click events outside of a targeted component.
   - It maintains state (`expanded`) to track whether the element is expanded and uses a `ref` to reference the targeted element.
   - The hook listens for mouseup events and sets the expanded state to false if a click is detected outside the referenced element.
 
-### Infinite scrolling
-* Trips and image lists
+### **Infinite scrolling**
+The application implements infinite scrolling for viewing lists of posts and images. As users scroll down, additional content is dynamically loaded, providing a seamless and uninterrupted browsing experience without the need for pagination.
 
-### Styling
-React Bootstrap library responsive design and styling the React components.
-Most components have their associated CSS modules for styling.
+### **Styling**
+The application leverages the following tools and approaches for styling:
+- **React Bootstrap:** The [React Bootstrap](https://react-bootstrap.github.io/) library is used to ensure a responsive and consistent design across all components.
+- **CSS Modules:** Most components have their own associated CSS modules, ensuring scoped and maintainable styles. This approach prevents style conflicts and promotes modularity.
+- **Font Awesome Icons:** The [Font Awesome](https://fontawesome.com/) library is integrated to provide scalable vector icons.
+
+### **Responsive design**
+The application ensures a seamless user experience across all devices using **React Bootstrap** and custom **CSS**, which provides a responsive grid system and adaptive components.
+This guarantees consistent functionality and aesthetics on mobile, tablet, and desktop screens.
 
 [*Back to top*](#)
 
 
-## Project Structure
+## **Project Structure**
 The `index.js` and `App.js` files are key components of the React application:
 
 - **`index.js`**: This file is the entry point of the React application. It sets up the React application to render within the HTML root element. The application is wrapped with several key providers and routing functionality:
@@ -129,10 +136,7 @@ The `index.js` and `App.js` files are key components of the React application:
 [*Back to top*](#)
 
 
-
-
-
-## State Management
+## **State Management**
 
 ### CurrentUserContext
 - **`CurrentUserContext.js`**: Manages state and operations related to the current authenticated user.
@@ -150,7 +154,7 @@ The `index.js` and `App.js` files are key components of the React application:
 
 [*Back to top*](#)
 
-## API Integration
+## **API Integration**
 The React application interfaces with the Django API using the Axios library for HTTP requests.
 
 ### Axios Configuration
@@ -161,7 +165,7 @@ The React application interfaces with the Django API using the Axios library for
   - **Request Interceptor**: Automatically attaches an access token from localStorage to the headers of outgoing requests.
   - **Response Interceptor**: Handles 401 Unauthorized errors by attempting to refresh tokens using a stored refresh token, updating the local storage and retrying the original request if successful.
 
-## Routing
+## **Routing**
 The application's route management is handled within `App.js` using `react-router-dom`.
 It defines multiple routes for various pages in the application:
 
@@ -176,61 +180,108 @@ It defines multiple routes for various pages in the application:
 
 [*Back to top*](#)
 
-## Screenshots
+## **Screenshots**
 
-### Un-authenticated site visitors
+### **Features for Unauthenticated Site Visitors**
+
+#### <center> **Landing page view: navbar with site logo and menus, header, Leaflet map component map search filters.**</center>
 <p align="center"><img src="src/assets/doc/home_visitors.png" alt="map visitors"></p>
-<center> Home page view for unauthenticated site visitors.</center><br>
-
 <br>
+
+#### <center> **Map filters example: filter by country name.**</center>
 <p align="center"><img src="src/assets/doc/filter_map_country.png" alt="filter by country"></p>
-<center> Map filters example: filter by country name.</center><br>
-
 <br>
+
+#### <center> **Map filters example: filter by place/city name.**</center>
 <p align="center"><img src="src/assets/doc/filter_map_place.png" alt="filter by place"></p>
-<center> Map filters example: filter by place/city name.</center><br>
-
 <br>
+
+#### <center> **Information on popups not unavailable to unauthenticated site visitors. Login required for details**</center>
 <p align="center"><img src="src/assets/doc/marker_popup_visitor.png" alt="marker popup"></p>
-<center> Information on popups is not unavailable to unauthenticated site visitors.</center><br>
-
 <br>
+
+#### <center> **Image gallery page with search bar, image card and popoular profiles info card (login required). The image card contains the image title at the top and the image in the card body. The footer contains a short image description and a `Likes` button that allows users (not the image owner) to like/unlike the image.**</center>
 <p align="center"><img src="src/assets/doc/gallery_visitor.png" alt="gallery visitor"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
 <br>
+
+#### <center> **Signup form: username, password and passwrod confirmation required.**</center>
 <p align="center"><img src="src/assets/doc/signup_form.png" alt="signup form"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
 <br>
+
+#### <center> **Sigin form: username and password required.**</center>
 <p align="center"><img src="src/assets/doc/signin_form.png" alt="signin form"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
-
-### Authenticated users
 <br>
+
+### **Features for Authenticated Users**
+
+#### <center> **Landing page for authenticated users. Map component with active marker tooltips indicating username (with reference to trip owner's profile page), trip info and last uploaded image, and functionality for uploading images and deleting the trip.** </center>
 <p align="center"><img src="src/assets/doc/home_users.png" alt="map users"></p>
-<center> Github Kanban board with project User stories.</center><br>
 
-<br>
-<p align="center"><img src="src/assets/doc/add_trip.png" alt="add trip"></p>
-<center> Github Kanban board with project User stories.</center><br>
 
+#### <center> **Form for creating a new trip. All fields are mandatory. The `Shared` option is active by default, which implies that the user agrres sharing the trip info on the map component and on it's profile page**</center>
+<p align="center"><img src="src/assets/doc/add_trip.png" alt="add trip form"></p>
 <br>
+
+#### <center> **Form for creating a new trip: details on date picker, trip categoriy and trip status fields**</center>
+<p align="center"><img src="src/assets/doc/add_trip_form_details.png" alt="add trip form details"></p>
+<br>
+
+#### <center> **Gallery page with search bar activated card with info on the top 10 most followed users. The `Like` icons has red background for the liked images** </center>
 <p align="center"><img src="src/assets/doc/gallery_auth_users.png" alt="gallery page"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
 <br>
+
+#### <center>**Feed-page displaying the images posted by the followed users, with the most recently posted image at the top**.</center>
 <p align="center"><img src="src/assets/doc/feed_auth_users.png" alt="feed page"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
 <br>
+
+#### <center> **Liked-page displaying the images that received likes**</center>
 <p align="center"><img src="src/assets/doc/liked_auth_users.png" alt="liked page"></p>
-<center> Github Kanban board with project User stories.</center><br>
-
 <br>
+
+#### <center>**The profile displayong the owner's trip list with a free-text search bar at the top, and cards for profile statistics the most followed users**</center>
 <p align="center"><img src="src/assets/doc/profile_page.png" alt="profile page"></p>
-<center> Github Kanban board with project User stories.</center><br>
+<br>
+
+#### <center>**Clicking on a carousel image opens a modal that displays detailed information about the image**</center>
+<p align="center"><img src="src/assets/doc/image_carousel_modal.png" alt="image modal"></p>
+<br>
+
+#### <center> **Clicking on the vertical three-dot icon in the trip card header opens the edit/delete trip options.**</center>
+<p align="center"><img src="src/assets/doc/edit_trip.png" alt="edit trip"></p>
+<br>
+
+#### <center> **Edit/delete trip forms details. The trip edit form is pre-filled with the trip info. Clicking the `Delete` button opens an alert to confirm/cancel the action.**</center>
+<p align="center"><img src="src/assets/doc/trip_edit_details.png" alt="edit trip details"></p>
+
+#### <center> **Clicking on the vertical three-dot icon underneath the carousel images opens the edit/delete image options.**.</center>
+<p align="center"><img src="src/assets/doc/edit_image.png" alt="edit image"></p>
+<br>
+
+#### <center> **The edit image is pre-filled with the image info.**</center>
+<p align="center"><img src="src/assets/doc/edit_image_form.png" alt="edit image form"></p>
+<br>
+
+#### <center> **Delete image forms details: Clicking the `Delete` button opens an alert to confirm/cancel the action.**</center>
+<p align="center"><img src="src/assets/doc/delete_image_alert.png" alt="delete image alert"></p>
+<br>
+
+#### <center> **A success alert is shown once the deletion is successfully completed, and the page refreshes automatically after the user closes the alert.**</center>
+<p align="center"><img src="src/assets/doc/delete_image_notification.png" alt="delete image notification"></p>
+<br>
+
+#### <center> **Clicking on the three-dots vertcal menu on the right side of the profile page opend the profile edit menu containing the `edit profile`, `change username`, `change password` and `delete profile` options**</center>
+<p align="center"><img src="src/assets/doc/edit_profile.png" alt="edit profile"></p>
+<br>
+
+#### <center> **Edit profile details: `edit profile`, `change username`, and `change password` forms**</center>
+<p align="center"><img src="src/assets/doc/edit_profile_form_1_3.png" alt="edit profile forms"></p>
+<br>
+
+
+#### <center> **Selecting the `Delete profile` option opens an alert to confirm/cancel the action. After successful deletion, the user is redirected to the `Login` page**</center>
+<p align="center"><img src="src/assets/doc/delete_profile_form.png" alt="delete profile forms"></p>
+<br>
+
 
 [*Back to top*](#)
 
@@ -265,6 +316,7 @@ The manual testing section aims to validate the functionality, usability, and in
 Server instructions for Heroku deployment are included in the [`Procfile`](Procfile) file.
 The base URL for the backend API is specified in the [`axiosDefaults.js`](src\api\axiosDefaults.js).
 
+
 [*Back to top*](#)
 
 
@@ -280,11 +332,7 @@ Ensure you have the following tools installed on your development machine:
 * **Clone Repository**
 First, clone the repository to your local machine using Git. Open your terminal and run:
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
-```
-Navigate into the project directory:
-```bash
-cd your-repo-name
+git clone https://github.com/eneliviu/react-frontend-api.git
 ```
 
 * **Install Dependencies**
@@ -305,15 +353,16 @@ This will start the development server and open the app in your default web brow
 #### Fork the Project
 * Click the "Fork" button on the top-right corner of the repository page
 * Clone Your Fork by running the following command in the terminal or command prompt:
-    `git clone https://github.com/your-username/repository-name.git`
-* Make your desired changes, whether it's fixing a bug, adding a feature, or updating documentation.
-* Commit your changes with clear messages, for example:
+```bash
+git clone https://github.com/eneliviu/react-frontend-api.git
+```
+* Make and commit your changes with clear messages, for example:
 ```bash
 git add .
 git commit -m "Fix issue #123: Corrected the layout on the homepage"
 ```
 * Push your commits to your forked repository on GitHub.
-````bash
+```bash
 git push
 ```
 
@@ -335,6 +384,6 @@ I would like to extend my gratitude to my mentor, Luke Buchanan, for his support
 
 ## Documentation version
 
-Last updated: Feb 5, 2025
+Last updated: February 8, 2025
 
 [*Back to top*](#)

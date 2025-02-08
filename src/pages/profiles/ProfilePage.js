@@ -26,8 +26,11 @@ import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import { ProfileEditDropdown } from "../../components/MoreDropdown";
 import ProfilePost from "../posts/ProfilePost";
+import { useRedirect } from "../../hooks/useRedirect";
+
 
 function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
+   
     return (
         <>
             {profilePosts.results.length ? (
@@ -57,6 +60,7 @@ function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
 }
 
 function ProfilePage({ message }) {
+    useRedirect("loggedOut");
     const [hasLoaded, setHasLoaded] = useState(false);
     const [profilePosts, setProfilePosts] = useState({ results: [] });
 
@@ -67,6 +71,7 @@ function ProfilePage({ message }) {
         useSetProfileData();
     const { pageProfile } = useProfileData();
     const [profile] = pageProfile.results;
+
     const is_owner = currentUser?.username === profile?.owner;
     const is_profile_owner = currentUser?.profile_id === profile?.id;
 
@@ -75,7 +80,6 @@ function ProfilePage({ message }) {
     useEffect(() => {
         const fetchData = async () => {
              if (!currentUser) {
-                 console.error("User is not logged in.");
                  return;
              }
             try {
@@ -183,7 +187,7 @@ function ProfilePage({ message }) {
     );
 
     return (
-        <div className={styles.App}>
+        <div className={`${styles.App}`}>
             <Row className={`${rowStyles.Row}`}>
                 <Col className="py-2 p-lg-2 h-100" lg={8}>
                     <PopularProfiles mobile />

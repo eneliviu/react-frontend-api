@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Button, Tooltip, OverlayTrigger, Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import btnStyles from "../styles/Button.module.css";
 
 import { Popup } from "react-leaflet";
@@ -37,7 +37,7 @@ function TripDetails({
             <div className="text-center">
                 {is_owner ? (
                     <>
-                        <Button
+                        {/* <Button
                             type="label"
                             variant="text"
                             style={{
@@ -45,7 +45,12 @@ function TripDetails({
                             }}
                         >
                             <h5>{owner}</h5>
-                        </Button>
+                        </Button> */}
+                        <NavLink to={`/profiles/${profile_id}`}>
+                            <Button type="label" variant="link">
+                                <h5>{owner}</h5>
+                            </Button>
+                        </NavLink>
                     </>
                 ) : (
                     <NavLink to={`/profiles/${profile_id}`}>

@@ -16,7 +16,6 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { Alert } from "react-bootstrap";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-
 function ImagePostEditForm() {
     const currentUser = useCurrentUser();
     const [postData, setPostData] = useState({
@@ -94,20 +93,23 @@ function ImagePostEditForm() {
         if (imageInput.current?.files[0]) {
             formData.append("image", imageInput.current.files[0]);
         }
-        // for (let pair of formData.entries()) {
-        //     console.log(pair[0] + ", " + pair[1]);
-        // }
 
         try {
-            //console.log(`/trips/${tripId}/images/${id}/`);
             await axiosReq.patch(`/trips/${tripId}/images/${id}/`, formData);
             navigate(-1);
             setErrors({});
         } catch (err) {
-            console.error("Failed to update post:", err);
-            setErrors(
-                err.response?.data || { error: "Unexpected error occurred" }
-            );
+            if (err.response?.status !== 401) {
+                setErrors(
+                    err.response?.data || {
+                        error: "Unexpected error occurred",
+                    }
+                );
+            } else {
+                console.warn(
+                    "You might be unauthorized to perform this action."
+                );
+            }
         }
     };
 
@@ -235,6 +237,11 @@ function ImagePostEditForm() {
                     </Col>
                 </Row>
             </Form>
+            {errors?.title?.map((message, idx) => (
+                <Alert key={idx} variant="warning">
+                    {message}
+                </Alert>
+            ))}
         </div>
     );
 }

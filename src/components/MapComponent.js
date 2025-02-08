@@ -98,6 +98,13 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     };
 
     const handleDelete = async (tripId) => {
+        if (
+            !window.confirm(
+                "Are you sure you want to delete this trip? The action is irreversible."
+            )
+        ) {
+            return;
+        }
         try {
             await axiosReq.delete(`/trips/${tripId}/`);
             setTrips((trips) =>
@@ -108,7 +115,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
             );
             setNotification("Trip deleted successfully.");
         } catch (err) {
-            console.error("Failed to delete trip:", err);
+            //console.error("Failed to delete trip:", err);
             setErrors(
                 err.response?.data || { error: "Unexpected error occurred" }
             );
@@ -119,7 +126,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     const handleImageUpload = async (tripId) => {
         try {
             const { data } = await axiosReq.get(`/trips/${tripId}/images/`);
-            console.log("tripID", tripId);
             const latestImageUrl = data.results[0]?.image || "";
             setTrips((prevTrips) =>
                 prevTrips.map((trip) =>

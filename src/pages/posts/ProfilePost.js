@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../styles/Post.module.css";
+import mapStyles from "../../styles/MapComponent.module.css";
 import { Button, Card, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
-//import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import ImageCarousel from "../../components/ImageCarousel";
 import btnStyles from "../../styles/Button.module.css";
+import Alert from "react-bootstrap/Alert";
 
 const ProfilePost = (props) => {
-
     const {
         id,
         updated_at,
@@ -32,17 +32,40 @@ const ProfilePost = (props) => {
         navigate(`/trips/${id}/edit`);
     };
 
-    const handleDelete = async () => {
+    const [notification, setNotification] = useState("");
+    const [, setErrors] = useState({});
+
+    const handleDelete = async (id) => {
+        if (
+            !window.confirm(
+                "Are you sure you want to delete this trip? The action is irreversible."
+            )
+        ) {
+            return;
+        }
         try {
             await axiosReq.delete(`/trips/${id}/`);
-            navigate("*");
+            setInterval(() => {
+                setNotification("Trip deleted successfully. Close to refresh.");
+            }, 1000);
         } catch (err) {
-            console.log(err);
+            if (err.response?.status !== 401) {
+                setErrors(
+                    err.response?.data || { error: "Unexpected error occurred" }
+                );
+                setNotification(
+                    "Failed to delete the image. Please try again."
+                );
+            } else {
+                console.warn(
+                    "You might be unauthorized to perform this action."
+                );
+            }
         }
     };
 
     const handleAddNewImage = () => {
-            navigate(`/trips/${id}/images/`);
+        navigate(`/trips/${id}/images/`);
     };
 
     return (
@@ -56,8 +79,21 @@ const ProfilePost = (props) => {
                         {is_owner && (
                             <MoreDropdown
                                 handleEdit={handleEdit}
-                                handleDelete={handleDelete}
+                                handleDelete={() => handleDelete(id)}
                             />
+                        )}
+                        {notification && (
+                            <Alert
+                                variant="success"
+                                onClose={() => {
+                                    setNotification("");
+                                    navigate(0);
+                                }}
+                                className={mapStyles.MapAlertDelete}
+                                dismissible
+                            >
+                                {notification}
+                            </Alert>
                         )}
                     </div>
                 </Container>
@@ -105,7 +141,7 @@ const ProfilePost = (props) => {
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.Bright} w-25 mx-auto mt-1`}
                                 onClick={handleAddNewImage}
-                                disabled={!is_owner }
+                                disabled={!is_owner}
                             >
                                 Add Images
                             </Button>

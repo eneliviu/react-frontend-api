@@ -4,20 +4,42 @@ import { MoreDropdown } from "../components/MoreDropdown";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../api/axiosDefaults";
 import ImageModal from "./ImageModal";
+import Alert from "react-bootstrap/Alert";
 
 const ImageCarousel = ({ images, tripId }) => {
     const navigate = useNavigate();
+    const [notification, setNotification] = useState("");
+    const [errors, setErrors] = useState({});
 
     const handleImageEdit = async () => {
         navigate(`/trips/${tripId}/images/edit`);
     };
 
     const handleImageDelete = async (image_id) => {
+        if (
+            !window.confirm(
+                "Are you sure you want to delete this image? The action is irreversible."
+            )
+        ) {
+            return;
+        }
+
         try {
             await axiosReq.delete(`/trips/${tripId}/images/${image_id}/`);
-            navigate("*");
+            setNotification("Image deleted successfully. Close to refresh.");
         } catch (err) {
-            console.log(err);
+            if (err.response?.status !== 401) {
+                setErrors(
+                    err.response?.data || { error: "Unexpected error occurred" }
+                );
+                setNotification(
+                    "Failed to delete the image. Please try again."
+                );
+            } else {
+                console.warn(
+                    "You might be unauthorized to perform this action."
+                );
+            }
         }
     };
 
@@ -58,9 +80,26 @@ const ImageCarousel = ({ images, tripId }) => {
                                 right: "10px",
                             }}
                         />
+                        {notification && (
+                            <Alert
+                                variant="success"
+                                onClose={() => {
+                                    setNotification("");
+                                    navigate(0);
+                                }}
+                                dismissible
+                            >
+                                {notification}
+                            </Alert>
+                        )}
                     </Carousel.Item>
                 ))}
             </Carousel>
+            {errors?.content?.map((message, idx) => (
+                <Alert key={idx} variant="warning">
+                    {message}
+                </Alert>
+            ))}
             <ImageModal
                 show={showModal}
                 onHide={() => setShowModal(false)}

@@ -35,6 +35,18 @@ const UsernameForm = () => {
         }
     }, [currentUser, navigate, id]);
 
+    const handleLogout = async () => {
+        try {
+            await axiosRes.post("/dj-rest-auth/logout/");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            setCurrentUser(null);
+            navigate("/signin");
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -46,6 +58,7 @@ const UsernameForm = () => {
                 username,
             }));
             navigate(-1);
+            await handleLogout();
         } catch (err) {
             console.log(err);
             setErrors(err.response?.data);
@@ -56,7 +69,9 @@ const UsernameForm = () => {
         <Row>
             <Col className="py-2 mx-auto text-center" md={6}>
                 <Container className={appStyles.Content}>
-                    <Form onSubmit={handleSubmit} className="my-2">
+                    <Form
+                    onSubmit={handleSubmit}
+                    className="my-2">
                         <Form.Group>
                             <Form.Label>Change username</Form.Label>
                             <Form.Control
