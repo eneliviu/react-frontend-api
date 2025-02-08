@@ -103,7 +103,6 @@ The application incorporates custom React hooks to streamline functionality and 
     - If the `userAuthStatus` is "loggedIn" and the user is authenticated, the hook navigates to the homepage.
     - If the `userAuthStatus` is "loggedOut" and the user is not authenticated, it also redirects to the homepage.
 
-
 - **useClickOutsideToggle.js**:
   - This utility hook is designed to manage UI elements that expand and collapse based on click events outside of a targeted component.
   - It maintains state (`expanded`) to track whether the element is expanded and uses a `ref` to reference the targeted element.
@@ -316,6 +315,16 @@ The manual testing section aims to validate the functionality, usability, and in
 Server instructions for Heroku deployment are included in the [`Procfile`](Procfile) file.
 The base URL for the backend API is specified in the [`axiosDefaults.js`](src\api\axiosDefaults.js).
 
+During deployment, the Heroku platform issued warnings due to the use of the deprecated Create React App (CRA) build, particularly when using the Heroku-20 stack. Despite these warnings, the Heroku-20 stack was the only one capable of successfully supporting the app's deployment.
+
+#### <center> **Heroku platform warning against using the Heroku-20 stack**</center>
+<p align="center"><img src="src/assets/doc/heroku_stack_deprecated.png" alt="heroku stack deprecated warning"></p>
+<br>
+
+### Known Bugs
+The application generates console warnings when loading images over http to Cloudinary, as it prefers secure https connections for improved security and compatibility.
+<p align="center"><img src="src/assets/doc/console_warnings.png" alt="console_warnings"></p>
+<br>
 
 [*Back to top*](#)
 
