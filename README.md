@@ -1,9 +1,6 @@
 # ***<center><font color="red"> LovinEscapades-API</font>***: The Ultimate Trip Tracking Tool!</center>
 ## <center> **A React - Django DRF web app** </center>
 
-The React app project contains the 'auth' folder with SigninForm.js and SignUpForm.js. 
-Please summarize their functionalities in the appropriate sections of the README file:
-
 ### **Table of content:**
 - [Overview](#overview)
 - [Installation and Setup](#installation-and-setup)
@@ -307,9 +304,19 @@ The manual testing section aims to validate the functionality, usability, and in
 ### Validators
 
 #### Lighthouse
+The Lighthouse validator, configured for desktop applications, was used to evaluate the app's overall performance. The lowest score of 74 was recorded in the Best Practices category, primarily due to the Mixed Content warning triggered by loading images over http to Cloudinary.
+
+#### <center> **Lighthouse validator: Home page**</center>
+<p align="center"><img src="src/assets/doc/lighthouse_home.png" alt="lighthouse validator home page"></p>
+<br>
+
+#### <center> **Lighthouse validator: Gallery page**</center>
+<p align="center"><img src="src/assets/doc/lighthouse_gallery.png" alt="lighthouse validator gallery page"></p>
+<br>
+
+Nearly similar reesults were obtaied for the `Feed` and `Liked`-pages.
 
 [*Back to top*](#)
-
 
 ## Heroku Deployment
 Server instructions for Heroku deployment are included in the [`Procfile`](Procfile) file.
