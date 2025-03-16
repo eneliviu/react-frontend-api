@@ -56,7 +56,7 @@ const Post = (props) => {
     const handleImageDelete = async () => {
         try {
             await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
-            navigate("*");
+            navigate(-1);
         } catch (err) {
             console.log(err);
         }

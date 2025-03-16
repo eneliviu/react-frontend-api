@@ -33,7 +33,7 @@ const MapLeaflet = ({ countryQuery, placeQuery }) => {
     const [showNoMarkers, setShowNoMarkers] = useState(false);
     const mapRef = useRef(null);
     const navigate = useNavigate();
-    const defaultPosition = [51.505, -0.09]; // Default center position for the map
+    const defaultPosition = [51.505, -0.09];
 
     useEffect(() => {
         const fetchData = async () => {

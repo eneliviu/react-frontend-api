@@ -36,22 +36,11 @@ function TripDetails({
         <Container className="d-flex flex-column align-items-center">
             <div className="text-center">
                 {is_owner ? (
-                    <>
-                        {/* <Button
-                            type="label"
-                            variant="text"
-                            style={{
-                                cursor: "auto",
-                            }}
-                        >
+                    <NavLink to={`/profiles/${profile_id}`}>
+                        <Button type="label" variant="link">
                             <h5>{owner}</h5>
-                        </Button> */}
-                        <NavLink to={`/profiles/${profile_id}`}>
-                            <Button type="label" variant="link">
-                                <h5>{owner}</h5>
-                            </Button>
-                        </NavLink>
-                    </>
+                        </Button>
+                    </NavLink>
                 ) : (
                     <NavLink to={`/profiles/${profile_id}`}>
                         <Button type="label" variant="link">

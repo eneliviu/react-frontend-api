@@ -29,7 +29,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
     const [notification, setNotification] = useState("");
-    const [, setTrips] = useState([]); //trips
+    const [, setTrips] = useState([]);
     const mapRef = useRef(null);
     const defaultPosition = [51.505, -0.09];
 
@@ -51,7 +51,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                     category: result.trip_category,
                     latestImageUrl:
                         result.images.length > 0
-                            ? //? result.images[result.images.length - 1].image // first image
+                            ?
                               result.images[0].image
                             : "",
                 }));
@@ -115,7 +115,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
             );
             setNotification("Trip deleted successfully.");
         } catch (err) {
-            //console.error("Failed to delete trip:", err);
             setErrors(
                 err.response?.data || { error: "Unexpected error occurred" }
             );

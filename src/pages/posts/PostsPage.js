@@ -45,10 +45,9 @@ function PostsPage({ message, filter = "" }) {
 
         setHasLoaded(false);
 
-        // Fetch posts after 1 second to prevent unnecessary requests
         const timer = setTimeout(() => {
             fetchPosts();
-        }, 1000);
+        }, 500);
 
         //  Clear the timer if the component unmounts
         return () => clearTimeout(timer);

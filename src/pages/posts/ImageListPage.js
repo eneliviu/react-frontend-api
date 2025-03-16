@@ -19,12 +19,8 @@ import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
 
-//import SearchBar from "../../components/SearchBar";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-// component that is responsible for displaying a list of posts.
-// It fetches the posts data from the server using an optional filter
-// and then renders a list of Post components to display each post.
 
 function ImageListPage({ message, filter }) {
     const currentUser = useCurrentUser();
@@ -48,10 +44,9 @@ function ImageListPage({ message, filter }) {
 
         setHasLoaded(false);
 
-        // Fetch posts after 1 second to prevent unnecessary requests
         const timer = setTimeout(() => {
             fetchPosts();
-        }, 1000);
+        }, 500);
 
         //  Clear the timer if the component unmounts
         return () => clearTimeout(timer);

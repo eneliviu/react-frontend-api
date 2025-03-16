@@ -79,7 +79,7 @@ function ImagePostEditForm() {
             URL.revokeObjectURL(image);
             setPostData({
                 ...postData,
-                image: event.target.files[0], //URL.createObjectURL(),
+                image: event.target.files[0],
             });
         }
     };

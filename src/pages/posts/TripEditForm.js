@@ -86,7 +86,6 @@ function TripEditForm() {
 
         try {
             await axiosReq.patch(`/trips/${tripId}/`, formData);
-            // navigate(`/trips/${tripId}`);
             navigate(`/profiles/${currentUser.profile_id}`);
             setErrors({});
         } catch (err) {
