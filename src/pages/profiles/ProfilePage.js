@@ -30,7 +30,7 @@ import { useRedirect } from "../../hooks/useRedirect";
 
 
 function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
-   
+
     return (
         <>
             {profilePosts.results.length ? (
@@ -111,7 +111,7 @@ function ProfilePage({ message }) {
         (acc, trip) => acc + (trip.total_likes_count || 0),
         0
     );
-    // profile?.is_owner
+
     const mainProfile = (
         <>
             {is_profile_owner && <ProfileEditDropdown id={profile?.id} />}
@@ -220,15 +220,6 @@ function ProfilePage({ message }) {
                                 profilePosts={profilePosts}
                                 setProfilePosts={setProfilePosts}
                             />
-                            {/* {is_owner && (
-                                <MainProfilePosts
-                                    profile={profile}
-                                    query={query}
-                                    setQuery={setQuery}
-                                    profilePosts={profilePosts}
-                                    setProfilePosts={setProfilePosts}
-                                />
-                            )} */}
                         </>
                     ) : (
                         <>

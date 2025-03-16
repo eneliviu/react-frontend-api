@@ -27,6 +27,8 @@ const UsernameForm = () => {
     const currentUser = useCurrentUser();
     const setCurrentUser = useSetCurrentUser();
 
+    const [notification, setNotification] = useState("");
+
     useEffect(() => {
         if (currentUser?.profile_id?.toString() === id) {
             setUsername(currentUser.username);
@@ -49,6 +51,7 @@ const UsernameForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log("Form submitted");
         try {
             await axiosRes.put("/dj-rest-auth/user/", {
                 username,
@@ -57,8 +60,7 @@ const UsernameForm = () => {
                 ...prevUser,
                 username,
             }));
-            navigate(-1);
-            await handleLogout();
+            setNotification("Username changed successfully. Close to logout.");
         } catch (err) {
             console.log(err);
             setErrors(err.response?.data);
@@ -69,9 +71,7 @@ const UsernameForm = () => {
         <Row>
             <Col className="py-2 mx-auto text-center" md={6}>
                 <Container className={appStyles.Content}>
-                    <Form
-                    onSubmit={handleSubmit}
-                    className="my-2">
+                    <Form onSubmit={handleSubmit} className="my-2">
                         <Form.Group>
                             <Form.Label>Change username</Form.Label>
                             <Form.Control
@@ -88,9 +88,25 @@ const UsernameForm = () => {
                                 {message}
                             </Alert>
                         ))}
+                        {notification && (
+                            <Alert
+                                variant="success"
+                                dismissible
+                                onClose={() => {
+                                    setNotification(null);
+                                    handleLogout();
+                                }}
+                            >
+                                {notification}
+                            </Alert>
+                        )}
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                            onClick={() => navigate(-1)}
+                            onClick={() => {
+                                setNotification(null);
+                                setErrors({});
+                                navigate(-1);
+                            }}
                         >
                             cancel
                         </Button>

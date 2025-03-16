@@ -9,7 +9,10 @@ import Form from "react-bootstrap/Form";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosRes } from "../../api/axiosDefaults";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import {
+    useCurrentUser,
+    useSetCurrentUser,
+} from "../../contexts/CurrentUserContext";
 
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
@@ -18,6 +21,7 @@ const UserPasswordForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const currentUser = useCurrentUser();
+    const setCurrentUser = useSetCurrentUser();
 
     const [userData, setUserData] = useState({
         new_password1: "",
@@ -26,6 +30,8 @@ const UserPasswordForm = () => {
     const { new_password1, new_password2 } = userData;
 
     const [errors, setErrors] = useState({});
+
+    const [notification, setNotification] = useState("");
 
     const handleChange = (event) => {
         setUserData({
@@ -36,16 +42,29 @@ const UserPasswordForm = () => {
 
     useEffect(() => {
         if (currentUser?.profile_id?.toString() !== id) {
-            // redirect user if they are not the owner of this profile
             navigate("/");
         }
     }, [currentUser, navigate, id]);
+
+    const handleLogout = async () => {
+        try {
+            await axiosRes.post("/dj-rest-auth/logout/");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            setCurrentUser(null);
+            navigate("/signin");
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             await axiosRes.post("/dj-rest-auth/password/change/", userData);
-            navigate(-1);
+            setNotification(
+                "Password changed successfully. Close to logout."
+            );
         } catch (err) {
             console.log(err);
             setErrors(err.response?.data);
@@ -87,9 +106,26 @@ const UserPasswordForm = () => {
                                 {message}
                             </Alert>
                         ))}
+                        {notification && (
+                            <Alert
+                                variant="success"
+                                dismissible
+                                onClose={() => {
+                                    setNotification(null);
+                                    handleLogout();
+                                }}
+                            >
+                                {notification}
+                            </Alert>
+                        )}
+
                         <Button
                             className={`${btnStyles.Button} ${btnStyles.Blue}`}
-                            onClick={() => navigate(-1)}
+                            onClick={() => {
+                                setNotification(null);
+                                setErrors({});
+                                navigate(-1);
+                            }}
                         >
                             cancel
                         </Button>

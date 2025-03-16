@@ -16,7 +16,7 @@ const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
         aria-label="More options"
         role="button"
         tabIndex="0"
-        style={{ cursor: "pointer" }} // Additional styling to indicate it's interactive
+        style={{ cursor: "pointer" }}
     >
         <i className="fa fa-ellipsis-v"></i>
     </div>
