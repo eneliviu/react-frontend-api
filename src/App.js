@@ -108,7 +108,7 @@ function App() {
                     />
 
                     <Route
-                        path="/trips/:tripId/images/edit/:id"
+                        path="/trips/:tripId/images/edit/:imageId"
                         element={<ImagePostEditForm />}
                     />
 

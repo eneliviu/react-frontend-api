@@ -38,7 +38,7 @@ function ImagePostEditForm() {
         shared,
         //owner, owner_name, trip_id, uploaded_at, likes_count
     } = postData;
-    const { tripId } = useParams();
+    const { tripId, imageId } = useParams();
     const [errors, setErrors] = useState({});
     const imageInput = useRef(null);
     const navigate = useNavigate();
@@ -46,9 +46,10 @@ function ImagePostEditForm() {
     useEffect(() => {
         const handleMount = async () => {
             try {
-                const { data } = await axiosReq.get(`/trips/${tripId}/images/`);
-                const { image_title, description, image, shared, id } =
-                    data.results[0];
+                const { data } = await axiosReq.get(
+                    `/trips/${tripId}/images/${imageId}/`
+                );
+                const { image_title, description, image, shared, id } = data;
                 currentUser
                     ? setPostData({
                           image_title,
@@ -64,7 +65,7 @@ function ImagePostEditForm() {
         };
 
         handleMount();
-    }, [navigate, tripId, currentUser]);
+    }, [navigate, tripId, imageId, currentUser]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
