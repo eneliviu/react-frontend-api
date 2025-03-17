@@ -68,7 +68,7 @@ const UsernameForm = () => {
     };
 
     return (
-        <Row>
+        <Row className={appStyles.StandardContainer}>
             <Col className="py-2 mx-auto text-center" md={6}>
                 <Container className={appStyles.Content}>
                     <Form onSubmit={handleSubmit} className="my-2">

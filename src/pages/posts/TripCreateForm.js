@@ -13,7 +13,8 @@ function TripCreateForm() {
     useRedirect("loggedOut");
     const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
-    const [, setTripId] = useState(null); //tripId
+    const [, setTripId] = useState(null);
+    const [isLoading, ] = useState(false);
     const [tripData, setTripData] = useState({
         title: "",
         content: "",
@@ -22,8 +23,8 @@ function TripCreateForm() {
         start_date: "",
         end_date: "",
         trip_category: "Leisure",
-        trip_status: "Planned", // Default status
-        shared: true, // Default status
+        trip_status: "Planned",
+        shared: true,
     });
 
     const navigate = useNavigate();
@@ -89,21 +90,22 @@ function TripCreateForm() {
         formData.append("trip_status", trip_status);
         formData.append("shared", shared);
 
-        // for (let pair of formData.entries()) {
-        //     console.log("paris", pair);
-        //     console.log(pair[0] + ", " + pair[1]);
-        // }
-
         try {
             const { data } = await axiosReq.post("/trips/", formData);
-            // console.log("sent data", data);
-            setTripId(data.id); // Set the created trip ID
-            navigate(`/profiles/${currentUser.profile_id}`); // `profiles/${currentUser.id}/trips/${data.id}`
+            setTripId(data.id);
+            navigate(`/profiles/${currentUser.profile_id}`);
         } catch (err) {
             console.error("Failed to create trip:", err);
-            setErrors(
-                err.response?.data || { error: "Unexpected error occurred" }
-            );
+            if (err.response?.data) {
+                setErrors({
+                    ...err.response.data,
+                    non_field_errors: err.response.data.non_field_errors || [],
+                });
+            } else {
+                setErrors({
+                    error: "An unexpected error occurred. Please try again.",
+                });
+            }
         }
     };
 
@@ -124,7 +126,7 @@ function TripCreateForm() {
                             />
                         </Form.Group>
                         {errors.title?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert key={idx} variant="warning" className="mt-2">
                                 {message}
                             </Alert>
                         ))}
@@ -139,7 +141,7 @@ function TripCreateForm() {
                             />
                         </Form.Group>
                         {errors.content?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert key={idx} variant="warning" className="mt-2">
                                 {message}
                             </Alert>
                         ))}
@@ -154,7 +156,7 @@ function TripCreateForm() {
                             />
                         </Form.Group>
                         {errors.place?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert key={idx} variant="warning" className="mt-2">
                                 {message}
                             </Alert>
                         ))}
@@ -169,7 +171,7 @@ function TripCreateForm() {
                             />
                         </Form.Group>
                         {errors.country?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert key={idx} variant="warning" className="mt-2">
                                 {message}
                             </Alert>
                         ))}
@@ -194,7 +196,9 @@ function TripCreateForm() {
                             />
                         </Form.Group>
                         {errors.date && (
-                            <Alert variant="warning">{errors.date}</Alert>
+                            <Alert variant="warning" className="mt-2">
+                                {errors.date}
+                            </Alert>
                         )}
                         <Form.Group controlId="trip_category">
                             <Form.Label>Trip Category</Form.Label>
@@ -244,9 +248,31 @@ function TripCreateForm() {
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.Bright} ${btnStyles.Blue} `}
                                 type="submit"
+                                disabled={isLoading}
                             >
-                                Create Trip
+                                {isLoading ? "Creating..." : "Create Trip"}
                             </Button>
+
+                            <Button
+                                className={`${btnStyles.Button} ${btnStyles.Blue}`}
+                                type="button"
+                                onClick={() =>
+                                    setTripData({
+                                        title: "",
+                                        content: "",
+                                        place: "",
+                                        country: "",
+                                        start_date: "",
+                                        end_date: "",
+                                        trip_category: "Leisure",
+                                        trip_status: "Planned",
+                                        shared: true,
+                                    })
+                                }
+                            >
+                                Reset Form
+                            </Button>
+
                             <div className="d-flex">
                                 <NavLink to={`/`}>
                                     <Button
@@ -259,7 +285,12 @@ function TripCreateForm() {
                             </div>
                         </div>
                         {errors.non_field_errors?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert
+                                key={idx}
+                                variant="warning"
+                                className="mt-2"
+                                dismissible
+                            >
                                 {message}
                             </Alert>
                         ))}

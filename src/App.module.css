@@ -12,6 +12,11 @@
   margin-top: 71px;
 }
 
+.StandardContainer {
+    min-height: calc(100vh - 71px);
+    overflow: hidden;
+    margin-top: 0;
+}
 
 .Content {
   background-color: #ffffff;

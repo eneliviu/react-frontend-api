@@ -79,9 +79,9 @@ function ProfilePage({ message }) {
 
     useEffect(() => {
         const fetchData = async () => {
-             if (!currentUser) {
-                 return;
-             }
+            if (!currentUser) {
+                return;
+            }
             try {
                 const [{ data: pageProfile }, { data: profilePosts }] =
                     await Promise.all([
@@ -186,9 +186,10 @@ function ProfilePage({ message }) {
         </>
     );
 
+
     return (
-        <div className={`${styles.App}`}>
-            <Row className={`${rowStyles.Row}`}>
+        <div className={styles.App}>
+            <Row className={`${rowStyles.Row} h-100`}>
                 <Col className="py-2 p-lg-2 h-100" lg={8}>
                     <PopularProfiles mobile />
                     {hasLoaded ? (

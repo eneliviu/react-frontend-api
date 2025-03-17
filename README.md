@@ -285,7 +285,17 @@ It defines multiple routes for various pages in the application:
 ## Testing
 
 ### Manual testing
-The manual testing section aims to validate the functionality, usability, and integration of the frontend React app with the Django backend beyond automated tests. This testing strategy ensures that the app operates correctly under various conditions, including user authentication, profile management, trip and image handling, and UI consistency.
+
+### Manual Testing Approach
+
+Manual testing was conducted to ensure all user-facing features function properly across different user scenarios.
+Each feature was tested systematically following these steps:
+
+1. **Test Preparation**: Setting up test conditions (logged in/out states)
+2. **Test Execution**: Performing the actions as an end user would
+3. **Result Verification**: Confirming expected outcomes
+4. **Edge Case Testing**: Testing form validations and error handling
+
 
 | **Test Type**                       | **Description and Steps**                                                                                     | **Expected Result**                                                                                         | **Status**                                 |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------|
@@ -299,6 +309,66 @@ The manual testing section aims to validate the functionality, usability, and in
 | **Liked Page**                      | 1. Display liked images. <br/> 2. Hide unliked images.                                                          | Correct display of user-liked images with hidden unliked content.                                           | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
 | **Privacy Handling**                | 1. Not shared trips not visible to other users on the map. <br/> 2. Not shared trips not visible to other users on the trip's owner profile page. <br/> 3. Not shared images not visible to other users on the map and gallery page. <br/> 4. Not shared images not visible to other users on the trip's owner profile page. | Ensures that non-shared trips and images are correctly hidden from unauthorized users across different pages. | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
 |
+
+
+
+
+### Authentication Tests (PASS)
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| User Registration | 1. Navigate to signup page<br>2. Enter username<br>3. Enter password<br>4. Confirm password<br>5. Submit form | 1. Form submits successfully<br>2. Redirect to login page<br>3. Success notification appears | ✅ Pass |
+| User Login | 1. Navigate to login page<br>2. Enter valid credentials<br>3. Submit form | 1. Form submits successfully<br>2. Redirect to home page<br>3. Navbar updates with user options<br>4. Welcome message with user name is displayed | ✅ Pass |
+| Login Validation | 1. Submit login form with empty fields<br>2. Submit with incorrect password | 1. Form validation errors display<br>2. Appropriate error message shown | ✅ Pass |
+| User Logout | 1. Click logout in navbar when logged in | 1. Session ends<br>2. Redirect to home page<br>3. Navbar updates to remove user options | ✅ Pass |
+
+### Profile Management Tests
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| View Profile | 1. Click on profile in navbar<br>2. Navigate to another user's profile | 1. Profile page loads with correct user data<br>2. Trips and images display according to sharing permissions | ✅ Pass |
+| Edit Profile | 1. Navigate to own profile<br>2. Click edit profile<br>3. Update bio and image<br>4. Submit changes | 1. Changes save successfully<br>2. Profile page reflects updates<br>3. Success notification appears | ✅ Pass |
+| Change Username | 1. Access username change form<br>2. Enter new username<br>3. Submit changes | 1. Username updates across the app<br>2. Success notification appears | ✅ Pass |
+| Change Password | 1. Access password change form<br>2. Enter current password<br>3. Enter new password twice<br>4. Submit changes | 1. Password updates successfully<br>2. Success notification appears<br>3. User remains logged in | ✅ Pass |
+| Delete Profile | 1. Access delete profile option<br>2. Confirm deletion in modal | 1. Profile and associated data deleted<br>2. User logged out<br>3. Redirect to home page | ✅ Pass |
+
+### Trip Management Tests
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| Create Trip | 1. Click "Add Trip" button<br>2. Complete all required fields<br>3. Submit form | 1. Trip creates successfully<br>2. Appears on map and profile<br>3. Redirect to profile page. | ✅ Pass |
+| Form Validation | 1. Submit trip form with missing fields<br>2. Enter invalid field data | 1. Form validation errors display<br>2. Form prevents submission until fixed | ✅ Pass |
+| Edit Trip | 1. Navigate to trip from map/profile<br>2. Click edit option<br>3. Modify fields<br>4. Submit changes | 1. Form pre-fills with existing data<br>2. Changes save successfully<br>3. Map and profile update | ✅ Pass |
+| Delete Trip | 1. Access trip delete option<br>2. Confirm deletion in modal | 1. Trip and associated images removed<br>2. Map and profile update<br>3. Success notification appears | ✅ Pass |
+| Privacy Control | 1. Create trip with "Shared" unchecked<br>2. View as different user | 1. Trip visible only to owner<br>2. Hidden from other users on map and gallery | ✅ Pass |
+
+### Image Management Tests
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| Upload Image | 1. Navigate to trip<br>2. Click "Add Image"<br>3. Select image file<br>4. Complete form fields<br>5. Submit | 1. Image uploads successfully<br>2. Appears in trip carousel<br>3. Success notification appears | ✅ Pass |
+| Edit Image | 1. Access image edit option<br>2. Modify title/description<br>3. Submit changes | 1. Form pre-fills with existing data<br>2. Changes save successfully<br>3. UI updates to reflect changes | ✅ Pass |
+| Delete Image | 1. Access image delete option<br>2. Confirm deletion in modal | 1. Image removed from trip and gallery<br>2. UI updates<br>3. Success notification appears | ✅ Pass |
+| Like/Unlike Image | 1. View image in gallery<br>2. Click like button<br>3. Click again to unlike | 1. Like count increases/decreases<br>2. Button style changes<br>3. Image appears/disappears from Liked page | ✅ Pass |
+
+### Map and Navigation Tests
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| Map Markers | 1. Navigate to home page<br>2. Check marker visibility<br>3. Click on markers | 1. Markers appear for shared trips<br>2. Pop-up displays correct trip info<br>3. Links to profiles work correctly | ✅ Pass |
+| Map Filters | 1. Use country filter<br>2. Use place/city filter | 1. Map updates to show only matching trips<br>2. Filters apply correctly based on criteria | ✅ Pass |
+| Responsive Layout | 1. Test on desktop, tablet, mobile<br>2. Resize browser window | 1. UI adapts to different screen sizes<br>2. Components reflow appropriately<br>3. Map controls remain usable | ✅ Pass |
+
+### Gallery and Feed Tests
+
+| Test Case | Steps | Expected Result | Status |
+|-----------|-------|-----------------|--------|
+| Gallery View | 1. Navigate to gallery page<br>2. Scroll through images | 1. Shared images display in grid<br>2. Infinite scroll loads more images | ✅ Pass |
+| Feed View | 1. Follow users<br>2. Navigate to feed page | 1. Only images from followed users appear<br>2. Images sort by recency | ✅ Pass |
+| Liked Images | 1. Like various images<br>2. Navigate to liked page | 1. Only liked images appear<br>2. Unliking removes from this view | ✅ Pass |
+| Search Function | 1. Enter search terms in gallery/profile | 1. Results filter correctly<br>2. No results message appears when appropriate | ✅ Pass |
+
+
 
 
 ### Validators
