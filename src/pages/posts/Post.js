@@ -1,22 +1,3 @@
-/**
- * Post component renders a single post with its details, including the image, title, description,
- * owner information, and likes functionality.
- *
- * @component
- * @param {Object} props - The properties object.
- * @param {string} props.description - The description of the post.
- * @param {number} props.id - The ID of the post.
- * @param {string} props.image - The URL of the image in the post.
- * @param {string} props.image_title - The title of the image.
- * @param {string} props.owner_name - The username of the post owner.
- * @param {Function} props.setPosts - Function to update the posts state.
- * @param {string} props.uploaded_at - The upload date of the post.
- * @param {number} props.likes_count - The number of likes the post has received.
- * @param {number} props.trip_id - The ID of the trip associated with the post.
- * @param {number} props.like_id - The ID of the like if the current user has liked the post.
- * @returns {JSX.Element} The rendered Post component.
- */
-
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
@@ -25,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
-
-//import log from "../utils/logger.js";
 
 
 const Post = (props) => {
@@ -228,3 +207,42 @@ const Post = (props) => {
 };
 
 export default Post;
+
+
+
+
+
+// Let's try fresh. I will provide you the latest version of the Post component. 
+// I want to modify the logic for incrementing and decrementing the like counts as follows: 
+// if the authenticated user has already liked the image, the a click on the like button will 
+// remove the like and decrement the like counts if the like belongs to the same owner. 
+// Different users can also like the same image, and if they click on the like button the 
+// like counts will increment further (> 1), and they can remove their own like by clicking again 
+// on the like button. 
+// First let me know if you understood the logic. Do not provide code in the answer this time.
+
+// Like/Unlike Logic:
+
+// If the authenticated user has already liked the image, clicking the like button will remove their like and decrement the like count.
+
+// If the authenticated user has not liked the image, clicking the like button will add their like and increment the like count.
+
+// Multiple users can like the same image, and each user can only remove their own like.
+
+// Like Count Behavior:
+
+// The like count should increment when a new user likes the image.
+
+// The like count should decrement when a user removes their like.
+
+// The like count should never go below 0.
+
+// User-Specific Likes:
+
+// Each user’s like is independent. A user can only remove their own like, not someone else’s.
+
+// UI Feedback:
+
+// The heart icon should be filled if the current user has liked the image.
+
+// The heart icon should be outlined if the current user has not liked the image.

@@ -48,8 +48,6 @@ function PostsPage({ message, filter = "" }) {
         const timer = setTimeout(() => {
             fetchPosts();
         }, 500);
-
-        //  Clear the timer if the component unmounts
         return () => clearTimeout(timer);
     }, [filter, query, pathname, currentUser]);
 
@@ -85,7 +83,7 @@ function PostsPage({ message, filter = "" }) {
                                 ))}
                                 dataLength={posts.results.length}
                                 loader={<Asset spinner />}
-                                hasMore={!!posts.next} // ensure that a value is explicitly treated as a boolean
+                                hasMore={!!posts.next}
                                 next={()=> fetchMoreData(posts, setPosts)}
                             />
                         ) : (
@@ -108,3 +106,4 @@ function PostsPage({ message, filter = "" }) {
 }
 
 export default PostsPage;
+

@@ -8,7 +8,7 @@ import Asset from "../../components/Asset";
 import styles from "../../styles/ProfilePage.module.css";
 import srcbStyles from "../../styles/SearchBar.module.css";
 import btnStyles from "../../styles/Button.module.css";
-import rowStyles from "../../styles/SignInUpForm.module.css";
+//import rowStyles from "../../styles/SignInUpForm.module.css";
 import appStyles from "../../App.module.css";
 
 import PopularProfiles from "./PopularProfiles";
@@ -186,10 +186,10 @@ function ProfilePage({ message }) {
         </>
     );
 
-
+    // className={`${rowStyles.Row} h-100`}
     return (
-        <div className={styles.App}>
-            <Row className={`${rowStyles.Row} h-100`}>
+        <div>
+            <Row className={`${appStyles.StandardContainer} h-100`}>
                 <Col className="py-2 p-lg-2 h-100" lg={8}>
                     <PopularProfiles mobile />
                     {hasLoaded ? (

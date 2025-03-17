@@ -286,8 +286,6 @@ It defines multiple routes for various pages in the application:
 
 ### Manual testing
 
-### Manual Testing Approach
-
 Manual testing was conducted to ensure all user-facing features function properly across different user scenarios.
 Each feature was tested systematically following these steps:
 
@@ -297,23 +295,7 @@ Each feature was tested systematically following these steps:
 4. **Edge Case Testing**: Testing form validations and error handling
 
 
-| **Test Type**                       | **Description and Steps**                                                                                     | **Expected Result**                                                                                         | **Status**                                 |
-|-------------------------------------|---------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------|
-| **Authentication**                  | 1. **User registration:** <br/> - Register using username and password, enter password twice, redirect to `Home` page. <br/> 2. **User login:** <br/> - Log in with credentials, check errors for empty fields, incorrect username/password. <br/> 3. **User logout:** <br/> - Logout via navbar, redirect to `Login` page. | Successful registration and login/logout processes with proper error handling and redirection.                | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **User Profile Management**         | 1. **Edit profile:** <br/> - Edit bio and change image, cancel/submit changes, logout, login required. <br/> 2. **Change username:** <br/> - Edit username, cancel/submit changes, logout, login required. <br/> 3. **Change password:** <br/> - Edit password, cancel/submit changes, logout, login required. <br/> 4. **Delete profile:** <br/> - Access/delete form, confirm, logout, redirect to `Home`. <br/> 5. **Activity indicators:** <br/> - Indicators update correctly. | Successful editing, changing, deleting of profile with proper notifications and navigation feedback.          | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Trip Management**                 | 1. **Create trip:** <br/> - Field error checks, date validation, cancel/redirect, submit/redirect to map. <br/> 2. **Edit trip:** <br/> - Pre-filled form, field error checks, cancel/redirect, submit/redirect. <br/> 3. **Delete trip:** <br/> - Access from marker/profile, cancellation/redirect, submit/redirect. | Successful creation, editing, deletion of trips, with navigational correctness and validation checks.         | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Image Management**                | 1. **Upload new image:** <br/> - Access upload forms, cancel/submit feedback, redirection as appropriate. <br/> 2. **Edit existing image:** <br/> - Pre-filled form, previous image data checks, cancel/submit, redirection proper. <br/> 3. **Delete image:** <br/> - Access/delete forms, cancellation/redirect, submit/redirect. <br/> 4. **Image likes:** <br/> - Correct like functionality, excluding own images. | Correct handling of image management processes with functional forms and appropriate feedback mechanisms.    | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Map Trip Locations**              | 1. Display trip locations on the map. <br/> 2. Update trip/image info in popups. <br/> 3. Disable buttons for non-owners. | Correct display of map locations and interactive elements, with button disabling for unauthorized actions.   | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Gallery Page**                    | 1. Display shared images. <br/> 2. Proper access to edit/delete forms for owners. <br/> 3. Controlled like functionality. | Correct display and interaction of shared content with controlled user functionalities for likes.            | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Feed Page**                       | 1. Display images from followed users. <br/> 2. Hide images from unfollowed users.                             | Appropriate filtering of content based on user follow state.                                                | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Liked Page**                      | 1. Display liked images. <br/> 2. Hide unliked images.                                                          | Correct display of user-liked images with hidden unliked content.                                           | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-| **Privacy Handling**                | 1. Not shared trips not visible to other users on the map. <br/> 2. Not shared trips not visible to other users on the trip's owner profile page. <br/> 3. Not shared images not visible to other users on the map and gallery page. <br/> 4. Not shared images not visible to other users on the trip's owner profile page. | Ensures that non-shared trips and images are correctly hidden from unauthorized users across different pages. | ![pass](https://via.placeholder.com/10/00FF00?text=+) `pass` |
-|
-
-
-
-
-### Authentication Tests (PASS)
+#### Authentication Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
@@ -322,17 +304,17 @@ Each feature was tested systematically following these steps:
 | Login Validation | 1. Submit login form with empty fields<br>2. Submit with incorrect password | 1. Form validation errors display<br>2. Appropriate error message shown | ✅ Pass |
 | User Logout | 1. Click logout in navbar when logged in | 1. Session ends<br>2. Redirect to home page<br>3. Navbar updates to remove user options | ✅ Pass |
 
-### Profile Management Tests
+#### Profile Management Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
 | View Profile | 1. Click on profile in navbar<br>2. Navigate to another user's profile | 1. Profile page loads with correct user data<br>2. Trips and images display according to sharing permissions | ✅ Pass |
 | Edit Profile | 1. Navigate to own profile<br>2. Click edit profile<br>3. Update bio and image<br>4. Submit changes | 1. Changes save successfully<br>2. Profile page reflects updates<br>3. Success notification appears | ✅ Pass |
-| Change Username | 1. Access username change form<br>2. Enter new username<br>3. Submit changes | 1. Username updates across the app<br>2. Success notification appears | ✅ Pass |
-| Change Password | 1. Access password change form<br>2. Enter current password<br>3. Enter new password twice<br>4. Submit changes | 1. Password updates successfully<br>2. Success notification appears<br>3. User remains logged in | ✅ Pass |
+| Change Username | 1. Access username change form<br>2. Enter new username<br>3. Submit changes | 1. Username updates across the app<br>2. User is logged out and redirected to Home page | ✅ Pass |
+| Change Password | 1. Access password change form<br>2. Enter current password<br>3. Enter new password twice<br>4. Submit changes | 1. Password updates successfully<br>2. Success notification appears<br>3. User is logged out and redirected to Home page | ✅ Pass |
 | Delete Profile | 1. Access delete profile option<br>2. Confirm deletion in modal | 1. Profile and associated data deleted<br>2. User logged out<br>3. Redirect to home page | ✅ Pass |
 
-### Trip Management Tests
+#### Trip Management Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
@@ -342,7 +324,7 @@ Each feature was tested systematically following these steps:
 | Delete Trip | 1. Access trip delete option<br>2. Confirm deletion in modal | 1. Trip and associated images removed<br>2. Map and profile update<br>3. Success notification appears | ✅ Pass |
 | Privacy Control | 1. Create trip with "Shared" unchecked<br>2. View as different user | 1. Trip visible only to owner<br>2. Hidden from other users on map and gallery | ✅ Pass |
 
-### Image Management Tests
+#### Image Management Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
@@ -351,7 +333,7 @@ Each feature was tested systematically following these steps:
 | Delete Image | 1. Access image delete option<br>2. Confirm deletion in modal | 1. Image removed from trip and gallery<br>2. UI updates<br>3. Success notification appears | ✅ Pass |
 | Like/Unlike Image | 1. View image in gallery<br>2. Click like button<br>3. Click again to unlike | 1. Like count increases/decreases<br>2. Button style changes<br>3. Image appears/disappears from Liked page | ✅ Pass |
 
-### Map and Navigation Tests
+#### Map and Navigation Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
@@ -359,16 +341,14 @@ Each feature was tested systematically following these steps:
 | Map Filters | 1. Use country filter<br>2. Use place/city filter | 1. Map updates to show only matching trips<br>2. Filters apply correctly based on criteria | ✅ Pass |
 | Responsive Layout | 1. Test on desktop, tablet, mobile<br>2. Resize browser window | 1. UI adapts to different screen sizes<br>2. Components reflow appropriately<br>3. Map controls remain usable | ✅ Pass |
 
-### Gallery and Feed Tests
+#### Gallery and Feed Tests (✅ Pass)
 
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
-| Gallery View | 1. Navigate to gallery page<br>2. Scroll through images | 1. Shared images display in grid<br>2. Infinite scroll loads more images | ✅ Pass |
+| Gallery View | 1. Navigate to gallery page<br>2. Scroll through images | 1. Shared images display <br>2. Infinite scroll loads more images | ✅ Pass |
 | Feed View | 1. Follow users<br>2. Navigate to feed page | 1. Only images from followed users appear<br>2. Images sort by recency | ✅ Pass |
 | Liked Images | 1. Like various images<br>2. Navigate to liked page | 1. Only liked images appear<br>2. Unliking removes from this view | ✅ Pass |
 | Search Function | 1. Enter search terms in gallery/profile | 1. Results filter correctly<br>2. No results message appears when appropriate | ✅ Pass |
-
-
 
 
 ### Validators
