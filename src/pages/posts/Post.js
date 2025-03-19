@@ -7,7 +7,6 @@ import Avatar from "../../components/Avatar";
 import { axiosReq } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
 
-
 const Post = (props) => {
     const {
         description,
@@ -23,10 +22,17 @@ const Post = (props) => {
         likes,
     } = props;
 
+    //console.log("imitial props", props);
+
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
     const isAuthenticated = !!currentUser;
     const navigate = useNavigate();
+
+    const likesArray = Array.isArray(likes) ? likes : [];
+    const hasLiked = likesArray.some(
+        (like) => like.owner === currentUser?.username
+    );
 
     const handleImageEdit = () => {
         navigate(`/trips/${trip_id}/images/edit/`);
@@ -41,6 +47,7 @@ const Post = (props) => {
         }
     };
 
+
     const handleLike = async () => {
         try {
             const { data } = await axiosReq.post("/likes/", {
@@ -49,13 +56,17 @@ const Post = (props) => {
             setPosts((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
-                    return post.id === id
-                        ? {
-                              ...post,
-                              likes_count: post.likes_count + 1,
-                              likes: data.id,
-                          }
-                        : post;
+                    if (post.id === id) {
+                        const updatedLikes = Array.isArray(post.likes)
+                            ? post.likes
+                            : [];
+                        return {
+                            ...post,
+                            likes_count: post.likes_count + 1,
+                            likes: [...updatedLikes, data], // Ensure likes is an array
+                        };
+                    }
+                    return post;
                 }),
             }));
         } catch (err) {
@@ -65,17 +76,31 @@ const Post = (props) => {
 
     const handleUnlike = async () => {
         try {
-            await axiosReq.delete(`/likes/${likes}/`);
+            const likeId = likesArray.find(
+                (like) => like.owner === currentUser?.username
+            )?.id;
+
+            if (!likeId) {
+                throw new Error("Like ID not found for the current user.");
+            }
+
+            await axiosReq.delete(`/likes/${likeId}/`);
             setPosts((prevPosts) => ({
                 ...prevPosts,
                 results: prevPosts.results.map((post) => {
-                    return post.id === id
-                        ? {
-                              ...post,
-                              likes_count: post.likes_count - 1,
-                              likes: null,
-                          }
-                        : post;
+                    if (post.id === id) {
+                        const updatedLikes = Array.isArray(post.likes)
+                            ? post.likes
+                            : [];
+                        return {
+                            ...post,
+                            likes_count: post.likes_count - 1,
+                            likes: updatedLikes.filter(
+                                (like) => like.owner !== currentUser?.username
+                            ),
+                        };
+                    }
+                    return post;
                 }),
             }));
         } catch (err) {
@@ -172,6 +197,7 @@ const Post = (props) => {
                     {description && <Card.Text>{description}</Card.Text>}
                 </>
                 <div className={styles.PostBar}>
+
                     {is_owner ? (
                         <OverlayTrigger
                             placement="top"
@@ -181,7 +207,7 @@ const Post = (props) => {
                         >
                             <i className="far fa-heart" />
                         </OverlayTrigger>
-                    ) : likes_count > 0 ? (
+                    ) : hasLiked ? ( // Use hasLiked here
                         <span onClick={handleUnlike}>
                             <i className={`fas fa-heart ${styles.Heart}`} />
                         </span>
@@ -207,42 +233,3 @@ const Post = (props) => {
 };
 
 export default Post;
-
-
-
-
-
-// Let's try fresh. I will provide you the latest version of the Post component. 
-// I want to modify the logic for incrementing and decrementing the like counts as follows: 
-// if the authenticated user has already liked the image, the a click on the like button will 
-// remove the like and decrement the like counts if the like belongs to the same owner. 
-// Different users can also like the same image, and if they click on the like button the 
-// like counts will increment further (> 1), and they can remove their own like by clicking again 
-// on the like button. 
-// First let me know if you understood the logic. Do not provide code in the answer this time.
-
-// Like/Unlike Logic:
-
-// If the authenticated user has already liked the image, clicking the like button will remove their like and decrement the like count.
-
-// If the authenticated user has not liked the image, clicking the like button will add their like and increment the like count.
-
-// Multiple users can like the same image, and each user can only remove their own like.
-
-// Like Count Behavior:
-
-// The like count should increment when a new user likes the image.
-
-// The like count should decrement when a user removes their like.
-
-// The like count should never go below 0.
-
-// User-Specific Likes:
-
-// Each user’s like is independent. A user can only remove their own like, not someone else’s.
-
-// UI Feedback:
-
-// The heart icon should be filled if the current user has liked the image.
-
-// The heart icon should be outlined if the current user has not liked the image.

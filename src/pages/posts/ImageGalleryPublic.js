@@ -22,6 +22,7 @@ import PopularProfiles from "../profiles/PopularProfiles";
 // import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import log from "../../utils/logger";
 
+
 function ImageGalleryPublic({ message, filter="" }) {
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] = useState(false);
