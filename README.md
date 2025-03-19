@@ -354,10 +354,11 @@ Each feature was tested systematically following these steps:
 ### Validators
 
 #### Lighthouse
-The Lighthouse validator, configured for desktop applications, was used to evaluate the app's overall performance. The lowest score of 74 was recorded in the Best Practices category, primarily due to the Mixed Content warning triggered by loading images over http to Cloudinary.
+The Lighthouse validator, configured for desktop applications, was used to evaluate the app's overall performance. The lowest score of 90 for Performance was primarily due to the load delay of the Leaflet tile.
 
 #### <center> **Lighthouse validator: Home page**</center>
 <p align="center"><img src="src/assets/doc/lighthouse_home.png" alt="lighthouse validator home page"></p>
+
 <br>
 
 #### <center> **Lighthouse validator: Gallery page**</center>

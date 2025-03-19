@@ -11,6 +11,7 @@ import Alert from "react-bootstrap/Alert";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 import TripPopup from "./TripPopUp";
 import styles from "../styles/MapComponent.module.css";
+import Asset from "../components/Asset";
 
 // Standard fix for default marker icon not showing
 delete L.Icon.Default.prototype._getIconUrl;
@@ -29,6 +30,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
     const [showNotFound, setShowNotFound] = useState(false);
     const [showNoMarkers, setShowNoMarkers] = useState(false);
     const [notification, setNotification] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const [, setTrips] = useState([]);
     const mapRef = useRef(null);
     const defaultPosition = [51.505, -0.09];
@@ -50,27 +52,57 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                     status: result.trip_status,
                     category: result.trip_category,
                     latestImageUrl:
-                        result.images.length > 0
-                            ?
-                              result.images[0].image
-                            : "",
+                        result.images.length > 0 ? result.images[0].image : "",
                 }));
                 setMarkers(markerData);
+                setIsLoading(false);
             } catch (err) {
                 console.error("Failed to fetch data:", err);
+                setIsLoading(false);
             }
         };
         fetchData();
     }, []);
 
+    // const fetchData = useCallback(async () => {
+    //     try {
+    //         const { data } = await axiosReq("/public/");
+    //         const markerData = data.results.map((result) => ({
+    //             id: result.id,
+    //             profile_id: result.profile_id,
+    //             owner: result.owner,
+    //             position: [result.lat, result.lon],
+    //             country: result.country || "",
+    //             place: result.place || "",
+    //             content: result.content,
+    //             from: result.start_date,
+    //             to: result.end_date,
+    //             status: result.trip_status,
+    //             category: result.trip_category,
+    //             latestImageUrl:
+    //                 result.images.length > 0 ? result.images[0].image : "",
+    //         }));
+    //         setMarkers(markerData);
+    //         setIsLoading(false);
+    //     } catch (err) {
+    //         console.error("Failed to fetch data:", err);
+    //         setIsLoading(false);
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, [fetchData]);
+
+
     useEffect(() => {
-        if (markers.length === 0) {
+        if (!isLoading && markers.length === 0) {
             setShowNoMarkers(true);
         } else {
             setTrips(markers.results);
             setShowNoMarkers(false);
         }
-    }, [markers]);
+    }, [markers, isLoading]);
 
     const filteredMarkers = markers.filter(
         (marker) =>
@@ -154,17 +186,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                         </Alert>
                     )}
 
-                    {showNoMarkers && (
-                        <Alert
-                            variant="info"
-                            dismissible
-                            onClose={() => setShowNoMarkers(false)}
-                            className={styles.MapAlert}
-                        >
-                            There are no trips to display.
-                        </Alert>
-                    )}
-
                     {notification && (
                         <Alert
                             variant="success"
@@ -176,42 +197,81 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
                         </Alert>
                     )}
 
-                    <MapContainer
-                        className={styles.MapWrapper}
-                        ref={mapRef}
-                        center={defaultPosition}
-                        zoom={13}
-                    >
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        />
-                        <MarkerClusterGroup>
-                            {filteredMarkers.map((marker) => (
-                                <Marker
-                                    key={marker.id}
-                                    position={marker.position}
+                    {isLoading && (
+                        <div className={styles.MapLoading}>
+                            <Asset spinner />
+                        </div>
+                    )}
+
+                    {!isLoading && (
+                        <>
+                            {filteredMarkers.length > 0 ? (
+                                <MapContainer
+                                    className={styles.MapWrapper}
+                                    ref={mapRef}
+                                    center={filteredMarkers[0].position}
+                                    zoom={13}
                                 >
-                                    <TripPopup
-                                        handleDelete={() =>
-                                            handleDelete(marker.id)
-                                        }
-                                        imageUpload={() =>
-                                            handleImageUpload(marker.id)
-                                        }
-                                        marker={marker}
-                                        errors={errors}
-                                        isOwner={
-                                            currentUser?.username ===
-                                            marker.owner
-                                        }
-                                        isAuthenticated={isAuthenticated}
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                     />
-                                </Marker>
-                            ))}
-                        </MarkerClusterGroup>
-                        <ZoomToMarkers markers={filteredMarkers} />
-                    </MapContainer>
+                                    <MarkerClusterGroup>
+                                        {filteredMarkers.map((marker) => (
+                                            <Marker
+                                                key={marker.id}
+                                                position={marker.position}
+                                            >
+                                                <TripPopup
+                                                    handleDelete={() =>
+                                                        handleDelete(marker.id)
+                                                    }
+                                                    imageUpload={() =>
+                                                        handleImageUpload(
+                                                            marker.id
+                                                        )
+                                                    }
+                                                    marker={marker}
+                                                    errors={errors}
+                                                    isOwner={
+                                                        currentUser?.username ===
+                                                        marker.owner
+                                                    }
+                                                    isAuthenticated={
+                                                        isAuthenticated
+                                                    }
+                                                />
+                                            </Marker>
+                                        ))}
+                                    </MarkerClusterGroup>
+                                    <ZoomToMarkers markers={filteredMarkers} />
+                                </MapContainer>
+                            ) : (
+                                <MapContainer
+                                    className={styles.MapWrapper}
+                                    ref={mapRef}
+                                    center={defaultPosition} // Fallback to default position
+                                    zoom={13}
+                                >
+                                    <TileLayer
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    />
+                                </MapContainer>
+                            )}
+                        </>
+                    )}
+
+                    {!isLoading && showNoMarkers && (
+                        <Alert
+                            variant="info"
+                            dismissible
+                            onClose={() => setShowNoMarkers(false)}
+                            className={styles.MapAlert}
+                        >
+                            There are no trips to display.
+                        </Alert>
+                    )}
                 </Col>
             </Row>
         </Container>

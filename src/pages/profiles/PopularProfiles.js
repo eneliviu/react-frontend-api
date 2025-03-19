@@ -5,12 +5,14 @@ import Asset from "../../components/Asset";
 import Profile from "./Profile";
 import { useProfileData } from "../../contexts/ProfileDataContext";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Alert from "react-bootstrap/Alert";
 
 
 const PopularProfiles = ({ mobile }) => {
     const { popularProfiles } = useProfileData();
     const currentUser = useCurrentUser();
+    const isLoading = !popularProfiles;
+    const hasPopularProfiles = popularProfiles?.results?.length > 0;
 
     return (
         <Container
@@ -18,14 +20,16 @@ const PopularProfiles = ({ mobile }) => {
                 mobile && "d-lg-none text-center mb-3"
             }`}
         >
-            {popularProfiles.results.length ? (
-                currentUser ? (
+            {isLoading ? (
+                <Asset spinner />
+            ) : currentUser ? (
+                hasPopularProfiles ? (
                     <>
                         <p>Most followed profiles.</p>
                         {mobile ? (
                             <div className="d-flex justify-content-around">
                                 {popularProfiles.results
-                                    .slice(0, 10)  // top 10 followed profiles
+                                    .slice(0, 10)
                                     .map((profile) => (
                                         <Profile
                                             key={profile.id}
@@ -41,19 +45,15 @@ const PopularProfiles = ({ mobile }) => {
                         )}
                     </>
                 ) : (
-                    <OverlayTrigger
-                        placement="top"
-                        overlay={<Tooltip>Log in to see popular profiles!</Tooltip>}
-                    >
-                        <div style={{ pointerEvents: 'none', opacity: 0.7 }}>
-                            <p className="text-center py-4">
-                                Please log in to view popular profiles.
-                            </p>
-                        </div>
-                    </OverlayTrigger>
+                    <Alert variant="info" className="text-center">
+                        No popular profiles to display.
+                    </Alert>
                 )
             ) : (
-                <Asset spinner />
+                <Alert variant="info" className="text-center">
+                    Please <a href="/login">log in</a> or{" "}
+                    <a href="/register">register</a> to see popular profiles.
+                </Alert>
             )}
         </Container>
     );
