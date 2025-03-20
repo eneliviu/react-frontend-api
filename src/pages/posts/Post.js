@@ -33,12 +33,12 @@ const Post = (props) => {
     );
 
     const handleImageEdit = () => {
-        navigate(`/trips/${trip_id}/images/edit/`);
+        navigate(`/trips/${trip_id}/images/edit/${id}/`);
     };
 
     const handleImageDelete = async () => {
         try {
-            await axiosReq.delete(`/trips/${trip_id}/images/edit/${id}/`);
+            await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
             navigate(-1);
         } catch (err) {
             console.log(err);
