@@ -1,4 +1,4 @@
-# ***<center><font color="red"> LovinEscapades-API</font>***: The Ultimate Trip Tracking Tool!</center>
+# ***<center><font color="blue"> LovinEscapades-API</font>***: The Ultimate Trip Tracking Tool!</center>
 ## <center> **A React - Django DRF web app** </center>
 
 ### **Table of content:**
@@ -356,12 +356,12 @@ Each feature was tested systematically following these steps:
 #### Lighthouse
 The Lighthouse validator, configured for desktop applications, was used to evaluate the app's overall performance. The lowest score of 90 for Performance was primarily due to the load delay of the Leaflet tile.
 
-#### <center> **Lighthouse validator: Home page**</center>
+#### <center> **Lighthouse validator: Home page (unauth users)**</center>
 <p align="center"><img src="src/assets/doc/lighthouse_home.png" alt="lighthouse validator home page"></p>
 
 <br>
 
-#### <center> **Lighthouse validator: Gallery page**</center>
+#### <center> **Lighthouse validator: Gallery page (authenticated users)**</center>
 <p align="center"><img src="src/assets/doc/lighthouse_gallery.png" alt="lighthouse validator gallery page"></p>
 <br>
 
@@ -451,6 +451,6 @@ I would like to extend my gratitude to my mentor, Luke Buchanan, for his support
 
 ## Documentation version
 
-Last updated: February 8, 2025
+Last updated: March 20, 2025
 
 [*Back to top*](#)
