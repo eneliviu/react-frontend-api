@@ -22,8 +22,6 @@ const Post = (props) => {
         likes,
     } = props;
 
-    //console.log("imitial props", props);
-
     const currentUser = useCurrentUser();
     const is_owner = currentUser?.username === owner_name;
     const isAuthenticated = !!currentUser;
@@ -40,7 +38,7 @@ const Post = (props) => {
 
     const handleImageDelete = async () => {
         try {
-            await axiosReq.delete(`/trips/${trip_id}/images/${id}/`);
+            await axiosReq.delete(`/trips/${trip_id}/images/edit/${id}/`);
             navigate(-1);
         } catch (err) {
             console.log(err);
