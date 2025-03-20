@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Carousel, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import { MoreDropdown } from "../components/MoreDropdown";
 import { useNavigate } from "react-router-dom";
 import { axiosReq } from "../api/axiosDefaults";
@@ -78,6 +78,8 @@ const ImageCarousel = ({ images, tripId }) => {
                                 cursor: "pointer",
                             }}
                             onClick={() => handleImageClick(image)}
+                            role="button"
+                            aria-label={`View ${image.image_title} in full size`}
                         />
                         <MoreDropdown
                             handleEdit={() => handleImageEdit(image.id)}
