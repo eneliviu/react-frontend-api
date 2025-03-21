@@ -13,7 +13,7 @@ import TripPopup from "./TripPopUp";
 import styles from "../styles/MapComponent.module.css";
 import Asset from "../components/Asset";
 
-// Standard fix for default marker icon not showing
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl:
@@ -63,37 +63,6 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
         };
         fetchData();
     }, []);
-
-    // const fetchData = useCallback(async () => {
-    //     try {
-    //         const { data } = await axiosReq("/public/");
-    //         const markerData = data.results.map((result) => ({
-    //             id: result.id,
-    //             profile_id: result.profile_id,
-    //             owner: result.owner,
-    //             position: [result.lat, result.lon],
-    //             country: result.country || "",
-    //             place: result.place || "",
-    //             content: result.content,
-    //             from: result.start_date,
-    //             to: result.end_date,
-    //             status: result.trip_status,
-    //             category: result.trip_category,
-    //             latestImageUrl:
-    //                 result.images.length > 0 ? result.images[0].image : "",
-    //         }));
-    //         setMarkers(markerData);
-    //         setIsLoading(false);
-    //     } catch (err) {
-    //         console.error("Failed to fetch data:", err);
-    //         setIsLoading(false);
-    //     }
-    // }, []);
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, [fetchData]);
-
 
     useEffect(() => {
         if (!isLoading && markers.length === 0) {

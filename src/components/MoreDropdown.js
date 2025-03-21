@@ -54,7 +54,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
     );
 };
 
-export function ProfileEditDropdown({ id }) {
+export function ProfileEditDropdown({ id, onDeleteProfile }) {
     useRedirect("loggedOut");
     const navigate = useNavigate();
     const setCurrentUser = useSetCurrentUser();
@@ -74,9 +74,9 @@ export function ProfileEditDropdown({ id }) {
                 setCurrentUser(null);
                 localStorage.removeItem("authToken");
                 localStorage.removeItem("refreshToken");
-                navigate("/signin");
-            }, 1000);
-
+                navigate("/");
+                onDeleteProfile(); 
+            }, 2000);
         } catch (error) {
             console.error("Error deleting profile:", error);
         }

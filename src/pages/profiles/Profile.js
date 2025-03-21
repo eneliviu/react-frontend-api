@@ -1,19 +1,3 @@
-/**
- * Profile component displays user profile information including avatar, username, and follow/unfollow button.
- *
- * @component
- * @param {Object} props - Component props
- * @param {Object} props.profile - Profile data
- * @param {number} props.profile.id - Profile ID
- * @param {number} props.profile.following_id - Following ID
- * @param {string} props.profile.image - Profile image URL
- * @param {string} props.profile.owner - Profile owner's username
- * @param {boolean} [props.mobile=false] - Flag to indicate if the component is in mobile view
- * @param {number} [props.imageSize=55] - Size of the profile image
- * @example <Profile profile={profile} mobile={true} imageSize={55} />
- * @returns {JSX.Element} Rendered Profile component
- */
-
 import React from "react";
 import styles from "../../styles/Profile.module.css";
 import btnStyles from "../../styles/Button.module.css";

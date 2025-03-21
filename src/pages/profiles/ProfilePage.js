@@ -59,7 +59,7 @@ function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
     );
 }
 
-function ProfilePage({ message }) {
+function ProfilePage({ message, onDeleteProfile }) {
     useRedirect("loggedOut");
     const [hasLoaded, setHasLoaded] = useState(false);
     const [profilePosts, setProfilePosts] = useState({ results: [] });
@@ -114,7 +114,12 @@ function ProfilePage({ message }) {
 
     const mainProfile = (
         <>
-            {is_profile_owner && <ProfileEditDropdown id={profile?.id} />}
+            {is_profile_owner && (
+                <ProfileEditDropdown
+                    id={profile?.id}
+                    onDeleteProfile={onDeleteProfile}
+                />
+            )}
             <Row className="px-3 text-center">
                 <Col lg={3} className="text-lg-left">
                     <Image
@@ -186,7 +191,6 @@ function ProfilePage({ message }) {
         </>
     );
 
-    // className={`${rowStyles.Row} h-100`}
     return (
         <div>
             <Row className={`${appStyles.StandardContainer} h-100`}>

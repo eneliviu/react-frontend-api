@@ -38,6 +38,11 @@ function App() {
         console.log("Apply filters:", filterCriteria);
     };
 
+    const [mapKey, setMapKey] = useState(0);
+    const handleProfileDelete = () => {
+        setMapKey((prevKey) => prevKey + 1);
+    };
+
     return (
         <div className={styles.App}>
             <NavBar />
@@ -50,6 +55,7 @@ function App() {
                             <Row className="justify-content-center my-0 flex-column-reverse flex-lg-row">
                                 <Col xs={12} lg={8}>
                                     <MapComponent
+                                        key={mapKey}
                                         className="mt-2 mt-lg-0"
                                         countryQuery={filterCriteria.country}
                                         placeQuery={filterCriteria.place}
@@ -114,7 +120,11 @@ function App() {
 
                     <Route
                         path="/profiles/:id"
-                        element={<ProfilePage />}
+                        element={
+                            <ProfilePage
+                                onDeleteProfile={handleProfileDelete}
+                            />
+                        }
                         message="No results found."
                     />
 

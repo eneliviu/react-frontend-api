@@ -43,10 +43,10 @@ const ProfileEditForm = () => {
                     setProfileData({ name, content, image });
                 } catch (err) {
                     console.error("Error fetching profile data:", err);
-                    navigate("/");
+                    navigate("/signin");
                 }
             } else {
-                navigate("/");
+                navigate("/signin");
             }
         };
 
