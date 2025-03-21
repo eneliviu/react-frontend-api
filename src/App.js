@@ -79,7 +79,7 @@ function App() {
                         path="/gallery"
                         element={
                             <ImageGalleryPublic
-                                key={galleryKey}
+                                refresh={galleryRefresh}
                                 message="No results found. Adjust the search keyword or follow a user."
                             />
                         }
