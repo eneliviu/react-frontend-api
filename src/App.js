@@ -39,11 +39,11 @@ function App() {
     };
 
     const [mapKey, setMapKey] = useState(0);
-    const [galleryKey, setGalleryKey] = useState(0);
+    const [galleryRefresh, setGalleryRefresh] = useState(0);
     
     const handleProfileDelete = () => {
         setMapKey((prevKey) => prevKey + 1);
-        setGalleryKey((prevKey) => prevKey + 1);
+        setGalleryRefresh((prev) => prev + 1);
     };
 
     return (
@@ -89,7 +89,7 @@ function App() {
                         path="/feed"
                         element={
                             <ImageGalleryPublic
-                                key={galleryKey}
+                                refresh={galleryRefresh}
                                 message="No results found. Adjust the search keyword or make sure the user posted an image."
                                 filter={`followed_users=True&`}
                             />

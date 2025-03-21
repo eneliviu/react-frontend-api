@@ -19,16 +19,14 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
-// import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import log from "../../utils/logger";
 
 
-function ImageGalleryPublic({ message, filter = "", key }) {
+function ImageGalleryPublic({ message, filter = "", refresh }) {
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
     const [query, setQuery] = useState("");
-    //const currentUser = useCurrentUser() || {};
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -47,7 +45,7 @@ function ImageGalleryPublic({ message, filter = "", key }) {
             fetchPosts();
         }, 1000);
         return () => clearTimeout(timer);
-    }, [query, pathname, filter, key]);
+    }, [query, pathname, filter, refresh]);
 
     return (
         <div className={styles.GalleryContainer}>
