@@ -99,7 +99,7 @@ function App() {
                         path="/liked"
                         element={
                             <ImageGalleryPublic
-                                key={galleryKey}
+                                refresh={galleryRefresh}
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                                 message="No results found. Adjust the search keyword or like a post."
                             />
