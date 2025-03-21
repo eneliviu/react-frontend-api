@@ -22,7 +22,8 @@ L.Icon.Default.mergeOptions({
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const MapComponent = ({ countryQuery, placeQuery, key }) => {
+
+const MapComponent = ({ countryQuery, placeQuery }) => {
     const currentUser = useCurrentUser();
     const isAuthenticated = !!currentUser;
     const [errors, setErrors] = useState({});
@@ -38,7 +39,12 @@ const MapComponent = ({ countryQuery, placeQuery, key }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data } = await axiosReq("/public/");
+                setIsLoading(true);
+
+                const timestamp = new Date().getTime();
+
+                const { data } = await axiosReq(`/public/?t=${timestamp}`);
+
                 const markerData = data.results.map((result) => ({
                     id: result.id,
                     profile_id: result.profile_id,
@@ -56,13 +62,14 @@ const MapComponent = ({ countryQuery, placeQuery, key }) => {
                 }));
                 setMarkers(markerData);
                 setIsLoading(false);
+                setShowNoMarkers(markerData.length === 0);
             } catch (err) {
                 console.error("Failed to fetch data:", err);
                 setIsLoading(false);
             }
         };
         fetchData();
-    }, [key]);
+    }, [currentUser]);
 
     useEffect(() => {
         if (!isLoading && markers.length === 0) {

@@ -21,7 +21,6 @@
 // import PopularProfiles from "../profiles/PopularProfiles";
 // import log from "../../utils/logger";
 
-
 // function ImageGalleryPublic({ message, filter = "", refresh }) {
 //     const [posts, setPosts] = useState({ results: [] });
 //     const [hasLoaded, setHasLoaded] = useState(false);
@@ -104,7 +103,6 @@
 
 // export default ImageGalleryPublic;
 
-
 import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -118,7 +116,6 @@ import appStyles from "../../App.module.css";
 import srcbStyles from "../../styles/SearchBar.module.css";
 import styles from "../../styles/ImageGalleryPublic.module.css";
 
-import { useLocation } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
 import NoResults from "../../assets/no-results.png";
@@ -126,35 +123,40 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 
 import PopularProfiles from "../profiles/PopularProfiles";
-import log from "../../utils/logger";
 
-function ImageGalleryPublic({ message, filter = "", refresh }) {
+
+function ImageGalleryPublic({ message, filter = "", forceRefresh }) {
+
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] = useState(false);
-    const { pathname } = useLocation();
     const [query, setQuery] = useState("");
 
     useEffect(() => {
-        console.log("useEffect re-run due to refresh:", refresh);
         const fetchPosts = async () => {
             try {
+                setHasLoaded(false);
+                const timestamp = new Date().getTime();
                 const { data } = await axiosReq.get(
-                    `/gallery/?search=${query}&${filter}`
+                    `/gallery/?search=${query}&${filter}&_t=${timestamp}`
                 );
                 setPosts(data);
                 setHasLoaded(true);
-                log.info("Data fetched successfully:", data); // Log successful fetch
             } catch (err) {
-                log.error("Failed to fetch posts:", err); // Log errors
-                setHasLoaded(true); // Ensure spinner is hidden even if there's an error
+                console.log("Error fetching images:", err);
+                setHasLoaded(true);
             }
         };
-        setHasLoaded(false);
+
         const timer = setTimeout(() => {
+            const wasProfileDeleted = sessionStorage.getItem("profileDeleted");
+            if (wasProfileDeleted === "true") {
+                console.log("Fetching images after profile deletion");
+            }
             fetchPosts();
-        }, 1000);
+        }, 100);
+
         return () => clearTimeout(timer);
-    }, [query, pathname, filter, refresh]); // Ensure refresh is in the dependency array
+    }, [filter, query, forceRefresh]);
 
     return (
         <div className={styles.GalleryContainer}>

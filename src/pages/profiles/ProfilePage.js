@@ -8,7 +8,6 @@ import Asset from "../../components/Asset";
 import styles from "../../styles/ProfilePage.module.css";
 import srcbStyles from "../../styles/SearchBar.module.css";
 import btnStyles from "../../styles/Button.module.css";
-//import rowStyles from "../../styles/SignInUpForm.module.css";
 import appStyles from "../../App.module.css";
 
 import PopularProfiles from "./PopularProfiles";
@@ -59,7 +58,7 @@ function MainProfilePosts({ profile, profilePosts, setProfilePosts }) {
     );
 }
 
-function ProfilePage({ message, onDeleteProfile }) {
+function ProfilePage({ message }) {
     useRedirect("loggedOut");
     const [hasLoaded, setHasLoaded] = useState(false);
     const [profilePosts, setProfilePosts] = useState({ results: [] });
@@ -117,7 +116,6 @@ function ProfilePage({ message, onDeleteProfile }) {
             {is_profile_owner && (
                 <ProfileEditDropdown
                     id={profile?.id}
-                    onDeleteProfile={onDeleteProfile}
                 />
             )}
             <Row className="px-3 text-center">

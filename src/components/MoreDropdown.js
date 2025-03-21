@@ -6,6 +6,10 @@ import { axiosReq } from "../api/axiosDefaults";
 import { useSetCurrentUser } from "../contexts/CurrentUserContext";
 import { useRedirect } from "../hooks/useRedirect";
 
+
+
+
+
 const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
     <div
         ref={ref}
@@ -21,6 +25,9 @@ const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
         <i className="fa fa-ellipsis-v"></i>
     </div>
 ));
+
+
+
 
 export const MoreDropdown = ({ handleEdit, handleDelete }) => {
     return (
@@ -54,7 +61,10 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
     );
 };
 
-export function ProfileEditDropdown({ id, onDeleteProfile }) {
+
+
+
+export function ProfileEditDropdown({ id }) {
     useRedirect("loggedOut");
     const navigate = useNavigate();
     const setCurrentUser = useSetCurrentUser();
@@ -68,15 +78,17 @@ export function ProfileEditDropdown({ id, onDeleteProfile }) {
             return;
         }
         try {
+
             await axiosReq.delete(`/profiles/${id}/`);
-            setTimeout(() => {
-                window.alert("Profile deleted successfully.");
-                setCurrentUser(null);
-                localStorage.removeItem("authToken");
-                localStorage.removeItem("refreshToken");
-                onDeleteProfile();
-                navigate("/");
-            }, 1000);
+
+            setCurrentUser(null);
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("refreshToken");
+
+            window.alert("Profile deleted successfully.");
+
+            window.location.href = "/signup?reload=" + new Date().getTime();
+
         } catch (error) {
             console.error("Error deleting profile:", error);
         }
