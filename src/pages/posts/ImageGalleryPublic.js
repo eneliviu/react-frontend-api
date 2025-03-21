@@ -23,7 +23,7 @@ import PopularProfiles from "../profiles/PopularProfiles";
 import log from "../../utils/logger";
 
 
-function ImageGalleryPublic({ message, filter="" }) {
+function ImageGalleryPublic({ message, filter = "", key }) {
     const [posts, setPosts] = useState({ results: [] });
     const [hasLoaded, setHasLoaded] = useState(false);
     const { pathname } = useLocation();
@@ -47,7 +47,7 @@ function ImageGalleryPublic({ message, filter="" }) {
             fetchPosts();
         }, 1000);
         return () => clearTimeout(timer);
-    }, [query, pathname, filter]);
+    }, [query, pathname, filter, key]);
 
     return (
         <div className={styles.GalleryContainer}>

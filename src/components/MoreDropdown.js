@@ -74,9 +74,9 @@ export function ProfileEditDropdown({ id, onDeleteProfile }) {
                 setCurrentUser(null);
                 localStorage.removeItem("authToken");
                 localStorage.removeItem("refreshToken");
+                onDeleteProfile();
                 navigate("/");
-                onDeleteProfile(); 
-            }, 2000);
+            }, 1000);
         } catch (error) {
             console.error("Error deleting profile:", error);
         }

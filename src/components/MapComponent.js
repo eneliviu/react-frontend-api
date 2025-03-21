@@ -22,7 +22,7 @@ L.Icon.Default.mergeOptions({
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const MapComponent = ({ countryQuery, placeQuery }) => {
+const MapComponent = ({ countryQuery, placeQuery, key }) => {
     const currentUser = useCurrentUser();
     const isAuthenticated = !!currentUser;
     const [errors, setErrors] = useState({});
@@ -62,7 +62,7 @@ const MapComponent = ({ countryQuery, placeQuery }) => {
             }
         };
         fetchData();
-    }, []);
+    }, [key]);
 
     useEffect(() => {
         if (!isLoading && markers.length === 0) {

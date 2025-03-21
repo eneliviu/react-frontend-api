@@ -39,8 +39,11 @@ function App() {
     };
 
     const [mapKey, setMapKey] = useState(0);
+    const [galleryKey, setGalleryKey] = useState(0);
+    
     const handleProfileDelete = () => {
         setMapKey((prevKey) => prevKey + 1);
+        setGalleryKey((prevKey) => prevKey + 1);
     };
 
     return (
@@ -75,7 +78,10 @@ function App() {
                     <Route
                         path="/gallery"
                         element={
-                            <ImageGalleryPublic message="No results found. Adjust the search keyword or follow a user." />
+                            <ImageGalleryPublic
+                                key={galleryKey}
+                                message="No results found. Adjust the search keyword or follow a user."
+                            />
                         }
                     />
 
@@ -83,6 +89,7 @@ function App() {
                         path="/feed"
                         element={
                             <ImageGalleryPublic
+                                key={galleryKey}
                                 message="No results found. Adjust the search keyword or make sure the user posted an image."
                                 filter={`followed_users=True&`}
                             />
@@ -92,6 +99,7 @@ function App() {
                         path="/liked"
                         element={
                             <ImageGalleryPublic
+                                key={galleryKey}
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                                 message="No results found. Adjust the search keyword or like a post."
                             />
