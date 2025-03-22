@@ -8,8 +8,6 @@ import { useRedirect } from "../hooks/useRedirect";
 
 
 
-
-
 const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
     <div
         ref={ref}
@@ -25,8 +23,6 @@ const ThreeDotsToggle = React.forwardRef(({ onClick }, ref) => (
         <i className="fa fa-ellipsis-v"></i>
     </div>
 ));
-
-
 
 
 export const MoreDropdown = ({ handleEdit, handleDelete }) => {
@@ -60,8 +56,6 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
         </Dropdown>
     );
 };
-
-
 
 
 export function ProfileEditDropdown({ id }) {

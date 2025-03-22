@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -38,38 +38,6 @@ function App() {
         console.log("Apply filters:", filterCriteria);
     };
 
-    const [mapKey, setMapKey] = useState(`map-${Date.now()}`);
-    const [galleryRefresh, setGalleryRefresh] = useState(0);
-
-    const handleProfileDelete = () => {
-        setMapKey(`map-deleted-${Date.now()}`);
-        setGalleryRefresh((prev) => prev + 1);
-
-        sessionStorage.setItem("mapNeedsRefresh", "true");
-        sessionStorage.setItem("mapRefreshTime", Date.now().toString());
-    };
-
-    useEffect(() => {
-        const profileDeleted = sessionStorage.getItem("profileDeleted");
-        const lastAction = sessionStorage.getItem("lastAction");
-
-        if (profileDeleted === "true" && lastAction) {
-            const now = Date.now();
-            const timestamp = parseInt(lastAction, 10);
-
-            if (now - timestamp < 60000) {
-                console.log(
-                    "Detected recent profile deletion, refreshing components"
-                );
-
-                setMapKey((prevKey) => prevKey + 1);
-                setGalleryRefresh((prevState) => prevState + 1);
-
-                sessionStorage.removeItem("profileDeleted");
-                sessionStorage.removeItem("lastAction");
-            }
-        }
-    }, [location.pathname]);
 
     return (
         <div className={styles.App}>
@@ -83,7 +51,6 @@ function App() {
                             <Row className="justify-content-center my-0 flex-column-reverse flex-lg-row">
                                 <Col xs={12} lg={8}>
                                     <MapComponent
-                                        key={mapKey}
                                         className="mt-2 mt-lg-0"
                                         countryQuery={filterCriteria.country}
                                         placeQuery={filterCriteria.place}
@@ -104,8 +71,6 @@ function App() {
                         path="/gallery"
                         element={
                             <ImageGalleryPublic
-                                key={`gallery-${galleryRefresh}`}
-                                forceRefresh={galleryRefresh}
                                 message="No results found. Adjust the search keyword or follow a user."
                             />
                         }
@@ -115,8 +80,6 @@ function App() {
                         path="/feed"
                         element={
                             <ImageGalleryPublic
-                                key={`gallery-${galleryRefresh}`}
-                                forceRefresh={galleryRefresh}
                                 message="No results found. Adjust the search keyword or make sure the user posted an image."
                                 filter={`followed_users=True&`}
                             />
@@ -126,8 +89,6 @@ function App() {
                         path="/liked"
                         element={
                             <ImageGalleryPublic
-                                key={`gallery-${galleryRefresh}`}
-                                forceRefresh={galleryRefresh}
                                 filter={`liked_by_user=True&ordering=-likes__created_at&`}
                                 message="No results found. Adjust the search keyword or like a post."
                             />
@@ -157,9 +118,7 @@ function App() {
                     <Route
                         path="/profiles/:id"
                         element={
-                            <ProfilePage
-                                onDeleteProfile={handleProfileDelete}
-                            />
+                            <ProfilePage />
                         }
                         message="No results found."
                     />

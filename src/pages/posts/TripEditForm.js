@@ -6,6 +6,12 @@ import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import styles from "../../styles/SignInUpForm.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import {
+    validateDateStatusConsistency,
+    getSuggestedTripStatus,
+    validateTripDates,
+} from "../../utils/utils";
+
 
 function TripEditForm() {
     const currentUser = useCurrentUser();
@@ -68,10 +74,42 @@ function TripEditForm() {
             ...prevData,
             [name]: type === "checkbox" ? checked : value,
         }));
+
+        if (
+            name === "start_date" ||
+            name === "end_date" ||
+            name === "trip_status"
+        ) {
+            setErrors((prevErrors) => {
+                const newErrors = { ...prevErrors };
+                delete newErrors.date;
+                delete newErrors.status_date_mismatch;
+                return newErrors;
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const dateErrors = validateTripDates(start_date, end_date);
+        if (Object.keys(dateErrors).length > 0) {
+            setErrors(dateErrors);
+            return;
+        }
+
+        const consistencyErrors = validateDateStatusConsistency(
+            start_date,
+            end_date,
+            trip_status
+        );
+        if (Object.keys(consistencyErrors).length > 0) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                ...consistencyErrors,
+            }));
+            return;
+        }
 
         const formData = new FormData();
         formData.append("title", title);
@@ -93,6 +131,10 @@ function TripEditForm() {
             setErrors(err.response?.data || { error: "Failed to update trip" });
         }
     };
+
+    const suggestedStatus = errors.status_date_mismatch
+        ? getSuggestedTripStatus(start_date, end_date)
+        : null;
 
     return (
         <Row className={styles.Row}>
@@ -181,7 +223,9 @@ function TripEditForm() {
                             />
                         </Form.Group>
                         {errors.date && (
-                            <Alert variant="warning">{errors.date}</Alert>
+                            <Alert variant="warning" className="mt-2">
+                                {errors.date}
+                            </Alert>
                         )}
                         <Form.Group controlId="trip_category">
                             <Form.Label>Trip Category</Form.Label>
@@ -213,6 +257,18 @@ function TripEditForm() {
                                 <option value="Completed">Completed</option>
                             </Form.Control>
                         </Form.Group>
+                        {errors.status_date_mismatch && (
+                            <Alert variant="warning" className="mt-2">
+                                {errors.status_date_mismatch}
+                                {suggestedStatus && (
+                                    <div className="mt-1">
+                                        <strong>Suggestion:</strong> Based on
+                                        your dates, the status should be "
+                                        {suggestedStatus}".
+                                    </div>
+                                )}
+                            </Alert>
+                        )}
                         <Form.Group controlId="shared">
                             <Form.Check
                                 type="checkbox"
@@ -247,7 +303,7 @@ function TripEditForm() {
                             </Button>
                         </div>
                         {errors.non_field_errors?.map((message, idx) => (
-                            <Alert key={idx} variant="warning">
+                            <Alert key={idx} variant="warning" className="mt-2">
                                 {message}
                             </Alert>
                         ))}
@@ -259,3 +315,4 @@ function TripEditForm() {
 }
 
 export default TripEditForm;
+

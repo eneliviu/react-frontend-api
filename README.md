@@ -204,7 +204,7 @@ It defines multiple routes for various pages in the application:
 <p align="center"><img src="src/assets/doc/signup_form.png" alt="signup form"></p>
 <br>
 
-#### <center> **Sigin form: username and password required.**</center>
+#### <center> **Signin form: username and password required.**</center>
 <p align="center"><img src="src/assets/doc/signin_form.png" alt="signin form"></p>
 <br>
 
@@ -221,6 +221,12 @@ It defines multiple routes for various pages in the application:
 #### <center> **Form for creating a new trip: details on date picker, trip categoriy and trip status fields**</center>
 <p align="center"><img src="src/assets/doc/add_trip_form_details.png" alt="add trip form details"></p>
 <br>
+
+
+#### <center> **Form for creating a new trip: Date and trip status validation example**</center>
+<p align="center"><img src="src/assets/doc/add_trip_form_date_status_validation.png" alt="add trip form details"></p>
+<br>
+
 
 #### <center> **Gallery page with search bar activated card with info on the top 10 most followed users. The `Like` icons has red background for the liked images** </center>
 <p align="center"><img src="src/assets/doc/gallery_auth_users.png" alt="gallery page"></p>
@@ -319,7 +325,7 @@ Each feature was tested systematically following these steps:
 | Test Case | Steps | Expected Result | Status |
 |-----------|-------|-----------------|--------|
 | Create Trip | 1. Click "Add Trip" button<br>2. Complete all required fields<br>3. Submit form | 1. Trip creates successfully<br>2. Appears on map and profile<br>3. Redirect to profile page. | ✅ Pass |
-| Form Validation | 1. Submit trip form with missing fields<br>2. Enter invalid field data | 1. Form validation errors display<br>2. Form prevents submission until fixed | ✅ Pass |
+| Form Validation | 1. Submit trip form with missing fields<br>2. Enter invalid/inconsistent data | 1. Form validation errors display<br>2. Form prevents submission until fixed | ✅ Pass |
 | Edit Trip | 1. Navigate to trip from map/profile<br>2. Click edit option<br>3. Modify fields<br>4. Submit changes | 1. Form pre-fills with existing data<br>2. Changes save successfully<br>3. Map and profile update | ✅ Pass |
 | Delete Trip | 1. Access trip delete option<br>2. Confirm deletion in modal | 1. Trip and associated images removed<br>2. Map and profile update<br>3. Success notification appears | ✅ Pass |
 | Privacy Control | 1. Create trip with "Shared" unchecked<br>2. View as different user | 1. Trip visible only to owner<br>2. Hidden from other users on map and gallery | ✅ Pass |
@@ -451,6 +457,6 @@ I would like to extend my gratitude to my mentor, Luke Buchanan, for his support
 
 ## Documentation version
 
-Last updated: March 20, 2025
+Last updated: March 22, 2025
 
 [*Back to top*](#)

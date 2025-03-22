@@ -8,13 +8,20 @@ import styles from "../../styles/SignInUpForm.module.css";
 import { NavLink } from "react-router-dom";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
+import {
+    validateDateStatusConsistency,
+    getSuggestedTripStatus,
+    validateTripDates,
+} from "../../utils/utils";
+
+
 
 function TripCreateForm() {
     useRedirect("loggedOut");
     const currentUser = useCurrentUser();
     const [errors, setErrors] = useState({});
     const [, setTripId] = useState(null);
-    const [isLoading, ] = useState(false);
+    const [isLoading] = useState(false);
     const [tripData, setTripData] = useState({
         title: "",
         content: "",
@@ -48,34 +55,39 @@ function TripCreateForm() {
             [name]: type === "checkbox" ? checked : value,
         }));
 
-        if (name === "start_date" || name === "end_date") {
-            const dateErrors = validateDates(value);
-            if (Object.keys(dateErrors).length === 0) {
-                setErrors((prevErrors) => {
-                    const newErrors = { ...prevErrors };
-                    delete newErrors.date;
-                    return newErrors;
-                });
-            }
+        if (
+            name === "start_date" ||
+            name === "end_date" ||
+            name === "trip_status"
+        ) {
+            setErrors((prevErrors) => {
+                const newErrors = { ...prevErrors };
+                delete newErrors.date;
+                delete newErrors.status_date_mismatch;
+                return newErrors;
+            });
         }
-    };
-
-    const validateDates = () => {
-        let dateErrors = {};
-        const start = new Date(tripData.start_date);
-        const end = new Date(tripData.end_date);
-        if (start_date && end_date && start > end) {
-            dateErrors.date = "Start date must be before end date.";
-        }
-        return dateErrors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const dateErrors = validateDates();
+        const dateErrors = validateTripDates(start_date, end_date);
         if (Object.keys(dateErrors).length > 0) {
             setErrors(dateErrors);
+            return;
+        }
+
+        const consistencyErrors = validateDateStatusConsistency(
+            start_date,
+            end_date,
+            trip_status
+        );
+        if (Object.keys(consistencyErrors).length > 0) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                ...consistencyErrors,
+            }));
             return;
         }
 
@@ -109,6 +121,10 @@ function TripCreateForm() {
         }
     };
 
+    const suggestedStatus = errors.status_date_mismatch
+        ? getSuggestedTripStatus(start_date, end_date)
+        : null;
+
     return (
         <Row className={styles.Row}>
             <Col className="m-auto p-0 p-md-2" md={5}>
@@ -130,6 +146,7 @@ function TripCreateForm() {
                                 {message}
                             </Alert>
                         ))}
+
                         <Form.Group controlId="content">
                             <Form.Label>Content</Form.Label>
                             <Form.Control
@@ -230,6 +247,18 @@ function TripCreateForm() {
                                 <option value="Completed">Completed</option>
                             </Form.Control>
                         </Form.Group>
+                        {errors.status_date_mismatch && (
+                            <Alert variant="warning" className="mt-2">
+                                {errors.status_date_mismatch}
+                                {suggestedStatus && (
+                                    <div className="mt-1">
+                                        <strong>Suggestion:</strong> Based on
+                                        your dates, the status should be "
+                                        {suggestedStatus}".
+                                    </div>
+                                )}
+                            </Alert>
+                        )}
                         <Form.Group controlId="shared">
                             <Form.Check
                                 type="checkbox"
@@ -279,7 +308,7 @@ function TripCreateForm() {
                                         className={`${btnStyles.Button} ${btnStyles.Blue}`}
                                         type="text"
                                     >
-                                        Cancel Trip
+                                        Cancel
                                     </Button>
                                 </NavLink>
                             </div>
