@@ -2,9 +2,11 @@ import axios from "axios";
 
 // axios.defaults.baseURL = "http://127.0.0.1:8000";
 
-axios.defaults.baseURL = "https://dj-api-backend-8cf355e96add.herokuapp.com";
+//axios.defaults.baseURL = "https://dj-api-backend-8cf355e96add.herokuapp.com";
+axios.defaults.baseURL = "https://drf-backend-api-70211104c0c7.herokuapp.com/";
 
-axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
+
+https: axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 axios.defaults.withCredentials = true;
 
 export const axiosReq = axios.create();
