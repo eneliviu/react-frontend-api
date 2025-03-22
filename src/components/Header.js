@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Header.module.css"; // Add a CSS module for styling
+import styles from "../styles/Header.module.css";
 import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 function Header() {

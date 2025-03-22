@@ -34,9 +34,9 @@ function App() {
         place: "",
     });
 
-    const handleFilter = () => {
-        console.log("Apply filters:", filterCriteria);
-    };
+    // const handleFilter = () => {
+    //     console.log("Apply filters:", filterCriteria);
+    // };
 
 
     return (
@@ -61,7 +61,7 @@ function App() {
                                         className="mt-2 mt-lg-0"
                                         filterCriteria={filterCriteria}
                                         setFilterCriteria={setFilterCriteria}
-                                        onSubmit={handleFilter}
+                                        //onSubmit={handleFilter}
                                     />
                                 </Col>
                             </Row>

@@ -61,7 +61,7 @@ const Post = (props) => {
                         return {
                             ...post,
                             likes_count: post.likes_count + 1,
-                            likes: [...updatedLikes, data], // Ensure likes is an array
+                            likes: [...updatedLikes, data],
                         };
                     }
                     return post;
@@ -205,7 +205,7 @@ const Post = (props) => {
                         >
                             <i className="far fa-heart" />
                         </OverlayTrigger>
-                    ) : hasLiked ? ( // Use hasLiked here
+                    ) : hasLiked ? (
                         <span onClick={handleUnlike}>
                             <i className={`fas fa-heart ${styles.Heart}`} />
                         </span>

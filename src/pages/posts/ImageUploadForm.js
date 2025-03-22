@@ -48,42 +48,6 @@ function ImageUploadForm() {
         }
     };
 
-    // Frontend validation:
-    // const handleChangeImage = (event) => {
-    //     if (event.target.files.length) {
-    //         const file = event.target.files[0];
-    //         if (file.size > 2 * 1024 * 1024) {
-    //             setErrors({ image: ["Image size must be less than 2MB."] });
-    //             return;
-    //         }
-    //         if (
-    //             ![
-    //                 "image/jpg",
-    //                 "image/jpeg",
-    //                 "image/png",
-    //                 "image/gif",
-    //                 "image/webp",
-    //                 "image/webp",
-    //                 "image/tif",
-    //                 "image/tiff",
-    //             ].includes(file.type)
-    //         ) {
-    //             setErrors({
-    //                 image: [
-    //                     "Unsupported file type. Use JPEG, PNG, GIF, or WEBP.",
-    //                 ],
-    //             });
-    //             return;
-    //         }
-    //         URL.revokeObjectURL(image);
-    //         setPostData({
-    //             ...postData,
-    //             image: file,
-    //         });
-    //         setErrors({});
-    //     }
-    // };
-
     useEffect(() => {
         return () => {
             if (image && typeof image !== "string") {

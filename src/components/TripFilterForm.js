@@ -31,7 +31,6 @@ function TripFilterForm({ filterCriteria, setFilterCriteria }) {
                 <Form
                     onSubmit={(event) => {
                         event.preventDefault();
-                        //onSubmit();
                     }}
                     className={styles.Form}
                 >

@@ -22,7 +22,6 @@ const NavBar = () => {
 
     const handleSignOut = async () => {
         try {
-            //await axios.post("/dj-rest-auth/logout/");
             setCurrentUser(null);
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
@@ -62,7 +61,6 @@ const NavBar = () => {
                 to="/liked"
             >
                 <i className="fas fa-heart"></i>Liked
-                {/* <span className="d-none d-md-inline">Liked</span> */}
             </NavLink>
 
             <NavLink
@@ -100,7 +98,6 @@ const NavBar = () => {
                 <i className="fas fa-sign-in-alt"></i>Sign in
             </NavLink>
             <NavLink
-                // exact="true"
                 className={({ isActive }) =>
                     `${styles.NavLink} ${isActive ? styles.Active : ""}`
                 }

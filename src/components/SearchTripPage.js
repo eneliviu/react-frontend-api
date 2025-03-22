@@ -8,10 +8,6 @@ const SearchPage = () => {
         place: "",
     });
 
-    const handleSubmit = () => {
-        // Optional: Perform some operations when filters are applied
-    };
-
     return (
         <div>
             <TripFilterForm

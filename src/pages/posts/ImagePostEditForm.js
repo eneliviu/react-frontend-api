@@ -36,7 +36,6 @@ function ImagePostEditForm() {
         description,
         image,
         shared,
-        //owner, owner_name, trip_id, uploaded_at, likes_count
     } = postData;
     const { tripId, imageId } = useParams();
     const [errors, setErrors] = useState({});

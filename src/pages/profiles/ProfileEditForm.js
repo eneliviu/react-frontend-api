@@ -62,7 +62,7 @@ const ProfileEditForm = () => {
 
     const handleImageChange = (e) => {
         if (e.target.files.length) {
-            URL.revokeObjectURL(image); // Clean up the old image URL
+            URL.revokeObjectURL(image);
             setProfileData({
                 ...profileData,
                 image: URL.createObjectURL(e.target.files[0]),

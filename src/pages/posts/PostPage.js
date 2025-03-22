@@ -6,14 +6,12 @@ import Row from "react-bootstrap/Row";
 import { useParams } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
-//import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import PopularProfiles from "../profiles/PopularProfiles";
 
 
 function PostPage() {
     const { id } = useParams();
     const [post, setPost] = useState({ results: [] });
-    //const currentUser = useCurrentUser();
 
     useEffect(() => {
         const handleMount = async () => {
