@@ -453,10 +453,17 @@ The code is accessible on GitHub, allowing developers to view, fork, and contrib
 ## Acknowledgements
 I would like to extend my gratitude to my mentor, Luke Buchanan, for his support and patience, especially during the challenging initial stages of the frontend development.
 
+### Use of GenAI
+Generative AI tools (OpenAI GPT-4o model) were utilized for:
+* Identifying and suggesting fixes for deprecated libraries (related to the React CRA environment) in the CodeInstitute walkthrough projects and deployment.
+* Drafting the Readme file documentation and providing grammar and style editing.
+* All AI generated content was reviewed and verified by the project author.
+
+
 [*Back to top*](#)
 
 ## Documentation version
 
-Last updated: March 22, 2025
+Last updated: March 23, 2025
 
 [*Back to top*](#)
