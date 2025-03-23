@@ -37,7 +37,6 @@ axiosRes.interceptors.response.use(
                         { refresh: refreshToken }
                     );
                     localStorage.setItem("access_token", data.access);
-                    //localStorage.setItem("refresh_token", data.refresh);
                     originalRequest.headers[
                         "Authorization"
                     ] = `Bearer ${data.access}`;
