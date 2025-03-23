@@ -4,4 +4,13 @@
     justify-content: center;
     align-items: center;
 
+    min-height: calc(100vh - 71px);
+    overflow: hidden;
+    margin-top: 0;
+}
+
+.StandardContainer {
+    min-height: calc(100vh - 71px);
+    overflow: hidden;
+    margin-top: 0;
 }
