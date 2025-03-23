@@ -224,7 +224,7 @@ It defines multiple routes for various pages in the application:
 
 
 #### <center> **Form for creating a new trip: Date and trip status validation example**</center>
-<p align="center"><img src="src/assets/doc/add_trip_form_date_status_validation.png" alt="add trip form details"></p>
+<p align="center"><img src="src/assets/doc/add_trip_form_date_status_validation.png" alt="add trip form validation example"></p>
 <br>
 
 
@@ -284,6 +284,10 @@ It defines multiple routes for various pages in the application:
 <p align="center"><img src="src/assets/doc/delete_profile_form.png" alt="delete profile forms"></p>
 <br>
 
+
+#### <center> **Not found (404) page**</center>
+<p align="center"><img src="src/assets/doc/not_found_404.png" alt="not found (404) page"></p>
+<br>
 
 [*Back to top*](#)
 

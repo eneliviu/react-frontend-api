@@ -34,11 +34,6 @@ function App() {
         place: "",
     });
 
-    // const handleFilter = () => {
-    //     console.log("Apply filters:", filterCriteria);
-    // };
-
-
     return (
         <div className={styles.App}>
             <NavBar />
@@ -61,7 +56,6 @@ function App() {
                                         className="mt-2 mt-lg-0"
                                         filterCriteria={filterCriteria}
                                         setFilterCriteria={setFilterCriteria}
-                                        //onSubmit={handleFilter}
                                     />
                                 </Col>
                             </Row>
